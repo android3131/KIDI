@@ -28,7 +28,7 @@ public class Parent {
 	@Field
 	private Status active;  
 	@Field
-	private List <Kid> kids;
+	private List <String> kids;
 	//@Field
 	//private List <Bills> bill;
 	@Field
