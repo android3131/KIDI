@@ -107,20 +107,20 @@ public class Parent {
 	}
 
 
-	public List<Kid> getKids() {
+	public List<String> getKids() {
 		return kids;
 	}
 
-	public void setKids(List<Kid> kids) {
-		this.kids = kids;
+	public void setKids(List<String> kidsIds) {
+		this.kids = kidsIds;
 	}
 	
-	public void removeKid (Kid kid){
-		kids.remove(kid); 
+	public void removeKid (String kidId){
+		kids.remove(kidId); 
 		
 	}
-	public void addKid (Kid kid) {
-		kids.add(kid);
+	public void addKid (String kidId) {
+		kids.add(kidId);
 	}
 /*	public List<Bills> getBill() {
 		return bill;

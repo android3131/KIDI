@@ -1,4 +1,4 @@
-package com.shelly.myApp.demo.pkg1;
+package com.example.demo.pckg1;
 
 import java.util.ArrayList;
 import java.util.List;
