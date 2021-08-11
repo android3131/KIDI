@@ -102,6 +102,22 @@ public class Leader {
 		return profilePic;
 	}
 
+	public String getID() {
+		return ID;
+	}
+
+	public void setID(String iD) {
+		ID = iD;
+	}
+
+	public LocalDate getDateOfBirth() {
+		return DateOfBirth;
+	}
+
+	public void setDateOfBirth(LocalDate dateOfBirth) {
+		DateOfBirth = dateOfBirth;
+	}
+
 	public void setProfilePic(String profilePic) {
 		this.profilePic = profilePic;
 	}
@@ -135,5 +151,7 @@ public class Leader {
 		return "Leader [ID=" + ID + ", fullName=" + fullName + ", email=" + email + ", phoneNumber=" + phoneNumber
 				+ ", address=" + address + ", activeStatus=" + activeStatus + ", activeDate=" + activeDate + "]";
 	}
+
+
 	
 }

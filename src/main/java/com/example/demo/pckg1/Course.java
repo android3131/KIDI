@@ -25,7 +25,7 @@ public class Course {
 	private String finishDateTime;
 	
 	@Field 
-	private List<Category> categories; 
+	private Category category; 
 	
 	@Field
 	private ArrayList<String> leadersIDs;
@@ -41,13 +41,13 @@ public class Course {
 		super();
 	}
 
-	public Course(String name, int price, String startDateTime, String finishDateTime, List<Category> categories, String zoomMeetingLink) {
+	public Course(String name, int price, String startDateTime, String finishDateTime, Category category, String zoomMeetingLink) {
 		super();
 		this.name = name;
 		this.price = price;
 		this.startDateTime = startDateTime;
 		this.finishDateTime = finishDateTime;
-		this.categories = categories;
+		this.category = category;
 		this.leadersIDs = new ArrayList<String>();
 		this.zoomMeetingLink = zoomMeetingLink;
 		this.kidsIDs = new ArrayList<String>();
@@ -85,12 +85,13 @@ public class Course {
 		this.finishDateTime = finishDateTime;
 	}
 
-	public List<Category> getCategories() {
-		return categories;
+
+	public Category getCategory() {
+		return category;
 	}
 
-	public void setCategorys(List<Category> categories) {
-		this.categories = categories;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	public ArrayList<String> getLeadersIDs() {
@@ -115,5 +116,15 @@ public class Course {
 
 	public void setKidsIDs(ArrayList<String> kidsIDs) {
 		this.kidsIDs = kidsIDs;
-	}	
+	}
+
+	public String getID() {
+		return ID;
+	}
+
+	public void setID(String iD) {
+		ID = iD;
+	}
+
+	
 }

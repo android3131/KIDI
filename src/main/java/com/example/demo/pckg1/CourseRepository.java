@@ -1,4 +1,4 @@
-package com.amal.myNewApp.pkg1;
+package com.example.demo.pckg1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,30 +13,30 @@ import org.springframework.stereotype.Repository;
 public class CourseRepository {
 
 	@Autowired
-	ICoursesRepository coursesRepository;
+	ICourseRepository CourseRepository;
 
 	/**
    	 * Adds a new course
    	 * @param Course
-   	 * @return All courses
+   	 * @return All Course
    	 */
-	public Boolean addANewCourse(Courses course) {
-		if (coursesRepository.findById(course.getID()).isPresent()) {
+	public Boolean addANewCourse(Course course) {
+		if (CourseRepository.findById(course.getID()).isPresent()) {
 			new ResponseEntity<>("Failed to add a new course, the name already exists in the system",
 					HttpStatus.NOT_ACCEPTABLE);
 			return false;
 		}
-		coursesRepository.save(course);
+		CourseRepository.save(course);
 		new ResponseEntity<>("New course added successfully", HttpStatus.OK);
 		return true;
 	}
 	
 	/**
-   	 * Returns all courses
-   	 * @return all the courses that exist
+   	 * Returns all Course
+   	 * @return all the Course that exist
    	 */
-	public List<Courses> getAllCourses() {
-		return coursesRepository.findAll();
+	public List<Course> getAllCourse() {
+		return CourseRepository.findAll();
 	}
 
 	/**
@@ -44,8 +44,8 @@ public class CourseRepository {
    	 * @param Course ID
    	 * @return Course if it was found, null if it was not found
    	 */
-	public Optional<Courses> getASpecificCourse(String ID) {
-		Optional<Courses> course = coursesRepository.findById(ID);
+	public Optional<Course> getASpecificCourse(String ID) {
+		Optional<Course> course = CourseRepository.findById(ID);
 		if (course.isPresent())
 			return course;
 		new ResponseEntity<>("Course not found", HttpStatus.NOT_ACCEPTABLE);
@@ -57,8 +57,8 @@ public class CourseRepository {
    	 * @param Course ID
    	 * @return Course category if the course was found, null otherwise
    	 */
-	public Categories getCourseCategory(String ID) {
-		Optional<Courses> course = coursesRepository.findById(ID);
+	public Category getCourseCategory(String ID) {
+		Optional<Course> course = CourseRepository.findById(ID);
 		if (course.isPresent())
 			return course.get().getCategory();
 		return null;
@@ -70,7 +70,7 @@ public class CourseRepository {
    	 * @return returns a course's leader if the course exists
    	 */
 	public ArrayList<String> getCourseLeaders(String ID) {
-		Optional<Courses> course = coursesRepository.findById(ID);
+		Optional<Course> course = CourseRepository.findById(ID);
 		if (course.isPresent())
 			return course.get().getLeadersIDs();
 		return null;
@@ -83,7 +83,7 @@ public class CourseRepository {
    	 * @return returns true if the leader was added successfully , false otherwise.
    	 */
 	public Boolean addLeaderToCourse(String courseID, String leaderID) {
-		Optional<Courses> course = coursesRepository.findById(courseID);
+		Optional<Course> course = CourseRepository.findById(courseID);
 		if(course.isPresent())
 			if(!(course.get().getLeadersIDs().contains(leaderID)))
 				if(course.get().getKidsIDs().add(leaderID))
@@ -97,7 +97,7 @@ public class CourseRepository {
    	 * @return returns course's kids if the course exists
    	 */
 	public ArrayList<String> getCourseKids(String ID) {
-		Optional<Courses> course = coursesRepository.findById(ID);
+		Optional<Course> course = CourseRepository.findById(ID);
 		if (course.isPresent())
 			return course.get().getKidsIDs();
 		return null;
@@ -109,7 +109,7 @@ public class CourseRepository {
    	 * @return returns true if the kid was added successfully , false otherwise.
    	 */
 	public Boolean addKidToCourse(String courseID, String kidID) {
-		Optional<Courses> course = coursesRepository.findById(courseID);
+		Optional<Course> course = CourseRepository.findById(courseID);
 		if(course.isPresent())
 			if(!(course.get().getKidsIDs().contains(kidID)))
 				if(course.get().getKidsIDs().add(kidID))
@@ -123,7 +123,7 @@ public class CourseRepository {
    	 * @return returns true if the kid was removed successfully , false otherwise.
    	 */
 	public Boolean removeKidFromCourse(String courseID, String kidID) {
-		Optional<Courses> course = coursesRepository.findById(courseID);
+		Optional<Course> course = CourseRepository.findById(courseID);
 		if(course.isPresent())
 			if(course.get().getKidsIDs().contains(kidID))
 				if(course.get().getKidsIDs().remove(kidID))

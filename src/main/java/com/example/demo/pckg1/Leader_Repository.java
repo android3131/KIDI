@@ -1,4 +1,4 @@
-package com.amal.myNewApp.pkg1;
+package com.example.demo.pckg1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +58,7 @@ public class Leader_Repository {
 	public ArrayList<String> getLeaderCategory(String ID){
 		Optional<Leader> leader = leaderRepository.findById(ID);
 		if (leader.isPresent())
-			return leader.get().getCategoriesIDs();
+			return leader.get().getCategoryIDs();
 		return null;
 		}
 	
@@ -70,7 +70,7 @@ public class Leader_Repository {
 	public ArrayList<Leader> getCategoryLeaders(String categoryID){
 		ArrayList<Leader> categoryLeaders = new ArrayList<Leader>(); 
 		for(Leader l: leaderRepository.findAll()) {
-			if(l.getCategoriesIDs().contains(categoryID))
+			if(l.getCategoryIDs().contains(categoryID))
 				categoryLeaders.add(l);
 		}
 		return categoryLeaders;
@@ -84,7 +84,7 @@ public class Leader_Repository {
 	public Boolean removeLeader(String leaderID) {
 		Optional<Leader> leader = leaderRepository.findById(leaderID);
 		if (leader.isPresent()) {
-			leader.get().setActiveStatus(Active.Not_Active);
+			leader.get().setActiveStatus(Status.InActive);
 			return true;
 		}
 		return false;
