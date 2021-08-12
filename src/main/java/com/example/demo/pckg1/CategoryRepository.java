@@ -66,7 +66,7 @@ public Category setCategoryImage(String categoryId, String imagePath) {
 	Optional<Category> optional  = categoryRepo.findById(categoryId);
 	if(optional.isPresent()) {
 		Category cat = optional.get();
-		cat.setImage(imagePath);
+		cat.setCategoryImage(imagePath);
 		categoryRepo.save(cat);
 		System.out.println("Category image Saved");
 		return cat;

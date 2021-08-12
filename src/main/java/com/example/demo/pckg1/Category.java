@@ -35,7 +35,7 @@ public class Category {
 	public String getImage() {
 		return image;
 	}
-	public void setImage(String image) {
+	public void setCategoryImage(String image) {
 		this.image = image;
 	}
 	@Override

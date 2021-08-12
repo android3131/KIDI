@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface IkidRepository extends MongoRepository<Kid, String>{
-
+/*
 	public Kid getKidById(String id); 
 	public Kid addNewKid(Kid kid);  
 	public String getParentId(String kidId); 
@@ -23,5 +23,5 @@ public interface IkidRepository extends MongoRepository<Kid, String>{
 	public ArrayList<Kid> getAllKids();
 	public ArrayList<Kid> getNewKids(); // kids in last month or time period
 	public ArrayList<Kid> getKids(ArrayList<String> idList);
-
+*/
 }
