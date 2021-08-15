@@ -19,7 +19,7 @@ public class Parent_repository {
 
 	/**
 	 * Create new Parent
-	 * @param Parent
+	 * @param parent
 	 * @return new Parent or null if the email already exists 
 	 */
 	public Parent addNewParent (Parent parent){
@@ -43,7 +43,7 @@ public class Parent_repository {
 	}
 	/**
 	 * Delete Parent - changes the status to not active
-	 * @param Parent
+	 * @param id
 	 * @return List of all parents
 	 */	
 	public List <Parent> deleteParent (String id){
@@ -100,7 +100,7 @@ public class Parent_repository {
 	
 	/**
 	 * Change email of existent parent
-	 * @param email of parent and the new email
+	 * @param id of parent and the new Email
 	 * @return the parent if found or null 
 	 */	
 	
@@ -134,7 +134,7 @@ public class Parent_repository {
 	
 	/**
 	 * get all kids of specific parent
-	 * @param email
+	 * @param id
 	 * @return List of all kids of the parent if found or null
 	 */	
 	public List<Kid> GetAllKidsOfParent (String id) {
@@ -151,7 +151,7 @@ public class Parent_repository {
 	
 	/**
 	 * get kid 
-	 * @param id of parent, id of kid
+	 * @param parentId of parent, kidId of kid
 	 * @return the kid if found or null
 	 */
 
@@ -164,8 +164,8 @@ public class Parent_repository {
 	}
 	
 	/**
-	 * Change kid’s picture
-	 * @param Id of parent, Id of kid, new picture
+	 * Change kidï¿½s picture
+	 * @param parentId of parent, Id of kid, new picture
 	 * @return the kid with the new picture if found or null 
 	 */	
 	public Kid addProfilePicture (String parentId, String kidId, String picture) {
@@ -178,7 +178,7 @@ public class Parent_repository {
 	
 	/**
 	 * Register kid to course  
-	 * @param id of parent, id of kid, id of course 
+	 * @param parentId of parent, id of kid, id of course
 	 * @return the kid if found or null
 	 */	
 	public Kid addKidToCourse (String parentId, String kidId, String courseId) {
@@ -192,7 +192,7 @@ public class Parent_repository {
 
 	/**
 	 * remove kid from course  
-	 * @param id of parent, id of kid, id of course 
+	 * @param parentId of parent, id of kid, id of course
 	 * @return the kid if found or null
 	 */	
 	public Kid removeKidFromCourse (String parentId, String kidId, String courseId) {
@@ -207,8 +207,8 @@ public class Parent_repository {
 		return null; 
 	}
 	/**
-	 * Delete kid – changes the status to not active   
-	 * @param id of parent, id of kid 
+	 * Delete kid ï¿½ changes the status to not active   
+	 * @param parentId of parent, id of kid
 	 * @return the parent of the kid if found or null
 	 */	
 	public Parent deleteKid (String parentId, String kidId) {
@@ -221,7 +221,7 @@ public class Parent_repository {
 	
 	/**
 	 * get all active (future) courses of kid   
-	 * @param id of parent, id of kid 
+	 * @param parentId of parent, id of kid
 	 * @return list of all active courses of kid or null if not found 
 	 */	
 	public List<String> getKidActiveCourses (String parentId, String kidId){
@@ -235,7 +235,7 @@ public class Parent_repository {
 	}
 	/**
 	 * get all completed courses of kid   
-	 * @param id of parent, id of kid 
+	 * @param parentId of parent, id of kid
 	 * @return list of all completed courses of kid or null if not found 
 	 */	
 	 public List<String> getKidCompletedCourses (String parentId, String kidId){
