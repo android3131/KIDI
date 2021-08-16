@@ -1,7 +1,11 @@
 package com.example.demo.pckg1;
 
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -18,14 +22,16 @@ public class Course {
 	@Field
 	private int price;
 
-@Field
-	private String startDateTime;
+    @Field
+	private Date startDateTime;
 	
 	@Field 
-	private String finishDateTime;
+	private Date finishDateTime;
 	
 	@Field 
 	private Category category; 
+	@Field 
+	private Status status; 
 	
 	@Field
 	private ArrayList<String> leadersIDs;
@@ -36,12 +42,22 @@ public class Course {
 	@Field
 	private ArrayList<String> kidsIDs;
 	
+	@Field
+	private Day day;
+
+	public Day getDay() {
+		return day;
+	}
+
+	public void setDay(Day day) {
+		this.day = day;
+	}
 
 	public Course() {
 		super();
 	}
 
-	public Course(String name, int price, String startDateTime, String finishDateTime, Category category, String zoomMeetingLink) {
+	public Course(String name, int price, Date startDateTime,Date finishDateTime, Category category, String zoomMeetingLink) {
 		super();
 		this.name = name;
 		this.price = price;
@@ -52,6 +68,7 @@ public class Course {
 		this.zoomMeetingLink = zoomMeetingLink;
 		this.kidsIDs = new ArrayList<String>();
 	}
+
 
 	public String getName() {
 		return name;
@@ -69,19 +86,19 @@ public class Course {
 		this.price = price;
 	}
 
-	public String getStartDateTime() {
+	public Date getStartDateTime() {
 		return startDateTime;
 	}
 
-	public void setStartDateTime(String startDateTime) {
+	public void setStartDateTime(Date startDateTime) {
 		this.startDateTime = startDateTime;
 	}
 
-	public String getFinishDateTime() {
+	public Date getFinishDateTime() {
 		return finishDateTime;
 	}
 
-	public void setFinishDateTime(String finishDateTime) {
+	public void setFinishDateTime(Date finishDateTime) {
 		this.finishDateTime = finishDateTime;
 	}
 
@@ -123,7 +140,11 @@ public class Course {
 	}
 
 	public void setID(String iD) {
-		ID = iD;
+		this.ID = iD;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	

@@ -12,14 +12,6 @@ public class CategoryRepository {
 @Autowired
 ICategoryRepository categoryRepo;
 
-public CategoryRepository() {		
-	initMyRepository();
-}
-
-private void initMyRepository()
-{
-
-}
 
 /**
  * 

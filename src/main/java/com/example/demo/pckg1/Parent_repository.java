@@ -16,7 +16,9 @@ public class Parent_repository {
 	IParentRepository parentRepo;  
 	@Autowired
 	KidRepository kidRepo; 
-
+	@Autowired
+	CourseRepository courseRepo;
+	
 	/**
 	 * Create new Parent
 	 * @param Parent
@@ -219,19 +221,35 @@ public class Parent_repository {
 		return parent.get(); 
 	}
 	
+	
+	/***
+	 * 
+	 * @param kidId to get active courses of
+	 * @return list of course's IDs
+	 */
+	public ArrayList<String> getKidActiveCourses(String kidId){
+		Optional<Kid> optional = Optional.of(kidRepo.getKidWithId(kidId));
+		if(optional.isPresent()) {
+			Kid kid = optional.get();
+			System.out.println("Found, Returning active Courses of" + kidId);
+			return kid.getActiveCourses();
+		}
+		System.out.println("Couldn't Find A KId With ID: "+ kidId);
+		return null;
+	}
+	
 	/**
 	 * get all active (future) courses of kid   
 	 * @param id of parent, id of kid 
 	 * @return list of all active courses of kid or null if not found 
 	 */	
-	public List<String> getKidActiveCourses (String parentId, String kidId){
+	public List<Course> getKidActiveCourses (String parentId, String kidId){
 	 	Optional<Parent> parent = parentRepo.findById(parentId);
 		if (parent.isPresent()) {
-			List <String> lstCourse = kidRepo.getKidActiveCourses(kidId); 
+			List <Course> lstCourse = kidRepo.getKidActiveCourses(kidId); 
 			return lstCourse; 
 	}
-		return null; 
-
+		return null;
 	}
 	/**
 	 * get all completed courses of kid   
@@ -261,6 +279,19 @@ public class Parent_repository {
 		return null; 
 	}
 	
+	/**
+	 * get all the courses that the kid is not currently participate in(active courses), for a specific category    
+	 * @param id of parent, id of kid , id of category
+	 * @return list of all courses in category that the kid is registered to(not active courses)
+	 */
+	public List<Course> getKidNotRegisteredCoursesByCategory(String parentId, String kidId, String catId){
+		Optional<Parent> parent = parentRepo.findById(parentId);
+		if (parent.isPresent()) {
+		return kidRepo.getKidNotRegisteredCoursesByCategory(kidId, catId);
+		}
+		return null; 
+	}
+
 	
 
 }

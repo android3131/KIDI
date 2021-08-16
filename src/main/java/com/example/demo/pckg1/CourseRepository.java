@@ -1,9 +1,19 @@
 package com.example.demo.pckg1;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +21,24 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class CourseRepository {
-
 	@Autowired
 	ICourseRepository CourseRepository;
+	
+	@Autowired
+	ICategoryRepository categoryRepository;
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	private boolean findCourseByName(String name) {
+		for(Course c : 	CourseRepository.findAll()) {
+			if(c.getName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
    	 * Adds a new course
@@ -21,15 +46,15 @@ public class CourseRepository {
    	 * @return All Course
    	 */
 	public Boolean addANewCourse(Course course) {
-		if (CourseRepository.findById(course.getID()).isPresent()) {
-			new ResponseEntity<>("Failed to add a new course, the name already exists in the system",
-					HttpStatus.NOT_ACCEPTABLE);
-			return false;
+		boolean coursePresent = findCourseByName(course.getName());
+		if(!coursePresent) {
+			CourseRepository.save(course);
+			new ResponseEntity<>("New course added successfully", HttpStatus.OK);
+			return true;
 		}
-		CourseRepository.save(course);
-		new ResponseEntity<>("New course added successfully", HttpStatus.OK);
-		return true;
+		return false;
 	}
+	
 	
 	/**
    	 * Returns all Course
@@ -38,16 +63,15 @@ public class CourseRepository {
 	public List<Course> getAllCourse() {
 		return CourseRepository.findAll();
 	}
-
 	/**
    	 * Returns a specific course
    	 * @param Course ID
    	 * @return Course if it was found, null if it was not found
    	 */
-	public Optional<Course> getASpecificCourse(String ID) {
+	public Course getASpecificCourse(String ID) {
 		Optional<Course> course = CourseRepository.findById(ID);
 		if (course.isPresent())
-			return course;
+			return course.get();;
 		new ResponseEntity<>("Course not found", HttpStatus.NOT_ACCEPTABLE);
 		return null;
 	}
@@ -55,15 +79,23 @@ public class CourseRepository {
 	/**
    	 * Returns a course's category
    	 * @param Course ID
-   	 * @return Course category if the course was found, null otherwise
+   	 * @return Returns course category if the course was found, null otherwise
    	 */
-	public Category getCourseCategory(String ID) {
-		Optional<Course> course = CourseRepository.findById(ID);
-		if (course.isPresent())
-			return course.get().getCategory();
+	@SuppressWarnings("unlikely-arg-type")
+	public Category getCourseCategory(String courseID) {
+		Optional<Course> course = CourseRepository.findById(courseID);
+		if (course.isPresent()) {
+			String categoryID = course.get().getCategory().getId();
+			Optional<Category> courseCategory = categoryRepository.findById(categoryID);
+			if(courseCategory.isPresent()) {
+				for(Category c: categoryRepository.findAll()) {
+					if(c.equals(courseCategory))
+						return c;
+				}
+			}
+		};
 		return null;
 	}
-
 	/**
    	 * Returns a specific course's leader
    	 * @param Course ID
@@ -74,7 +106,6 @@ public class CourseRepository {
 		if (course.isPresent())
 			return course.get().getLeadersIDs();
 		return null;
-
 	}
 	
 	/**
@@ -84,13 +115,16 @@ public class CourseRepository {
    	 */
 	public Boolean addLeaderToCourse(String courseID, String leaderID) {
 		Optional<Course> course = CourseRepository.findById(courseID);
-		if(course.isPresent())
-			if(!(course.get().getLeadersIDs().contains(leaderID)))
-				if(course.get().getKidsIDs().add(leaderID))
+		if(course.isPresent()) {
+			if(!(course.get().getLeadersIDs().contains(leaderID))) {
+				if(course.get().getKidsIDs().add(leaderID)) {
+					CourseRepository.save(course.get());
 					return true;
+				}
+			}
+		}		
 		return false;
 	}
-
 	/**
    	 * Returns a specific course's kids
    	 * @param Course ID
@@ -108,12 +142,16 @@ public class CourseRepository {
    	 * @param Course ID, Kid ID
    	 * @return returns true if the kid was added successfully , false otherwise.
    	 */
-	public Boolean addKidToCourse(String courseID, String kidID) {
+	public boolean addKidToCourse(String courseID, String kidID) {
 		Optional<Course> course = CourseRepository.findById(courseID);
-		if(course.isPresent())
-			if(!(course.get().getKidsIDs().contains(kidID)))
-				if(course.get().getKidsIDs().add(kidID))
+		if(course.isPresent()) {
+			if(!(course.get().getKidsIDs().contains(kidID))) {
+				if(course.get().getKidsIDs().add(kidID)) {
+					CourseRepository.save(course.get());
 					return true;
+				}	
+			}
+		}
 		return false;
 	}
 	
@@ -122,12 +160,62 @@ public class CourseRepository {
    	 * @param Course ID, Kid ID
    	 * @return returns true if the kid was removed successfully , false otherwise.
    	 */
-	public Boolean removeKidFromCourse(String courseID, String kidID) {
+	public boolean removeKidFromCourse(String courseID, String kidID) {
 		Optional<Course> course = CourseRepository.findById(courseID);
-		if(course.isPresent())
-			if(course.get().getKidsIDs().contains(kidID))
-				if(course.get().getKidsIDs().remove(kidID))
+		if(course.isPresent()) {
+			if(course.get().getKidsIDs().contains(kidID)) {
+				if(course.get().getKidsIDs().remove(kidID)) {
+					CourseRepository.save(course.get());
 					return true;
+				}
+			}
+		}	
 		return false;		
+	}
+	
+	/**
+   	 * Updates a course's status
+   	 * @param Course ID and a status
+   	 * @return returns true if the course's status was updated, false otherwise.
+   	 */
+	public boolean updateCoursetatus (String courseID, Status status) {
+		Optional<Course> course = CourseRepository.findById(courseID);
+		if(course.isPresent()) {
+			course.get().setStatus(status);
+			CourseRepository.save(course.get());
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+   	 * Updating a course status after deleting and saving the delete time
+   	 * @param Course ID
+   	 * @return returns true when the course's finish date and status are updated
+   	 */
+	public boolean updateFinishedDateByDelete (String courseID) {
+		Optional<Course> course = CourseRepository.findById(courseID);
+		if(course.isPresent()) {
+			Date currentDate = new Date();
+			course.get().setFinishDateTime(currentDate);
+			course.get().setStatus(Status.InActive);
+			//updateCoursetatus(courseID, Status.InActive);
+			CourseRepository.save(course.get());
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+   	 * Returning a category's Course
+   	 * @param Category ID
+   	 * @return List of Course that belong to the given category
+   	 */
+	public ArrayList<Course> categoryCourse (String categoryID) {
+		ArrayList<Course> categoryCourse = new ArrayList<Course>(); 
+		for (Course c: CourseRepository.findAll())
+			if(c.getCategory().equals(categoryID))
+				categoryCourse.add(c);
+		return categoryCourse;
 	}
 }

@@ -3,12 +3,9 @@ package com.example.demo.pckg1;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
-@Repository
 public class Leader_Repository {
 	
 	@Autowired
@@ -19,14 +16,8 @@ public class Leader_Repository {
    	 * @param Leader
    	 * @return All leaders
    	 */
-	public List<Leader> addANewLeader (Leader leader){
-		if(leaderRepository.findById(leader.getID()).isPresent()) {
-			new ResponseEntity<>("Failed to add a new leader, the name already exists in the system", 
-					HttpStatus.NOT_ACCEPTABLE);
-			return leaderRepository.findAll();
-		}
+	public List<Leader> addANewLeader (Leader leader) {
 		leaderRepository.save(leader);
-		new ResponseEntity<>("New leader added successfully", HttpStatus.OK);
 		return leaderRepository.findAll();
 	}
 	
@@ -86,6 +77,7 @@ public class Leader_Repository {
 		Optional<Leader> leader = leaderRepository.findById(leaderID);
 		if (leader.isPresent()) {
 			leader.get().setActiveStatus(Status.InActive);
+			leaderRepository.save(leader.get());
 			return true;
 		}
 		return false;
