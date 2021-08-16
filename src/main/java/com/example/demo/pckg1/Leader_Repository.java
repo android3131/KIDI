@@ -19,11 +19,6 @@ public class Leader_Repository {
    	 * @return All leaders
    	 */
 	public List<Leader> addANewLeader (Leader leader){
-		if(leaderRepository.findById(leader.getID()).isPresent()) {
-			new ResponseEntity<>("Failed to add a new leader, the name already exists in the system", 
-					HttpStatus.NOT_ACCEPTABLE);
-			return leaderRepository.findAll();
-		}
 		leaderRepository.save(leader);
 		new ResponseEntity<>("New leader added successfully", HttpStatus.OK);
 		return leaderRepository.findAll();
@@ -67,6 +62,7 @@ public class Leader_Repository {
    	 * @param categoryID
    	 * @return A list of a specific category leaders 
    	 */
+
 	public ArrayList<Leader> getCategoryLeaders(String categoryID){
 		ArrayList<Leader> categoryLeaders = new ArrayList<Leader>(); 
 		for(Leader l: leaderRepository.findAll()) {
@@ -90,26 +86,28 @@ public class Leader_Repository {
 		return false;
 	}
 
-	public Leader updateLeaderTOPending(String leaderID) {
+	/**
+	 * @param leaderID
+	 * @param status
+	 * @return leader of updated status	 */
+
+	public Leader updateLeaderStatus(String leaderID, Status status) {
 		Optional<Leader> leader = leaderRepository.findById(leaderID);
 		if (leader.isPresent()) {
-			leader.get().setActiveStatus(Status.Pending);
+			if(status.equals(Status.Pending))
+				leader.get().setActiveStatus(Status.Pending);
+			if(status.equals(Status.Active))
+				leader.get().setActiveStatus(Status.Active);
 			return	leaderRepository.save(leader.get());
 		}
 		return null;
 	}
 
-	public Leader updateLeaderTOActive(String leaderID) {
-		Optional<Leader> leader = leaderRepository.findById(leaderID);
-		if (leader.isPresent()) {
-			leader.get().setActiveStatus(Status.Active);
-		return	leaderRepository.save(leader.get());
-		//	return leader;
-		}
-		return null;
-	}
 
-
+/**
+ * @param userName
+ * @return leader of given user name
+ * */
 	public ArrayList<Leader> getLeadersByUserName(String userName) {
 		ArrayList<Leader> leaders = (ArrayList<Leader>) getAllLeaders();
 		ArrayList<Leader> leadersToReturn= new ArrayList<>();
@@ -119,5 +117,22 @@ public class Leader_Repository {
 		}
 		return leadersToReturn;
 	}
+
+	/**
+	 * @param category
+	 * @return courses in given category
+	 * */
+	public ArrayList<Course> getCoursesByCategory(Category category){
+		CourseRepository course_repository = new CourseRepository();
+		ArrayList<Course> coursesByCategory = new ArrayList<>();
+		ArrayList<Course> my_courses = (ArrayList<Course>) course_repository.getAllCourse();
+		for(Course c : my_courses){
+			if(c.getCategory().equals(category))
+				coursesByCategory.add(c);
+		}
+		return coursesByCategory;
+	}
+
+
 
 }

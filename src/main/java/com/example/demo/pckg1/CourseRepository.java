@@ -17,7 +17,7 @@ public class CourseRepository {
 
 	/**
    	 * Adds a new course
-   	 * @param Course
+   	 * @param course
    	 * @return All Course
    	 */
 	public Boolean addANewCourse(Course course) {
@@ -41,7 +41,7 @@ public class CourseRepository {
 
 	/**
    	 * Returns a specific course
-   	 * @param Course ID
+   	 * @param  ID
    	 * @return Course if it was found, null if it was not found
    	 */
 	public Optional<Course> getASpecificCourse(String ID) {
@@ -51,10 +51,11 @@ public class CourseRepository {
 		new ResponseEntity<>("Course not found", HttpStatus.NOT_ACCEPTABLE);
 		return null;
 	}
+
 	
 	/**
    	 * Returns a course's category
-   	 * @param Course ID
+   	 * @param  ID
    	 * @return Course category if the course was found, null otherwise
    	 */
 	public Category getCourseCategory(String ID) {
@@ -66,7 +67,7 @@ public class CourseRepository {
 
 	/**
    	 * Returns a specific course's leader
-   	 * @param Course ID
+   	 * @param  ID
    	 * @return returns a course's leader if the course exists
    	 */
 	public ArrayList<String> getCourseLeaders(String ID) {
@@ -76,24 +77,47 @@ public class CourseRepository {
 		return null;
 
 	}
-	
 	/**
-   	 * Adds a leader to a course
-   	 * @param Course ID, Leader ID
-   	 * @return returns true if the leader was added successfully , false otherwise.
-   	 */
+	 * Adds a leader to a course
+	 * @param courseID, Leader ID
+	 * @return returns true if the leader was added successfully , false otherwise.
+	 */
 	public Boolean addLeaderToCourse(String courseID, String leaderID) {
 		Optional<Course> course = CourseRepository.findById(courseID);
 		if(course.isPresent())
 			if(!(course.get().getLeadersIDs().contains(leaderID)))
-				if(course.get().getKidsIDs().add(leaderID))
+				if(course.get().getLeadersIDs().add(leaderID)) {
+					CourseRepository.save(course.get());
+
 					return true;
+
+				}
 		return false;
 	}
 
+
+	/**
+	 * Removes a leader from a course
+	 * @param courseID, Leader ID
+	 * @return returns true if the leader was added successfully , false otherwise.
+	 */
+	public Boolean removeLeaderCourse(String courseID, String leaderID) {
+		Optional<Course> course = CourseRepository.findById(courseID);
+		if(course.isPresent())
+			if((course.get().getLeadersIDs().contains(leaderID)))
+				if(course.get().getLeadersIDs().remove(leaderID)) {
+					CourseRepository.save(course.get());
+					return true;
+				}
+		return false;
+	}
+	
+
+
+
 	/**
    	 * Returns a specific course's kids
-   	 * @param Course ID
+   	 * @param  ID
    	 * @return returns course's kids if the course exists
    	 */
 	public ArrayList<String> getCourseKids(String ID) {
@@ -105,7 +129,7 @@ public class CourseRepository {
 	
 	/**
    	 * Adds a kid to a course
-   	 * @param Course ID, Kid ID
+   	 * @param courseID, kidID
    	 * @return returns true if the kid was added successfully , false otherwise.
    	 */
 	public Boolean addKidToCourse(String courseID, String kidID) {
@@ -119,7 +143,7 @@ public class CourseRepository {
 	
 	/**
    	 * Removes kid from course
-   	 * @param Course ID, Kid ID
+   	 * @param courseID, kidID
    	 * @return returns true if the kid was removed successfully , false otherwise.
    	 */
 	public Boolean removeKidFromCourse(String courseID, String kidID) {
@@ -130,4 +154,22 @@ public class CourseRepository {
 					return true;
 		return false;		
 	}
+	public Course getASpecificCourseByName(String courseName) {
+
+		for ( Course c :getAllCourse()) {
+			if(c.getName().equals(courseName)) {
+				return c;
+
+			}
+		}
+		//new ResponseEntity<>("Course not found", HttpStatus.NOT_ACCEPTABLE);/
+		return null;
+	}
+	public ArrayList<String> getCourseLeadersByName(String courseName) {
+		Course course = getASpecificCourseByName(courseName);
+		if ( course!= null)
+			return course.getLeadersIDs();
+		return null;
+	}
+
 }
