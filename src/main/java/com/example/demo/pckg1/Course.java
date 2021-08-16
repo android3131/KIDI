@@ -1,13 +1,9 @@
 package com.example.demo.pckg1;
 
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
+import java.util.ArrayList;
+import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -19,6 +15,10 @@ public class Course {
 	@Field
 	private String name;
 	
+	@Field 
+	private String description;
+
+
 	@Field
 	private int price;
 
@@ -147,5 +147,16 @@ public class Course {
 		this.status = status;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
 	
 }
