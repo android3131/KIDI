@@ -72,10 +72,10 @@ public class KidiController {
 	@PostMapping("/initiateRepository")
 	public ResponseEntity<String> intiate() {
 		//if(kidRepo.getAllKids().isEmpty()) {
-			kidRepo.addNewKid(new Kid("111111", new Date(), Gender.Male));
-			kidRepo.addNewKid(new Kid("222222", new Date(), Gender.Female));
-			kidRepo.addNewKid(new Kid("444444444", new Date(), Gender.Male));
-			kidRepo.addNewKid(new Kid("555555555", new Date(), Gender.Male));
+			kidRepo.addNewKid(new Kid("111111", new Date(), Gender.Boy));
+			kidRepo.addNewKid(new Kid("222222", new Date(), Gender.Girl));
+			kidRepo.addNewKid(new Kid("444444444", new Date(), Gender.Girl));
+			kidRepo.addNewKid(new Kid("555555555", new Date(), Gender.Boy));
 		//}
 		return new ResponseEntity<>("initiateRepository", HttpStatus.OK);
 	}

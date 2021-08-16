@@ -126,7 +126,7 @@ public class Kid {
 	
 	
 	public static void main(String args[]) {
-		Kid kid = new Kid("SSS", new Date(1995, 6, 4),Gender.Male);
+		Kid kid = new Kid("SSS", new Date(1995, 6, 4),Gender.Boy);
 		System.out.println("mutlaq"+ kid.getActiveDate().toString());
 	}
 
