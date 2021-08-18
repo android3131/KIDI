@@ -91,6 +91,10 @@ public class KidiController {
 		return kidRepo.getAllKids();
 	}
 	
+	@DeleteMapping("/clearContent")
+	public void clearContent() {
+		kidRepo.clearAllDocuments();
+	}
 	
 	
 	

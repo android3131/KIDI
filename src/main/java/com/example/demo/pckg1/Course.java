@@ -1,7 +1,5 @@
 package com.example.demo.pckg1;
 
-
-
 import java.util.ArrayList;
 import java.util.Date;
 import org.springframework.data.annotation.Id;
@@ -17,8 +15,7 @@ public class Course {
 	
 	@Field 
 	private String description;
-
-
+	
 	@Field
 	private int price;
 
@@ -29,7 +26,8 @@ public class Course {
 	private Date finishDateTime;
 	
 	@Field 
-	private Category category; 
+	private String categoryId; 
+	
 	@Field 
 	private Status status; 
 	
@@ -48,27 +46,20 @@ public class Course {
 	@Field
 	private double meetingDuration;
 	
-	
-	
-
-
 	public Course() {
 		super();
 	}
-
-	public Course(String name, int price, Date startDateTime,Date finishDateTime, Category category, String zoomMeetingLink) {
+	
+	public Course(String name, Date startDateTime,Date finishDateTime, Day day) {
 		super();
 		this.name = name;
-		this.price = price;
 		this.startDateTime = startDateTime;
 		this.finishDateTime = finishDateTime;
-		this.category = category;
 		this.leadersIDs = new ArrayList<String>();
-		this.zoomMeetingLink = zoomMeetingLink;
 		this.kidsIDs = new ArrayList<String>();
+		this.day = day;
 	}
-
-
+	
 	public String getName() {
 		return name;
 	}
@@ -80,7 +71,7 @@ public class Course {
 	public int getPrice() {
 		return price;
 	}
-
+	
 	public void setPrice(int price) {
 		this.price = price;
 	}
@@ -100,8 +91,7 @@ public class Course {
 	public void setFinishDateTime(Date finishDateTime) {
 		this.finishDateTime = finishDateTime;
 	}
-
-
+	
 	public double getMeetingDuration() {
 		return meetingDuration;
 	}
@@ -110,12 +100,12 @@ public class Course {
 		this.meetingDuration = meetingDuration;
 	}
 
-	public Category getCategory() {
-		return category;
+	public String getCategoryId() {
+		return categoryId;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public ArrayList<String> getLeadersIDs() {

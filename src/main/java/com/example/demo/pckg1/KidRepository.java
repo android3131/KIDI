@@ -57,6 +57,14 @@ public List<Kid> addKid(Kid kid){
 	kidRepo.save(kid);
 	return kidRepo.findAll();
 }
+
+
+/**
+ * the repository turns empty
+ */
+public void clearAllDocuments() {
+	kidRepo.deleteAll();
+}
 /**
  * 
  * @param id to find the kid with
