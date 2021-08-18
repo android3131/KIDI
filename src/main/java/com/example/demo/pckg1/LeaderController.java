@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -91,6 +89,9 @@ public class LeaderController {
         else if(newstatus.toString().equals("Pending")) {
             my_led = ileaderRepository.updateLeaderStatus(leaderID, Status.Pending);
         }
+        else if(newstatus.toString().equals("Inactive")) {
+            my_led = ileaderRepository.updateLeaderStatus(leaderID, Status.InActive);
+        }
         else {
 
             return new ResponseEntity<Leader>((Leader) null, HttpStatus.NOT_ACCEPTABLE);
@@ -98,7 +99,6 @@ public class LeaderController {
 
         return new ResponseEntity<Leader>(my_led, HttpStatus.OK);
     }
-
     /**
      * @param fullName
      * @return array list oof leader, else error message if not found
@@ -146,6 +146,22 @@ public class LeaderController {
     public Optional<Leader> findLeaderByID(@PathVariable String id){
         return ileaderRepository.getASpecificLeader(id);
     }
+
+    /**
+     * @param leaderID
+     * @return HTTP status ok if leader found and got updated
+     * HTTP status not found otherwise.
+     * */
+
+    @PutMapping ("/updateLeader/{leaderID}")
+    public Object updateLeaderByID(@PathVariable String leaderID,@RequestBody Leader leader) {
+        System.out.println("++++++"+ileaderRepository.getASpecificLeader(leaderID));
+        if(ileaderRepository.getASpecificLeader(leaderID)!=null){
+           return ileaderRepository.updateExistingLeader(leader,leaderID);
+        }
+        else{
+            return new ResponseEntity<String>("leader not found",HttpStatus.NOT_FOUND);
+        }}
 
 
 }

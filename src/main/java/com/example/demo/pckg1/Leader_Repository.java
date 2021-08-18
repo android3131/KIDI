@@ -12,7 +12,7 @@ public class Leader_Repository {
 	
 	@Autowired
 	ILeaderRepository leaderRepository;
-	
+
 	/**
    	 * Adds a new leader
    	 * @param leader
@@ -23,7 +23,22 @@ public class Leader_Repository {
 		new ResponseEntity<>("New leader added successfully", HttpStatus.OK);
 		return leaderRepository.findAll();
 	}
-	
+
+	public Object updateExistingLeader (Leader leader,String Id){
+		Optional<Leader> leader1 = leaderRepository.findById(Id);
+		leader1.get().setActiveStatus(leader.getActiveStatus());
+		leader1.get().setActiveDate(leader.getActiveDate());
+		//leader1.get().setAddress(leader.getAddress());
+		//leader1.get().setDate(leader.getDate());
+		leader1.get().setEmail(leader.getEmail());
+		leader1.get().setCategoryIDs(leader.getCategoryIDs());
+		//leader1.get().setDateOfBirth(leader.getDateOfBirth());
+		leader1.get().setFullName(leader.getFullName());
+		leader1.get().setProfilePic(leader.getProfilePic());
+		leader1.get().setPhoneNumber(leader.getPhoneNumber());
+		leaderRepository.save(leader1.get());
+		return new ResponseEntity<>("New leader added successfully", HttpStatus.OK);
+	}
 	/**
    	 * Gets all leaders
    	 * @return All leaders
@@ -31,13 +46,13 @@ public class Leader_Repository {
 	public List<Leader> getAllLeaders() {
 		return leaderRepository.findAll();
 	}
-	
 	/**
    	 * Returns a specific leader
    	 * @param ID
    	 * @return Leader if it was found, null if it was not found
    	 */
 	public Optional<Leader> getASpecificLeader(String ID) {
+		System.out.println("============="+leaderRepository.findById("611a55e2befa14396e70f493"));
 		Optional<Leader> leader = leaderRepository.findById(ID);
 		if (leader.isPresent())
 			return leader;
@@ -71,7 +86,6 @@ public class Leader_Repository {
 		}
 		return categoryLeaders;
 	}
-	
 	/**
    	 * Removes a leader by updating their status to inactive
    	 * @param leaderID

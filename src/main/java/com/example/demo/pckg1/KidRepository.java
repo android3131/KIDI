@@ -1,22 +1,15 @@
 package com.example.demo.pckg1;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
 public class KidRepository {
-
-
-	
 @Autowired
 IkidRepository kidRepo;
-
 public KidRepository() {		
 		initMyRepository();
 	}
@@ -208,7 +201,6 @@ public boolean deleteKid(String kidId) {
 	return false;
 }
 
-
 /***
  * 
  * @param kidId to get active courses of
@@ -286,4 +278,15 @@ public ArrayList<Kid> getKids(ArrayList<String> idList){
 	}
 	return kids;
 }
+	public Double percentnewKids()
+	{
+		int lenNewKids=getNewKids().size();
+		int lenKids=retrieveAllKids().size();
+		if(lenKids<1) {
+			return 0.0;
+		}
+
+		return (double) (lenNewKids/lenKids);
+	}
+
 }

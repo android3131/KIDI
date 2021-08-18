@@ -1,5 +1,6 @@
 package com.example.demo.pckg1;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -260,7 +261,31 @@ public class Parent_repository {
 		}
 		return null; 
 	}
-	
-	
+	public ArrayList<Parent> getNewParents(){
+		LocalDate monthAgo = LocalDate.now().minusMonths(1);
+		List<Parent> parents = parentRepo.findAll();
+		ArrayList<Parent> newparents = new ArrayList<Parent>();
+		if(parents.size()<1) {
+			System.out.println("No KIDS IN DATABASE MAN!!!");
+			return null;
+		}
+		for( Parent k : parents) {
+			if(k.getActiveDate().isAfter(monthAgo)) {
+				newparents.add(k);
+			}
+		}
+		System.out.println("Returned list of new kids.");
+		return newparents;
+	}
+	public Double percentnewParents()
+	{
+		int lenNewParents=getNewParents().size();
+		int lenparentss=getAllParents().size();
+		if(lenparentss<1) {
+			return 0.0;
+		}
+
+		return (double) (lenNewParents/lenparentss);
+	}
 
 }
