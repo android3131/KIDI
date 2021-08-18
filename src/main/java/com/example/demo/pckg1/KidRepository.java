@@ -3,6 +3,7 @@ package com.example.demo.pckg1;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +24,8 @@ public class KidRepository {
 IkidRepository kidRepo;
 @Autowired
 CourseRepository courseRepo;
-
+@Autowired
+CategoryRepository categoryRepo;
 
 
 /**
@@ -287,7 +289,6 @@ public ArrayList<Kid> getAllKids(){
  * @return list of kids
  */
 public ArrayList<Kid> getNewKids(){
-	LocalDate monthAgo = LocalDate.now().minusMonths(1);
 	List<Kid> kids = kidRepo.findAll();
 	ArrayList<Kid> newKids = new ArrayList<Kid>();
 	if(kids.size()<1) {
@@ -298,7 +299,7 @@ public ArrayList<Kid> getNewKids(){
 	for( Kid k : kids) {
 		long difference_In_Time = current.getTime() - k.getActiveDate().getTime();
 		long difference_In_Days = (difference_In_Time/ (1000 * 60 * 60 * 24))% 365;
-		if(difference_In_Days <=30) {
+		if(difference_In_Days <=28) {
 			newKids.add(k);
 		}
 	}
@@ -332,9 +333,33 @@ public ArrayList<Kid> getKids(ArrayList<String> idList){
 public List<Course> getKidNotRegisteredCoursesByCategory( String kidId, String catId){
 	Optional<Kid> kid = kidRepo.findById(kidId);
 	if (kid.isPresent()) {
-		List<Course> availibleCourses = courseRepo.categoryCourse(catId);
+		List<Course> availibleCourses = courseRepo.getCategoryCourses(catId);
 		availibleCourses.removeAll(getKidActiveCourses( kidId));
 		return availibleCourses; }
 	return null; 
 }
+/**
+ * 
+ * @return kids count for every Category
+ */
+public HashMap<String, Integer> getKidsByCategories(){
+	HashMap<String,Integer> toReturn =new HashMap<String, Integer>();
+	ArrayList<Category> categories = categoryRepo.getAllCategories();
+	for(Category c : categories) {
+		ArrayList<Course> categoryCourses = courseRepo.getCategoryCourses(c.getId());
+		for(Course course : categoryCourses) {
+			int courseKids = course.getKidsIDs().size();
+			if(!toReturn.containsKey(c.getName())) {
+				toReturn.put(c.getName(), courseKids);
+			}else {
+				toReturn.put(c.getName(), toReturn.get(c.getName())+courseKids);
+			}
+		}
+	}
+	
+	return toReturn;
+}
+
+
+
 }

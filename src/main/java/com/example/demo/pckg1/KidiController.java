@@ -67,7 +67,8 @@ public class KidiController {
 	public List<Parent> deleteParent (@PathVariable String id){
 		return repoParent.deleteParent(id);
 	}
-	
+	@Autowired
+	IkidRepository kRep;
 	//----------------- KID -----------------
 	@PostMapping("/initiateRepository")
 	public ResponseEntity<String> intiate() {

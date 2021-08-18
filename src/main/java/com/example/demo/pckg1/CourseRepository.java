@@ -14,7 +14,8 @@ import java.util.Date;
 public class CourseRepository {
 	@Autowired
 	ICourseRepository CourseRepository;
-	
+	@Autowired
+	IMeetingRepository meetingRepository;
 	@Autowired
 	ICategoryRepository categoryRepository;
 	/**
@@ -202,13 +203,39 @@ public class CourseRepository {
    	 * @param Category ID
    	 * @return List of Course that belong to the given category
    	 */
-	public ArrayList<Course> categoryCourse (String categoryID) {
-		ArrayList<Course> categoryCourse = new ArrayList<Course>(); 
+	public ArrayList<Course> getCategoryCourses (String categoryID) {
+		ArrayList<Course> categoryCourses = new ArrayList<Course>(); 
 		for (Course c: CourseRepository.findAll())
 			if(c.getCategory().equals(categoryID)) {
-				categoryCourse.add(c);
+				categoryCourses.add(c);
 			}
 				
-		return categoryCourse;
+		return categoryCourses;
 	}
+	
+	public double getMonthlyActivity() {
+		int totalCoursesTime = 0;
+		for (Course c : CourseRepository.findAll()) {
+			long difference_In_Time = c.getFinishDateTime().getTime() - c.getStartDateTime().getTime();
+			long difference_In_Days = (difference_In_Time/ (1000 * 60 * 60 * 24))% 365;
+			int numberOfMeetings = (int) (difference_In_Days/7);
+			totalCoursesTime += numberOfMeetings*c.getMeetingDuration();
+		}
+		//// now in the last 28 days get the meetings that occured
+		double totalMeetingsDurations = 0;
+		for(Meeting m : meetingRepository.findAll()) {
+			Date currentDate = new Date();
+			Date meetingDate = m.getMeetingDateTime();
+			long differenceInTime = currentDate.getTime() - meetingDate.getTime();
+			long differenceInDays = (differenceInTime/ (1000 * 60 * 60 * 24))% 365;
+			if(differenceInDays<=28) {
+				String courseId = m.getCourseId();
+				Course c = getASpecificCourse(courseId);
+				totalMeetingsDurations += c.getMeetingDuration();
+			}
+		}
+		return totalMeetingsDurations/totalCoursesTime;
+	}
+	
+	
 }

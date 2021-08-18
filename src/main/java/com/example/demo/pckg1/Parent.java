@@ -1,7 +1,6 @@
 package com.example.demo.pckg1;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,11 +31,11 @@ public class Parent {
 	//@Field
 	//private List <Bills> bill;
 	@Field
-	private LocalDate activeDate; //first time login 
+	private Date activeDate; //first time login 
 	
 	public Parent() {
 		super();
-		activeDate = java.time.LocalDate.now(); 
+		activeDate = new Date(); 
 	}
 	
 	public Parent(String fullName, String phoneNumber, String email, String password) {
@@ -47,7 +46,7 @@ public class Parent {
 		this.password = password;
 		active = Status.Active; 
 		this.kids = new ArrayList<>();
-		activeDate = java.time.LocalDate.now(); 
+		activeDate = new Date(); 
 	}
 
 	public String getId() {
@@ -130,11 +129,11 @@ public class Parent {
 		this.bill = bill;
 	}*/
 
-	public LocalDate getActiveDate() {
+	public Date getActiveDate() {
 		return activeDate;
 	}
 
-	public void setActiveDate(LocalDate activeDate) {
+	public void setActiveDate(Date activeDate) {
 		this.activeDate = activeDate;
 	}
 	public Status getActive () {

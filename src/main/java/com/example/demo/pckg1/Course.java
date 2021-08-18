@@ -44,14 +44,13 @@ public class Course {
 	
 	@Field
 	private Day day;
+	
+	@Field
+	private double meetingDuration;
+	
+	
+	
 
-	public Day getDay() {
-		return day;
-	}
-
-	public void setDay(Day day) {
-		this.day = day;
-	}
 
 	public Course() {
 		super();
@@ -103,6 +102,14 @@ public class Course {
 	}
 
 
+	public double getMeetingDuration() {
+		return meetingDuration;
+	}
+
+	public void setMeetingDuration(double meetingDuration) {
+		this.meetingDuration = meetingDuration;
+	}
+
 	public Category getCategory() {
 		return category;
 	}
@@ -147,6 +154,13 @@ public class Course {
 		this.status = status;
 	}
 
+	public Day getDay() {
+		return day;
+	}
+
+	public void setDay(Day day) {
+		this.day = day;
+	}
 	public String getDescription() {
 		return description;
 	}

@@ -17,6 +17,7 @@ private String courseId;
 private ArrayList<String> participants;
 @Field
 private Date meetingDateTime;
+
 public Meeting(String id, String courseId, Date meetingDateTime) {
 	super();
 	this.id = id;
@@ -47,6 +48,7 @@ public Date getMeetingDateTime() {
 public void setMeetingDateTime(Date meetingDateTime) {
 	this.meetingDateTime = meetingDateTime;
 }
+
 @Override
 public String toString() {
 	return "Meeting [id=" + id + ", courseId=" + courseId + ", meetingDateTime=" + meetingDateTime + "]";

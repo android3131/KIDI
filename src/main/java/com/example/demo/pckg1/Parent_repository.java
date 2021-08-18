@@ -39,6 +39,7 @@ public class Parent_repository {
 				 return p; 
 			}
 		}
+		parent.setActive(Status.Active);
 		parentRepo.save(parent); 
 		 new ResponseEntity<>("New parent aded", HttpStatus.OK);
 		 return parent;
