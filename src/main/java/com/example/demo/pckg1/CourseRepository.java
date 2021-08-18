@@ -4,21 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
-
 @Repository
 public class CourseRepository {
 	@Autowired
@@ -214,8 +205,10 @@ public class CourseRepository {
 	public ArrayList<Course> categoryCourse (String categoryID) {
 		ArrayList<Course> categoryCourse = new ArrayList<Course>(); 
 		for (Course c: CourseRepository.findAll())
-			if(c.getCategory().equals(categoryID))
+			if(c.getCategory().equals(categoryID)) {
 				categoryCourse.add(c);
+			}
+				
 		return categoryCourse;
 	}
 }
