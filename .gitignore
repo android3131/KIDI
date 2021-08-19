@@ -1,3 +1,10 @@
+.gitignore
+./sre/main/resources/application.properties
+./src/main/java/com/example/demo/pckg1/Parent_repository.java
+./src/main/java/com/example/demo/pckg1/Leader_Repository.java
+./src/main/java/com/example/demo/pckg1/KidRepository.java
+./src/main/java/com/example/demo/pckg1/CourseRepository.java
+
 HELP.md
 .gradle
 build/
