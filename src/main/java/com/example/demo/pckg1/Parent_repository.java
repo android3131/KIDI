@@ -2,6 +2,8 @@ package com.example.demo.pckg1;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -225,10 +227,10 @@ public class Parent_repository {
 	 * @param parentId of parent, id of kid
 	 * @return list of all active courses of kid or null if not found 
 	 */	
-	public List<String> getKidActiveCourses (String parentId, String kidId){
+	public ArrayList<Course> getKidActiveCourses (String parentId, String kidId){
 	 	Optional<Parent> parent = parentRepo.findById(parentId);
 		if (parent.isPresent()) {
-			List <String> lstCourse = kidRepo.getKidActiveCourses(kidId); 
+			ArrayList<Course> lstCourse = kidRepo.getKidActiveCourses(kidId); 
 			return lstCourse; 
 	}
 		return null; 
@@ -262,15 +264,16 @@ public class Parent_repository {
 		return null; 
 	}
 	public ArrayList<Parent> getNewParents(){
-		LocalDate monthAgo = LocalDate.now().minusMonths(1);
-		List<Parent> parents = parentRepo.findAll();
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MONTH, -1);
+		Date monthAgo = cal.getTime();		List<Parent> parents = parentRepo.findAll();
 		ArrayList<Parent> newparents = new ArrayList<Parent>();
 		if(parents.size()<1) {
 			System.out.println("No KIDS IN DATABASE MAN!!!");
 			return null;
 		}
 		for( Parent k : parents) {
-			if(k.getActiveDate().isAfter(monthAgo)) {
+			if(k.getActiveDate().after(monthAgo)) {
 				newparents.add(k);
 			}
 		}

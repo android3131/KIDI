@@ -139,9 +139,9 @@ public class Leader_Repository {
 	public ArrayList<Course> getCoursesByCategory(Category category){
 		CourseRepository course_repository = new CourseRepository();
 		ArrayList<Course> coursesByCategory = new ArrayList<>();
-		ArrayList<Course> my_courses = (ArrayList<Course>) course_repository.getAllCourse();
+		ArrayList<Course> my_courses = (ArrayList<Course>) course_repository.getAllCourses();
 		for(Course c : my_courses){
-			if(c.getCategory().equals(category))
+			if(c.getCategoryId().equals(category))
 				coursesByCategory.add(c);
 		}
 		return coursesByCategory;
