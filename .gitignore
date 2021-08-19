@@ -1,3 +1,9 @@
+# exclude everything except for /bck2
+/*
+!/pckg1
+/pckg1/*
+!/pckg1/bck2
+
 HELP.md
 .gradle
 build/

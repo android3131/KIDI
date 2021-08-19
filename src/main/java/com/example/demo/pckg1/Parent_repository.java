@@ -1,5 +1,6 @@
 package com.example.demo.pckg1;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,12 +17,10 @@ public class Parent_repository {
 	IParentRepository parentRepo;  
 	@Autowired
 	KidRepository kidRepo; 
-	@Autowired
-	CourseRepository courseRepo;
-	
+
 	/**
 	 * Create new Parent
-	 * @param Parent
+	 * @param parent
 	 * @return new Parent or null if the email already exists 
 	 */
 	public Parent addNewParent (Parent parent){
@@ -39,14 +38,13 @@ public class Parent_repository {
 				 return p; 
 			}
 		}
-		parent.setActive(Status.Active);
 		parentRepo.save(parent); 
 		 new ResponseEntity<>("New parent aded", HttpStatus.OK);
 		 return parent;
 	}
 	/**
 	 * Delete Parent - changes the status to not active
-	 * @param Parent
+	 * @param id
 	 * @return List of all parents
 	 */	
 	public List <Parent> deleteParent (String id){
@@ -103,7 +101,7 @@ public class Parent_repository {
 	
 	/**
 	 * Change email of existent parent
-	 * @param email of parent and the new email
+	 * @param id of parent and the new Email
 	 * @return the parent if found or null 
 	 */	
 	
@@ -137,7 +135,7 @@ public class Parent_repository {
 	
 	/**
 	 * get all kids of specific parent
-	 * @param email
+	 * @param id
 	 * @return List of all kids of the parent if found or null
 	 */	
 	public List<Kid> GetAllKidsOfParent (String id) {
@@ -154,7 +152,7 @@ public class Parent_repository {
 	
 	/**
 	 * get kid 
-	 * @param id of parent, id of kid
+	 * @param parentId of parent, kidId of kid
 	 * @return the kid if found or null
 	 */
 
@@ -167,8 +165,8 @@ public class Parent_repository {
 	}
 	
 	/**
-	 * Change kid’s picture
-	 * @param Id of parent, Id of kid, new picture
+	 * Change kidï¿½s picture
+	 * @param parentId of parent, Id of kid, new picture
 	 * @return the kid with the new picture if found or null 
 	 */	
 	public Kid addProfilePicture (String parentId, String kidId, String picture) {
@@ -181,7 +179,7 @@ public class Parent_repository {
 	
 	/**
 	 * Register kid to course  
-	 * @param id of parent, id of kid, id of course 
+	 * @param parentId of parent, id of kid, id of course
 	 * @return the kid if found or null
 	 */	
 	public Kid addKidToCourse (String parentId, String kidId, String courseId) {
@@ -195,7 +193,7 @@ public class Parent_repository {
 
 	/**
 	 * remove kid from course  
-	 * @param id of parent, id of kid, id of course 
+	 * @param parentId of parent, id of kid, id of course
 	 * @return the kid if found or null
 	 */	
 	public Kid removeKidFromCourse (String parentId, String kidId, String courseId) {
@@ -210,8 +208,8 @@ public class Parent_repository {
 		return null; 
 	}
 	/**
-	 * Delete kid – changes the status to not active   
-	 * @param id of parent, id of kid 
+	 * Delete kid ï¿½ changes the status to not active   
+	 * @param parentId of parent, id of kid
 	 * @return the parent of the kid if found or null
 	 */	
 	public Parent deleteKid (String parentId, String kidId) {
@@ -222,38 +220,23 @@ public class Parent_repository {
 		return parent.get(); 
 	}
 	
-	
-	/***
-	 * 
-	 * @param kidId to get active courses of
-	 * @return list of course's IDs
-	 */
-	public ArrayList<String> getKidActiveCoursesIds(String parentId, String kidId){
-		Optional<Parent> parent = parentRepo.findById(parentId);
-		if (parent.isPresent()) {
-			List <String> lstCourse = kidRepo.getKidActiveCoursesIds(kidId); 
-			return (ArrayList<String>) lstCourse; 
-	}
-		System.out.println("Couldn't Find A KId With ID: "+ kidId);
-		return null;
-	}
-	
 	/**
 	 * get all active (future) courses of kid   
-	 * @param id of parent, id of kid 
+	 * @param parentId of parent, id of kid
 	 * @return list of all active courses of kid or null if not found 
 	 */	
-	public List<Course> getKidActiveCourses(String parentId, String kidId){
+	public List<String> getKidActiveCourses (String parentId, String kidId){
 	 	Optional<Parent> parent = parentRepo.findById(parentId);
 		if (parent.isPresent()) {
-			List <Course> lstCourse = kidRepo.getKidActiveCourses(kidId); 
+			List <String> lstCourse = kidRepo.getKidActiveCourses(kidId); 
 			return lstCourse; 
 	}
-		return null;
+		return null; 
+
 	}
 	/**
 	 * get all completed courses of kid   
-	 * @param id of parent, id of kid 
+	 * @param parentId of parent, id of kid
 	 * @return list of all completed courses of kid or null if not found 
 	 */	
 	 public List<String> getKidCompletedCourses (String parentId, String kidId){
@@ -278,20 +261,31 @@ public class Parent_repository {
 		}
 		return null; 
 	}
-	
-	/**
-	 * get all the courses that the kid is not currently participate in(active courses), for a specific category    
-	 * @param id of parent, id of kid , id of category
-	 * @return list of all courses in category that the kid is registered to(not active courses)
-	 */
-	public List<Course> getKidNotRegisteredCoursesByCategory(String parentId, String kidId, String catId){
-		Optional<Parent> parent = parentRepo.findById(parentId);
-		if (parent.isPresent()) {
-		return kidRepo.getKidNotRegisteredCoursesByCategory(kidId, catId);
+	public ArrayList<Parent> getNewParents(){
+		LocalDate monthAgo = LocalDate.now().minusMonths(1);
+		List<Parent> parents = parentRepo.findAll();
+		ArrayList<Parent> newparents = new ArrayList<Parent>();
+		if(parents.size()<1) {
+			System.out.println("No KIDS IN DATABASE MAN!!!");
+			return null;
 		}
-		return null; 
+		for( Parent k : parents) {
+			if(k.getActiveDate().isAfter(monthAgo)) {
+				newparents.add(k);
+			}
+		}
+		System.out.println("Returned list of new kids.");
+		return newparents;
 	}
+	public Double percentnewParents()
+	{
+		int lenNewParents=getNewParents().size();
+		int lenparentss=getAllParents().size();
+		if(lenparentss<1) {
+			return 0.0;
+		}
 
-	
+		return (double) (lenNewParents/lenparentss);
+	}
 
 }

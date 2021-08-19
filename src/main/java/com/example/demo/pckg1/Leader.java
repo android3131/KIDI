@@ -40,23 +40,39 @@ public class Leader {
 	@Field 
 	private String activeDate;
 
+	public Leader(ArrayList<Leader> leadersByUserName) {
+		super();
+	}
 	public Leader() {
 		super();
 	}
 
 	public Leader(String fullName, String email, String phoneNumber, Address address, LocalDate dateOfBirth, String profilePic,
-			ArrayList<String> categoryIDs, Status activeStatus, String activeDate) {
+				  ArrayList<String> categoryIDs, Status activeStatus, String activeDate) {
 		super();
 		this.fullName = fullName;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
-		DateOfBirth = dateOfBirth;
+		this.DateOfBirth = dateOfBirth;
 		this.profilePic = profilePic;
 		this.categoryIDs = categoryIDs;
 		this.activeStatus = activeStatus;
 		this.activeDate = activeDate;
 	}
+
+	public Leader(String fullName, String email, String phoneNumber,  String profilePic,
+				  ArrayList<String> categoryIDs, Status activeStatus, String activeDate) {
+		super();
+		this.fullName = fullName;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.profilePic = profilePic;
+		this.categoryIDs = categoryIDs;
+		this.activeStatus = activeStatus;
+		this.activeDate = activeDate;
+	}
+
 
 	public String getFullName() {
 		return fullName;
