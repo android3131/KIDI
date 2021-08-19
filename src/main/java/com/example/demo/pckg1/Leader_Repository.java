@@ -6,8 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 
-public class Leader_Repository {
+
+@Repository
+public  class Leader_Repository {
 
 	@Autowired
 	ILeaderRepository leaderRepository;
@@ -15,7 +18,7 @@ public class Leader_Repository {
 	/**
 	 * Adds a new leader
 	 * 
-	 * @param Leader
+	 * @param leader
 	 * @return All leaders
 	 */
 	public List<Leader> addANewLeader(Leader leader) {
@@ -35,7 +38,7 @@ public class Leader_Repository {
 	/**
 	 * Returns a specific leader
 	 * 
-	 * @param Leader ID
+	 * @param ID
 	 * @return Leader if it was found, null if it was not found
 	 */
 	public Optional<Leader> getASpecificLeader(String ID) {
@@ -48,7 +51,7 @@ public class Leader_Repository {
 	/**
 	 * Returns a leader's category
 	 * 
-	 * @param Course ID
+	 * @param ID
 	 * @return Course's categories if the course was found, null otherwise
 	 */
 	public ArrayList<String> getLeaderCategory(String ID) {
@@ -60,8 +63,7 @@ public class Leader_Repository {
 
 	/**
 	 * Returns a category Leaders list
-	 * 
-	 * @param Course ID
+	 * @param categoryID
 	 * @return A list of a specific category leaders
 	 */
 	public ArrayList<Leader> getCategoryLeaders(String categoryID) {
@@ -76,7 +78,7 @@ public class Leader_Repository {
 	/**
 	 * Removes a leader by updating their status to inactive
 	 * 
-	 * @param Leader ID
+	 * @param leaderID
 	 * @return true when the status is updated
 	 */
 	public Boolean removeLeader(String leaderID) {
@@ -92,7 +94,7 @@ public class Leader_Repository {
 	/**
 	 * Updates a leader
 	 * 
-	 * @param Leader, leader ID
+	 * @param leader , ID
 	 * @return Object
 	 */
 	public Object updateExistingLeader (Leader leader,String Id){

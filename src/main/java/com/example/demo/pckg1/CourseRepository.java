@@ -39,7 +39,7 @@ public class CourseRepository {
 	/**
 	 * Adds a new course
 	 * 
-	 * @param Course
+	 * @param course , categoryID
 	 * @return All Course
 	 */
 	public List<Course> addANewCourse(Course course, String categoryID) {
@@ -65,7 +65,7 @@ public class CourseRepository {
 	/**
 	 * Returns a specific course
 	 * 
-	 * @param Course ID
+	 * @param ID
 	 * @return Course if it was found, null if it was not found
 	 */
 	public Course getASpecificCourse(String ID) {
@@ -77,7 +77,7 @@ public class CourseRepository {
 	/**
 	 * Returns a course's category
 	 * 
-	 * @param Course ID
+	 * @param courseID
 	 * @return Returns course category if the course was found, null otherwise
 	 */
 	public Category getCourseCategory(String courseID) {
@@ -94,7 +94,7 @@ public class CourseRepository {
 	/**
 	 * Returns a specific course's leaders
 	 * 
-	 * @param Course ID
+	 * @param ID
 	 * @return returns a course's leader if the course exists
 	 */
 	public ArrayList<String> getCourseLeaders(String ID) {
@@ -106,7 +106,7 @@ public class CourseRepository {
 	/**
 	 * Adds a leader to a course
 	 * 
-	 * @param Course ID, Leader ID
+	 * @param courseID, eaderID
 	 * @return returns true if the leader was added successfully, false otherwise.
 	 */
 	public Boolean addLeaderToCourse(String courseID, String leaderID) {
@@ -125,7 +125,7 @@ public class CourseRepository {
 	/**
 	 * Removes a leader from a course
 	 * 
-	 * @param Course ID, Leader ID
+	 * @param courseID, leaderID
 	 * @return returns true if the leader was removed successfully from the course,
 	 * false otherwise.
 	 */
@@ -144,7 +144,7 @@ public class CourseRepository {
 	/**
 	 * Returns a specific course's kids
 	 * 
-	 * @param Course ID
+	 * @param ID
 	 * @return returns course's kids if the course exists
 	 */
 	public ArrayList<String> getCourseKids(String ID) {
@@ -156,7 +156,7 @@ public class CourseRepository {
 	/**
 	 * Adds a kid to a course
 	 * 
-	 * @param Course ID, Kid ID
+	 * @param courseID, kidID
 	 * @return returns true if the kid was added successfully, false otherwise.
 	 */
 	public boolean addKidToCourse(String courseID, String kidID) {
@@ -175,7 +175,7 @@ public class CourseRepository {
 	/**
 	 * Removes kid from course
 	 * 
-	 * @param Course ID, Kid ID
+	 * @param courseID, KidID
 	 * @return returns true if the kid was removed successfully , false otherwise.
 	 */
 	public boolean removeKidFromCourse(String courseID, String kidID) {
@@ -194,7 +194,8 @@ public class CourseRepository {
 	/**
 	 * Updates a course's status
 	 * 
-	 * @param Course ID and a status
+	 * @param courseID
+	 * @param status
 	 * @return returns true if the course's status was updated, false otherwise.
 	 */
 	public boolean updateCourseStatus(String courseID, Status status) {
@@ -210,7 +211,7 @@ public class CourseRepository {
 	/**
 	 * Updating a course status after deleting, then saving the delete time
 	 * 
-	 * @param Course ID
+	 * @param courseID
 	 * @return returns true when the course's finish date and status are updated
 	 */
 	public boolean updateFinishedDateByDelete(String courseID) {
@@ -228,7 +229,7 @@ public class CourseRepository {
 	/**
 	 * Returning a category's Course
 	 * 
-	 * @param Category ID
+	 * @param categoryID
 	 * @return List of Course that belong to the given category
 	 */
 	public ArrayList<Course> getCategoryCourses(String categoryID) {
@@ -243,7 +244,7 @@ public class CourseRepository {
 	/**
 	 * Get a course by a course name
 	 * 
-	 * @param Course name
+	 * @param courseName
 	 * @return Course
 	 */
 	public Course getASpecificCourseByName(String courseName) {
