@@ -18,9 +18,9 @@ public class Kid {
 	@Field
 	private Gender gender;
 	@Field
-	private ArrayList<String> activeCourses;
+	private ArrayList<String> activeCourses= new ArrayList<String>();;
 	@Field
-	private ArrayList<String> completedCourses;
+	private ArrayList<String> completedCourses= new ArrayList<String>();;
 	@Field
 	private String parentId;
 	@Field
@@ -43,8 +43,6 @@ public class Kid {
 		this.fullName = fullName;
 		this.dateOfBirth = dateOfBirth;
 		this.gender = gender;
-		activeCourses = new ArrayList<String>();
-		completedCourses = new ArrayList<String>();
 		activeDate = new Date();
 	}
 	public String getFullName() {

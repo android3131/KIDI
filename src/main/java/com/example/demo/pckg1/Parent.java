@@ -27,7 +27,7 @@ public class Parent {
 	@Field
 	private Status active;  
 	@Field
-	private List <String> kids;
+	private List <String> kids= new ArrayList<String>();;
 	//@Field
 	//private List <Bills> bill;
 	@Field
@@ -45,7 +45,6 @@ public class Parent {
 		this.email = email;
 		this.password = password;
 		active = Status.Active; 
-		this.kids = new ArrayList<>();
 		activeDate = new Date(); 
 	}
 

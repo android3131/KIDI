@@ -32,13 +32,13 @@ public class Course {
 	private Status status; 
 	
 	@Field
-	private ArrayList<String> leadersIDs;
+	private ArrayList<String> leadersIDs= new ArrayList<String>();;
 	
 	@Field 
 	private String zoomMeetingLink;
 	
 	@Field
-	private ArrayList<String> kidsIDs;
+	private ArrayList<String> kidsIDs= new ArrayList<String>();;
 	
 	@Field
 	private Day day;
@@ -55,8 +55,6 @@ public class Course {
 		this.name = name;
 		this.startDateTime = startDateTime;
 		this.finishDateTime = finishDateTime;
-		this.leadersIDs = new ArrayList<String>();
-		this.kidsIDs = new ArrayList<String>();
 		this.day = day;
 	}
 	
