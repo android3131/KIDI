@@ -1,9 +1,8 @@
-.gitignore
-./sre/main/resources/application.properties
-./src/main/java/com/example/demo/pckg1/Parent_repository.java
-./src/main/java/com/example/demo/pckg1/Leader_Repository.java
-./src/main/java/com/example/demo/pckg1/KidRepository.java
-./src/main/java/com/example/demo/pckg1/CourseRepository.java
+# exclude everything except for /bck2
+/*
+!/pckg1
+/pckg1/*
+!/pckg1/bck2
 
 HELP.md
 .gradle

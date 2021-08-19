@@ -1,5 +1,6 @@
-package com.example.demo.pckg1;
+package com.example.demo.pckg1.bck2;
 
+import com.example.demo.pckg1.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
