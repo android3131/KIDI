@@ -266,7 +266,8 @@ public class Parent_repository {
 	public ArrayList<Parent> getNewParents(){
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MONTH, -1);
-		Date monthAgo = cal.getTime();		List<Parent> parents = parentRepo.findAll();
+		Date monthAgo = cal.getTime();	
+		List<Parent> parents = parentRepo.findAll();
 		ArrayList<Parent> newparents = new ArrayList<Parent>();
 		if(parents.size()<1) {
 			System.out.println("No KIDS IN DATABASE MAN!!!");
