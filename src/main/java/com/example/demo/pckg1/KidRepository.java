@@ -351,19 +351,24 @@ public List<Course> getKidNotRegisteredCoursesByCategory( String kidId, String c
  * @return kids count for every Category
  */
 public HashMap<String, Integer> getKidsByCategories(){
-	HashMap<String,Integer> toReturn =new HashMap<String, Integer>();
-	ArrayList<Category> categories = categoryRepo.getAllCategories();
-	for(Category c : categories) {
-		ArrayList<Course> categoryCourses = courseRepo.getCategoryCourses(c.getId());
-		for(Course course : categoryCourses) {
-			int courseKids = course.getKidsIDs().size();
-			if(!toReturn.containsKey(c.getName())) {
-				toReturn.put(c.getName(), courseKids);
-			}else {
-				toReturn.put(c.getName(), toReturn.get(c.getName())+courseKids);
-			}
-		}
+	HashMap<String,Integer> toReturn = new HashMap<String, Integer>();
+	ArrayList<Kid> kids = (ArrayList<Kid>) kidRepo.findAll();
+	for(Kid kid : kids) {
+		//for every kid get the courses
+		//ArrayList<String> kidsCoursesIds = kid.get
 	}
+//	ArrayList<Category> categories = categoryRepo.getAllCategories();
+//	for(Category c : categories) {
+//		ArrayList<Course> categoryCourses = courseRepo.getCategoryCourses(c.getId());
+//		for(Course course : categoryCourses) {
+//			int courseKids = course.getKidsIDs().size();
+//			if(!toReturn.containsKey(c.getName())) {
+//				toReturn.put(c.getName(), courseKids);
+//			}else {
+//				toReturn.put(c.getName(), toReturn.get(c.getName())+courseKids);
+//			}
+//		}
+//	}
 	
 	return toReturn;
 }
