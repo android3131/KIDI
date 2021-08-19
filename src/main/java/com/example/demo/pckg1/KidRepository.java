@@ -1,23 +1,31 @@
 package com.example.demo.pckg1;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
+
 
 @Repository
 public class KidRepository {
+
+
+	
 @Autowired
 IkidRepository kidRepo;
-public KidRepository() {		
-		initMyRepository();
-	}
-
-private void initMyRepository()
-{
-
-}
+@Autowired
+CourseRepository courseRepo;
+@Autowired
+CategoryRepository categoryRepo;
 
 
 /**
@@ -34,10 +42,7 @@ public List<Kid> retrieveAllKids(){
  * @return kid got added, else returns null
  */
 public Kid addNewKid(Kid kid) {
-	Optional<Kid> optional = kidRepo.findById(kid.getId());
-	if(optional.isPresent()) {
-		return null;
-	}
+	kid.setStatus(Status.Active);
 	kidRepo.save(kid);
 	return kid;
 }
@@ -48,12 +53,17 @@ public Kid addNewKid(Kid kid) {
  * @return a list of all kids
  */
 public List<Kid> addKid(Kid kid){
-	Optional<Kid> optional = kidRepo.findById(kid.getId());
-	if(optional.isPresent()) {
-		return null;
-	}
+	kid.setStatus(Status.Active);
 	kidRepo.save(kid);
 	return kidRepo.findAll();
+}
+
+
+/**
+ * the repository turns empty
+ */
+public void clearAllDocuments() {
+	kidRepo.deleteAll();
 }
 /**
  * 
@@ -61,6 +71,7 @@ public List<Kid> addKid(Kid kid){
  * @return the kid if present, null otherwise.
  */
 public Kid getKidWithId(String id) {
+	
 	Optional<Kid> optional = kidRepo.findById(id);
 	if(optional.isPresent()) {
 		System.out.println("KID IS PRESENT");
@@ -116,18 +127,30 @@ public Kid addCourseToKid(String kidId, String courseId) {
 		Kid kid = optional.get();
 		kid.addCourse(courseId);
 		kidRepo.save(kid);
+		courseRepo.addKidToCourse(courseId, kidId);
 		return kid;
 	}
 	return null;
 }
-/*
+
+
+/**
+ * 
+ * @param kidId kid to remove course from	
+ * @param courseId of course that finished/cancelled
+ * @return
+ */
 public Kid removeCourseFromKid( String kidId, String courseId) {
 	Optional<Kid> optional = kidRepo.findById(kidId);
 	if(optional.isPresent()) {
 		Kid kid = optional.get();
-		
+		kid.deleteCourse(courseId);
+		kidRepo.save(kid);
+		courseRepo.removeKidFromCourse(courseId, kidId);
+		return optional.get();
 	}
-}*/
+	return null;
+}
 
 /**
  * 
@@ -201,12 +224,39 @@ public boolean deleteKid(String kidId) {
 	return false;
 }
 
+
 /***
  * 
  * @param kidId to get active courses of
  * @return list of course's IDs
  */
-public ArrayList<String> getKidActiveCourses(String kidId){
+public ArrayList<Course> getKidActiveCourses( String kidId){
+	Optional<Kid> optional = kidRepo.findById(kidId);
+	ArrayList<String> coursesIds = new ArrayList<String>();
+	if(optional.isPresent()) {
+		Kid kid = optional.get();
+		System.out.println("Found, Returning active Courses of" + kidId);
+		coursesIds.addAll(kid.getActiveCourses());
+		ArrayList<Course> courses = new ArrayList<Course>();
+		if(coursesIds == null) {
+			System.out.println("No courses for kid");
+		}else {
+			for (String s : coursesIds) {
+				courses.add(courseRepo.getASpecificCourse(s));
+			}
+		}
+		return courses;
+	}
+	System.out.println("Couldn't Find A KId With ID: "+ kidId);
+	return null;
+}
+
+/***
+ * 
+ * @param kidId to get active courses of
+ * @return list of course's IDs
+ */
+public ArrayList<String> getKidActiveCoursesIds(String kidId){
 	Optional<Kid> optional = kidRepo.findById(kidId);
 	if(optional.isPresent()) {
 		Kid kid = optional.get();
@@ -247,15 +297,17 @@ public ArrayList<Kid> getAllKids(){
  * @return list of kids
  */
 public ArrayList<Kid> getNewKids(){
-	LocalDate monthAgo = LocalDate.now().minusMonths(1);
 	List<Kid> kids = kidRepo.findAll();
 	ArrayList<Kid> newKids = new ArrayList<Kid>();
 	if(kids.size()<1) {
 		System.out.println("No KIDS IN DATABASE MAN!!!");
 		return null;
 	}
+	Date current = new Date();
 	for( Kid k : kids) {
-		if(k.getActiveDate().isAfter(monthAgo)) {
+		long difference_In_Time = current.getTime() - k.getActiveDate().getTime();
+		long difference_In_Days = (difference_In_Time/ (1000 * 60 * 60 * 24))% 365;
+		if(difference_In_Days <=28) {
 			newKids.add(k);
 		}
 	}
@@ -278,15 +330,49 @@ public ArrayList<Kid> getKids(ArrayList<String> idList){
 	}
 	return kids;
 }
-	public Double percentnewKids()
-	{
-		int lenNewKids=getNewKids().size();
-		int lenKids=retrieveAllKids().size();
-		if(lenKids<1) {
-			return 0.0;
-		}
 
-		return (double) (lenNewKids/lenKids);
+
+
+/**
+ * get all the courses that the kid is not currently participate in(active courses), for a specific category    
+ * @param id of parent, id of kid , id of category
+ * @return list of all courses in category that the kid is registered to(not active courses)
+ */
+public List<Course> getKidNotRegisteredCoursesByCategory( String kidId, String catId){
+	Optional<Kid> kid = kidRepo.findById(kidId);
+	if (kid.isPresent()) {
+		List<Course> availibleCourses = courseRepo.getCategoryCourses(catId);
+		availibleCourses.removeAll(getKidActiveCourses( kidId));
+		return availibleCourses; }
+	return null; 
+}
+/**
+ * 
+ * @return kids count for every Category
+ */
+public HashMap<String, Integer> getKidsByCategories(){
+	HashMap<String,Integer> toReturn = new HashMap<String, Integer>();
+	ArrayList<Kid> kids = (ArrayList<Kid>) kidRepo.findAll();
+	for(Kid kid : kids) {
+		//for every kid get the courses
+		//ArrayList<String> kidsCoursesIds = kid.get
 	}
+//	ArrayList<Category> categories = categoryRepo.getAllCategories();
+//	for(Category c : categories) {
+//		ArrayList<Course> categoryCourses = courseRepo.getCategoryCourses(c.getId());
+//		for(Course course : categoryCourses) {
+//			int courseKids = course.getKidsIDs().size();
+//			if(!toReturn.containsKey(c.getName())) {
+//				toReturn.put(c.getName(), courseKids);
+//			}else {
+//				toReturn.put(c.getName(), toReturn.get(c.getName())+courseKids);
+//			}
+//		}
+//	}
+	
+	return toReturn;
+}
+
+
 
 }

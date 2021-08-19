@@ -1,9 +1,7 @@
 package com.example.demo.pckg1;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -15,17 +13,23 @@ public class Course {
 	@Field
 	private String name;
 	
+	@Field 
+	private String description;
+	
 	@Field
 	private int price;
 
-@Field
-	private String startDateTime;
+    @Field
+	private Date startDateTime;
 	
 	@Field 
-	private String finishDateTime;
+	private Date finishDateTime;
 	
 	@Field 
-	private Category category; 
+	private String categoryId; 
+	
+	@Field 
+	private Status status; 
 	
 	@Field
 	private ArrayList<String> leadersIDs;
@@ -36,23 +40,26 @@ public class Course {
 	@Field
 	private ArrayList<String> kidsIDs;
 	
-
+	@Field
+	private Day day;
+	
+	@Field
+	private double meetingDuration;
+	
 	public Course() {
 		super();
 	}
-
-	public Course(String name, int price, String startDateTime, String finishDateTime, Category category, String zoomMeetingLink) {
+	
+	public Course(String name, Date startDateTime,Date finishDateTime, Day day) {
 		super();
 		this.name = name;
-		this.price = price;
 		this.startDateTime = startDateTime;
 		this.finishDateTime = finishDateTime;
-		this.category = category;
 		this.leadersIDs = new ArrayList<String>();
-		this.zoomMeetingLink = zoomMeetingLink;
 		this.kidsIDs = new ArrayList<String>();
+		this.day = day;
 	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -64,34 +71,41 @@ public class Course {
 	public int getPrice() {
 		return price;
 	}
-
+	
 	public void setPrice(int price) {
 		this.price = price;
 	}
 
-	public String getStartDateTime() {
+	public Date getStartDateTime() {
 		return startDateTime;
 	}
 
-	public void setStartDateTime(String startDateTime) {
+	public void setStartDateTime(Date startDateTime) {
 		this.startDateTime = startDateTime;
 	}
 
-	public String getFinishDateTime() {
+	public Date getFinishDateTime() {
 		return finishDateTime;
 	}
 
-	public void setFinishDateTime(String finishDateTime) {
+	public void setFinishDateTime(Date finishDateTime) {
 		this.finishDateTime = finishDateTime;
 	}
-
-
-	public Category getCategory() {
-		return category;
+	
+	public double getMeetingDuration() {
+		return meetingDuration;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setMeetingDuration(double meetingDuration) {
+		this.meetingDuration = meetingDuration;
+	}
+
+	public String getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public ArrayList<String> getLeadersIDs() {
@@ -123,8 +137,33 @@ public class Course {
 	}
 
 	public void setID(String iD) {
-		ID = iD;
+		this.ID = iD;
 	}
 
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public Day getDay() {
+		return day;
+	}
+
+	public void setDay(Day day) {
+		this.day = day;
+	}
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+	
+	
+	
 	
 }

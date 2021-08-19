@@ -26,7 +26,7 @@ public class Kid {
 	@Field
 	private Status status;
 	@Field
-	private LocalDate activeDate;
+	private Date activeDate;
 	@Field
 	private String image;
 	public String getImage() {
@@ -38,16 +38,14 @@ public class Kid {
 	public Kid() {
 		
 	}
-	public Kid(String fullName, Date dateOfBirth, Gender gender, String parentId) {
+	public Kid(String fullName, Date dateOfBirth, Gender gender) {
 		super();
 		this.fullName = fullName;
 		this.dateOfBirth = dateOfBirth;
 		this.gender = gender;
-		this.parentId = parentId;
 		activeCourses = new ArrayList<String>();
 		completedCourses = new ArrayList<String>();
-		status = Status.Active;
-		activeDate = LocalDate.now();
+		activeDate = new Date();
 	}
 	public String getFullName() {
 		return fullName;
@@ -106,16 +104,30 @@ public class Kid {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-	public LocalDate getActiveDate() {
+	public Date getActiveDate() {
 		return activeDate;
 	}
-	public void setActiveDate(LocalDate activeDate) {
+	public void setActiveDate(Date activeDate) {
 		this.activeDate = activeDate;
 	}
+	
+	public boolean deleteCourse(String courseId) {
+		if(activeCourses.remove(id)) {
+			completedCourses.add(courseId);
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public String toString() {
 		return "Kid [fullName=" + fullName + ", dateOfBirth=" + dateOfBirth + ", parentId=" + parentId + "]";
 	}
 	
+	
+	public static void main(String args[]) {
+		Kid kid = new Kid("SSS", new Date(1995, 6, 4),Gender.Boy);
+		System.out.println("mutlaq"+ kid.getActiveDate().toString());
+	}
 
 }
