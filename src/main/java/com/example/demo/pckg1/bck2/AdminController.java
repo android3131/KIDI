@@ -58,7 +58,7 @@ public class AdminController {
         if(leaderID.isEmpty()|| courseID.isEmpty())
             return new ResponseEntity<Boolean>(false, HttpStatus.NOT_ACCEPTABLE);
 
-        Boolean b = courseRepository.removeLeaderCourse(courseID,leaderID);
+        Boolean b = courseRepository.addLeaderToCourse(courseID,leaderID); // have to change to remove instead of add
         if(!b)
             return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
 
@@ -75,7 +75,7 @@ public class AdminController {
         if(name==null)
             return new ResponseEntity<Course>((Course) null, HttpStatus.NOT_ACCEPTABLE);
 
-        Course my_Course = courseRepository.getASpecificCourseByName(name);
+        Course my_Course = courseRepository.getASpecificCourse(name);
         if(my_Course== null)
             return new ResponseEntity<Course>((Course) null, HttpStatus.NOT_FOUND);
         else
@@ -91,7 +91,7 @@ public class AdminController {
         if(courseName==null)
             return new ResponseEntity<Leader>((Leader) null, HttpStatus.NOT_ACCEPTABLE);
 
-        ArrayList<String> my_leaders = courseRepository.getCourseLeadersByName(courseName);
+        ArrayList<String> my_leaders = courseRepository.getCourseLeaders(courseName);
         if(my_leaders.isEmpty())
             return new ResponseEntity<Leader>((Leader) null, HttpStatus.NOT_FOUND);
         else
