@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,13 +29,13 @@ public class Parent_repository {
 	public Parent addNewParent (Parent parent){
 		Parent p = findUserByEmail (parent.getEmail());
 		if (p != null) {
-			if (!p.getActive().equals(Status.InActive)) {
+			if (!p.getStatus().equals(Status.InActive)) {
 				new ResponseEntity<>("Faild to add new parent, The email already exist in the system", 
 						HttpStatus.NOT_ACCEPTABLE);
 				return null;
 			}
 			else {
-				p.setActive(Status.Active);
+				p.setStatus(Status.Active);
 				parentRepo.save(p);
 				 new ResponseEntity<>("New parent aded", HttpStatus.OK);
 				 return p; 
@@ -52,7 +53,7 @@ public class Parent_repository {
 	public List <Parent> deleteParent (String id){
 		Optional<Parent> p = parentRepo.findById(id);
 		if (p.isPresent()) {
-			p.get().setActive(Status.InActive);
+			p.get().setStatus(Status.InActive);
 			parentRepo.save(p.get());	
 			for (String idKid : p.get().getKids()){
 				kidRepo.deleteKid (idKid);
@@ -70,7 +71,7 @@ public class Parent_repository {
 	public List <Parent> getAllActiveparents (){
 		List <Parent> lstParent = new ArrayList<>();
 		for (Parent p : parentRepo.findAll()) {
-			if (p.getActive().equals(Status.Active))
+			if (p.getStatus().equals(Status.Active))
 				lstParent.add(p);
 		}
 		return lstParent;
@@ -263,33 +264,57 @@ public class Parent_repository {
 		}
 		return null; 
 	}
-	public ArrayList<Parent> getNewParents(){
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.MONTH, -1);
-		Date monthAgo = cal.getTime();	
-		List<Parent> parents = parentRepo.findAll();
-		ArrayList<Parent> newparents = new ArrayList<Parent>();
-		if(parents.size()<1) {
-			System.out.println("No KIDS IN DATABASE MAN!!!");
+	
+	/**
+	 * 
+	 * @param period Input: 1- For week 2- For month 3- For year.
+	 * @return hashMap : with two keys: "New Parents": new parents Count, "totalParents": total Parents count, null otherwise 
+	 */
+	public HashMap<String, Integer> getNewParents(int period){
+		if(period != 1 && period !=2 && period !=3) {
+			new ResponseEntity<>("Input: 1- For week 2- For month 3- For year.", HttpStatus.NOT_ACCEPTABLE);
 			return null;
 		}
-		for( Parent k : parents) {
-			if(k.getActiveDate().after(monthAgo)) {
-				newparents.add(k);
+		if(period == 1) {
+			period = 7;
+		}else if(period == 2) {
+			period = 35;
+		}
+		else {
+			period = 365;
+		}
+		List<Parent> parents = parentRepo.findAll();
+		if(parents.size()<1) {
+			System.out.println("No PARENTS IN DATABASE MAN!!!");
+			return null;
+		}
+		int parentsCount = 0;
+		int totalParents = 0;
+		Date current = new Date();
+		for( Parent p : parents) {
+			long difference_In_Time = current.getTime() - p.getActiveDate().getTime();
+			long difference_In_Days = (difference_In_Time/ (1000 * 60 * 60 * 24))% 365;
+			if(p.getStatus().equals(Status.Active)) {
+				totalParents ++;
+				if(difference_In_Days <=period) {
+					parentsCount++;
+				}
 			}
 		}
-		System.out.println("Returned list of new kids.");
-		return newparents;
+	HashMap<String, Integer> toReturn = new HashMap<String, Integer>();
+	toReturn.put("New Parents", parentsCount);
+	toReturn.put("totalParents",totalParents );
+		return toReturn;
 	}
-	public Double percentnewParents()
-	{
-		int lenNewParents=getNewParents().size();
-		int lenparentss=getAllParents().size();
-		if(lenparentss<1) {
-			return 0.0;
-		}
-
-		return (double) (lenNewParents/lenparentss);
-	}
+//	public Double percentnewParents()
+//	{
+//		int lenNewParents=getNewParents().size();
+//		int lenparentss=getAllParents().size();
+//		if(lenparentss<1) {
+//			return 0.0;
+//		}
+//
+//		return (double) (lenNewParents/lenparentss);
+//	}
 
 }

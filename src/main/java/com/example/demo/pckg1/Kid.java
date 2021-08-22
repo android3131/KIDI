@@ -1,6 +1,5 @@
 package com.example.demo.pckg1;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -18,9 +17,9 @@ public class Kid {
 	@Field
 	private Gender gender;
 	@Field
-	private ArrayList<String> activeCourses= new ArrayList<String>();;
+	private ArrayList<String> activeCourses = new ArrayList<String>();;
 	@Field
-	private ArrayList<String> completedCourses= new ArrayList<String>();;
+	private ArrayList<String> completedCourses = new ArrayList<String>();;
 	@Field
 	private String parentId;
 	@Field

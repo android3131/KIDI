@@ -111,6 +111,11 @@ public class KidiController {
 
 	
 	
+	//------------------------ STATISTICS ---------------------------
+	
+//	@GetMapping
+	//public 
+	
 	
 	
 	

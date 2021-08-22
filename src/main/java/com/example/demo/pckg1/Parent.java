@@ -25,7 +25,7 @@ public class Parent {
 	@Field
 	private String paymentDetails; 
 	@Field
-	private Status active;  
+	private Status status;  
 	@Field
 	private List <String> kids= new ArrayList<String>();;
 	//@Field
@@ -44,7 +44,7 @@ public class Parent {
 		this.phoneNumber = phoneNumber;
 		this.email = email;
 		this.password = password;
-		active = Status.Active; 
+		status = Status.Active; 
 		activeDate = new Date(); 
 	}
 
@@ -135,12 +135,12 @@ public class Parent {
 	public void setActiveDate(Date activeDate) {
 		this.activeDate = activeDate;
 	}
-	public Status getActive () {
-		return active; 
+	public Status getStatus() {
+		return status; 
 	}
 	
-	public void setActive (Status s) {
-		active = s; 
+	public void setStatus (Status s) {
+		status = s; 
 	}
 
 	@Override

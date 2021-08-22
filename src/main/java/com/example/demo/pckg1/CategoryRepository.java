@@ -1,18 +1,22 @@
 package com.example.demo.pckg1;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 @Repository
 public class CategoryRepository {
 	
 @Autowired
 ICategoryRepository categoryRepo;
-
+@Autowired
+CourseRepository courseRepo;
 
 /**
  * 
@@ -76,4 +80,52 @@ public ArrayList<Category> getAllCategories(){
 	return (ArrayList<Category>) categoryRepo.findAll();
 }
 
+/**
+ * 
+ * @return a list of all categories ids.
+ */
+public ArrayList<String> getAllCategoriesIds(){
+	ArrayList<Category> categories = (ArrayList<Category>) categoryRepo.findAll();
+	ArrayList<String> toReturn = new ArrayList<String>();
+	for (Category category : categories) {
+		toReturn.add(category.getId());
+	}
+	return toReturn;
+}
+
+/***
+ *  I assume that the startDate of a course is after the given period
+ * 
+ * @param period
+ * @return hasHMAP that contains keys as category names, and the number of kids in its courses in value.
+ */
+public HashMap<String, Integer> getKidsCountByCategory(int period){
+	if(period != 1 && period !=2 && period !=3) {
+		new ResponseEntity<>("Input: 1- For week 2- For month 3- For year.", HttpStatus.NOT_ACCEPTABLE);
+		return null;
+	}
+	if(period == 1) {
+		period = 7;
+	}else if(period == 2) {
+		period = 35;
+	}
+	else {
+		period = 365;
+	}
+	HashMap<String, Integer> kidsCountByCategory = new HashMap<String, Integer>();
+	for(String catId : getAllCategoriesIds()) {
+		int categoryKids = 0;
+		ArrayList<Course> courses = courseRepo.getCategoryCourses(catId);
+		for(Course c : courses) {
+			Date courseDate = c.getStartDateTime();
+			long difference_In_Time = (new Date()).getTime() - courseDate.getTime();
+			long difference_In_Days = (difference_In_Time/ (1000 * 60 * 60 * 24))% 365;
+			if(difference_In_Days <= period) {
+				categoryKids += c.getKidsIDs().size()+1;
+			}
+		}
+		kidsCountByCategory.put(getCategoryById(catId).getName(), categoryKids);
+	}
+	return kidsCountByCategory;
+}
 }

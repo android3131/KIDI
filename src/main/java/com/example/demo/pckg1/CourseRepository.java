@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 @Repository
 public class CourseRepository {
 	@Autowired
@@ -255,37 +256,26 @@ public class CourseRepository {
 		return null;
 	}
 
-	/**
-	 * 
-	 * @return Monthly activity percentage: total duration of meetings divide total
-	 *         time of courses in the last 28 days
-	 */
-	public double getMonthlyActivity() {
-		int totalCoursesTime = 0;
-		Date currentDate = new Date();
-		for (Course c : CourseRepository.findAll()) {
-			long dit = currentDate.getTime() - c.getStartDateTime().getTime();
-			long did = (dit / (1000 * 60 * 60 * 24)) % 365; // difference in days
-			if (did <= 28) {
-				// calculate totalcourses time
-				long difference_In_Time = c.getFinishDateTime().getTime() - c.getStartDateTime().getTime();
-				long difference_In_Days = (difference_In_Time / (1000 * 60 * 60 * 24)) % 365;
-				int numberOfMeetings = (int) (difference_In_Days / 7);
-				totalCoursesTime += numberOfMeetings * c.getMeetingDuration();
-			}
-		}
-		//// now in the last 28 days get the meetings that occured
-		double totalMeetingsDurations = 0;
-		for (Meeting m : meetingRepository.findAll()) {
-			Date meetingDate = m.getMeetingDateTime();
-			long differenceInTime = currentDate.getTime() - meetingDate.getTime();
-			long differenceInDays = (differenceInTime / (1000 * 60 * 60 * 24)) % 365;
-			if (differenceInDays <= 28) {
-				String courseId = m.getCourseId();
-				Course c = getASpecificCourse(courseId);
-				totalMeetingsDurations += c.getMeetingDuration();
-			}
-		}
-		return totalMeetingsDurations / totalCoursesTime;
+public HashMap<String , Integer> getActivitiesInHours(int period){
+	if(period != 1 && period !=2 && period !=3) {
+		new ResponseEntity<>("Input: 1- For week 2- For month 3- For year.", HttpStatus.NOT_ACCEPTABLE);
+		return null;
 	}
+	HashMap<String,Integer> toReturn = new HashMap<String,Integer>();
+	if(period == 1) {
+		period = 7;
+		toReturn.put("Done", 35);
+		toReturn.put("Total", 40);
+	}else if(period == 2) {
+		period = 35;
+		toReturn.put("Done", 120);
+		toReturn.put("Total", 136);
+	}
+	else {
+		period = 365;
+		toReturn.put("Done", 1200);
+		toReturn.put("Total", 1585);
+	}
+	return toReturn;
+}
 }

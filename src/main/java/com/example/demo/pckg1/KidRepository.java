@@ -12,6 +12,8 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 
@@ -294,25 +296,44 @@ public ArrayList<Kid> getAllKids(){
 /**
  *  a method to get all new kids, new kid is considered a kid that has the active date
  *   is within the last month aka joined kidi a month ago or less.
+ *   @param period is the type of period you want to get new kids: 1- For week 2- For month 3- For year.
  * @return list of kids
  */
-public ArrayList<Kid> getNewKids(){
+public HashMap<String, Integer> getNewKids(int period){
+	if(period != 1 && period !=2 && period !=3) {
+		new ResponseEntity<>("Input: 1- For week 2- For month 3- For year.", HttpStatus.NOT_ACCEPTABLE);
+		return null;
+	}
+	if(period == 1) {
+		period = 7;
+	}else if(period == 2) {
+		period = 35;
+	}
+	else {
+		period = 365;
+	}
 	List<Kid> kids = kidRepo.findAll();
-	ArrayList<Kid> newKids = new ArrayList<Kid>();
 	if(kids.size()<1) {
 		System.out.println("No KIDS IN DATABASE MAN!!!");
 		return null;
 	}
+	int kidsCount = 0;
+	int totalKids = 0;
 	Date current = new Date();
 	for( Kid k : kids) {
 		long difference_In_Time = current.getTime() - k.getActiveDate().getTime();
 		long difference_In_Days = (difference_In_Time/ (1000 * 60 * 60 * 24))% 365;
-		if(difference_In_Days <=28) {
-			newKids.add(k);
+		if(  k.getStatus().equals(Status.Active)) {
+			totalKids++;
+			if(difference_In_Days <=period) {
+				kidsCount++;	
+			}
 		}
 	}
-	System.out.println("Returned list of new kids.");
-	return newKids;
+HashMap<String, Integer> toReturn = new HashMap<String, Integer>();
+toReturn.put("New Kids", kidsCount);
+toReturn.put("totalKids",totalKids );
+	return toReturn;
 }
 
 /**
@@ -345,32 +366,6 @@ public List<Course> getKidNotRegisteredCoursesByCategory( String kidId, String c
 		availibleCourses.removeAll(getKidActiveCourses( kidId));
 		return availibleCourses; }
 	return null; 
-}
-/**
- * 
- * @return kids count for every Category
- */
-public HashMap<String, Integer> getKidsByCategories(){
-	HashMap<String,Integer> toReturn = new HashMap<String, Integer>();
-	ArrayList<Kid> kids = (ArrayList<Kid>) kidRepo.findAll();
-	for(Kid kid : kids) {
-		//for every kid get the courses
-		//ArrayList<String> kidsCoursesIds = kid.get
-	}
-//	ArrayList<Category> categories = categoryRepo.getAllCategories();
-//	for(Category c : categories) {
-//		ArrayList<Course> categoryCourses = courseRepo.getCategoryCourses(c.getId());
-//		for(Course course : categoryCourses) {
-//			int courseKids = course.getKidsIDs().size();
-//			if(!toReturn.containsKey(c.getName())) {
-//				toReturn.put(c.getName(), courseKids);
-//			}else {
-//				toReturn.put(c.getName(), toReturn.get(c.getName())+courseKids);
-//			}
-//		}
-//	}
-	
-	return toReturn;
 }
 
 
