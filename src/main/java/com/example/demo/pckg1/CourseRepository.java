@@ -44,16 +44,9 @@ public class CourseRepository {
 	 * @param course , categoryID
 	 * @return All Course
 	 */
-	public List<Course> addANewCourse(Course course, String categoryID) {
-		Optional<Category> courseCategory = categoryRepository.findById(categoryID);
-		if (courseCategory.isPresent()) {
-			for (Course c : CourseRepository.findAll()) {
-				if (c.getName().equals(course.getName()))
-					return CourseRepository.findAll();
-			}
-			course.setCategoryId(categoryID);
+	public List<Course> addANewCourse(Course course) {
 			CourseRepository.save(course);
-		}
+		
 		return CourseRepository.findAll();
 	}
 	/**

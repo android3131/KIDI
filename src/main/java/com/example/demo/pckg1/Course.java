@@ -52,8 +52,9 @@ public class Course {
 		super();
 	}
 	
-	public Course(String name, Date startDateTime,Date finishDateTime, Day day) {
+	public Course(String name, Date startDateTime,Date finishDateTime, Day day, String categoryId) {
 		super();
+		this.categoryId = categoryId;
 		this.name = name;
 		this.startDateTime = startDateTime;
 		this.finishDateTime = finishDateTime;

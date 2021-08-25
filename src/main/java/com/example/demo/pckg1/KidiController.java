@@ -138,7 +138,7 @@ public class KidiController {
 	//------------------------------- COURSE ----------------------------------------
 	@PostMapping("addNewCourse")
 	public List<Course> addCourse(Course course) {
-		return courseRepo.addANewCourse(course, course.getCategoryId());
+		return courseRepo.addANewCourse(course);
 	}
 	
 	

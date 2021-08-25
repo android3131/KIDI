@@ -115,19 +115,19 @@ public class LeaderController {
 		    else
 		        return my_lst;
 }
-    /**
-     * @param categoryID
-     * @return courses of category id
-     * */
-    @GetMapping("/getCoursesByCategory/{categoryID}")
-    public ArrayList<Course> getCoursesByCategory(@PathVariable String categoryID){
-//        Category ca = new Category("1","2");
-//        Course c = new Course("name", 1, null, null, ca,null);
-//        courseRepository.save(c);
-//        iCategoryRepository.save(ca);
-        Category category = categoryRepository.getCategoryById(categoryID);
-        return courseRepository.getCategoryCourses(categoryID);
-    }
+//    /**
+//     * @param categoryID
+//     * @return courses of category id
+//     * */
+//    @GetMapping("/getCoursesByCategory/{categoryID}")
+//    public ArrayList<Course> getCoursesByCategory(@PathVariable String categoryID){
+////        Category ca = new Category("1","2");
+////        Course c = new Course("name", 1, null, null, ca,null);
+////        courseRepository.save(c);
+////        iCategoryRepository.save(ca);
+//        Category category = categoryRepository.getCategoryById(categoryID);
+//        return courseRepository.getCategoryCourses(categoryID);
+//    }
 
 
     /**
