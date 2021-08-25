@@ -1,4 +1,4 @@
-package com.example.demo.pckg1;
+package com.example.demo.pckg1.backend1;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.example.demo.pckg1.Kid;
+import com.example.demo.pckg1.KidRepository;
 
 
 @RestController
@@ -86,7 +89,7 @@ public class ThirdRegisterationScreenController {
 	             }
 	         }
 	         catch(Exception e){
-	             ResponseObjectInfo respObj = new ResponseObjectInfo("avital error  " + e.getMessage());
+	             ResponseObjectInfo respObj = new ResponseObjectInfo("avital ediot  " + e.getMessage());
 	             return respObj;
 	         }
 	}
