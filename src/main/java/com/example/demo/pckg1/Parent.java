@@ -3,6 +3,7 @@ package com.example.demo.pckg1;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -141,6 +142,25 @@ public class Parent {
 	
 	public void setStatus (Status s) {
 		status = s; 
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(email, fullName, id, password, phoneNumber);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Parent other = (Parent) obj;
+		return Objects.equals(email, other.email) && Objects.equals(fullName, other.fullName)
+				&& Objects.equals(id, other.id) && Objects.equals(password, other.password)
+				&& Objects.equals(phoneNumber, other.phoneNumber);
 	}
 
 	@Override

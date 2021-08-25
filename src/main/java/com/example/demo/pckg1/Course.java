@@ -2,6 +2,8 @@ package com.example.demo.pckg1;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -159,6 +161,24 @@ public class Course {
 
 	public Status getStatus() {
 		return status;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(ID, categoryId, name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Course other = (Course) obj;
+		return Objects.equals(ID, other.ID) && Objects.equals(categoryId, other.categoryId)
+				&& Objects.equals(name, other.name);
 	}
 	
 	

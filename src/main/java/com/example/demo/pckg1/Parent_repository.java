@@ -21,26 +21,13 @@ public class Parent_repository {
 	@Autowired
 	KidRepository kidRepo; 
 
+	long DAY_IN_MS = 1000 * 60 * 60 * 24;
 	/**
 	 * Create new Parent
 	 * @param parent
 	 * @return new Parent or null if the email already exists 
 	 */
 	public Parent addNewParent (Parent parent){
-		Parent p = findUserByEmail (parent.getEmail());
-		if (p != null) {
-			if (!p.getStatus().equals(Status.InActive)) {
-				new ResponseEntity<>("Faild to add new parent, The email already exist in the system", 
-						HttpStatus.NOT_ACCEPTABLE);
-				return null;
-			}
-			else {
-				p.setStatus(Status.Active);
-				parentRepo.save(p);
-				 new ResponseEntity<>("New parent aded", HttpStatus.OK);
-				 return p; 
-			}
-		}
 		parentRepo.save(parent); 
 		 new ResponseEntity<>("New parent aded", HttpStatus.OK);
 		 return parent;
@@ -266,6 +253,19 @@ public class Parent_repository {
 	}
 	
 	/**
+     * get all the categories that the kid is not currently participate in(active courses)    
+     * @param id of parent, id of kid , id of category
+     *  @return list of all categories that the kid is registered to(not active courses)
+     */
+    public List<Category> getKidNotRegisteredCategories(String parentId, String kidId){
+        Optional<Parent> parent = parentRepo.findById(parentId);
+        if (parent.isPresent()) {
+            return kidRepo.getKidNotRegisteredCategories(kidId);
+        }
+        return null; 
+    }
+	
+	/**
 	 * 
 	 * @param period Input: 1- For week 2- For month 3- For year.
 	 * @return hashMap : with two keys: "New Parents": new parents Count, "totalParents": total Parents count, null otherwise 
@@ -275,13 +275,14 @@ public class Parent_repository {
 			new ResponseEntity<>("Input: 1- For week 2- For month 3- For year.", HttpStatus.NOT_ACCEPTABLE);
 			return null;
 		}
+		Date d;
 		if(period == 1) {
-			period = 7;
+			d = new Date((new Date()).getTime()- 7*DAY_IN_MS);
 		}else if(period == 2) {
-			period = 35;
+			d = new Date((new Date()).getTime()-35*DAY_IN_MS);
 		}
 		else {
-			period = 365;
+			d = new Date((new Date()).getTime()- 365*DAY_IN_MS);
 		}
 		List<Parent> parents = parentRepo.findAll();
 		if(parents.size()<1) {
@@ -290,13 +291,10 @@ public class Parent_repository {
 		}
 		int parentsCount = 0;
 		int totalParents = 0;
-		Date current = new Date();
 		for( Parent p : parents) {
-			long difference_In_Time = current.getTime() - p.getActiveDate().getTime();
-			long difference_In_Days = (difference_In_Time/ (1000 * 60 * 60 * 24))% 365;
 			if(p.getStatus().equals(Status.Active)) {
 				totalParents ++;
-				if(difference_In_Days <=period) {
+				if(p.getActiveDate().after(d)) {
 					parentsCount++;
 				}
 			}
@@ -306,15 +304,6 @@ public class Parent_repository {
 	toReturn.put("totalParents",totalParents );
 		return toReturn;
 	}
-//	public Double percentnewParents()
-//	{
-//		int lenNewParents=getNewParents().size();
-//		int lenparentss=getAllParents().size();
-//		if(lenparentss<1) {
-//			return 0.0;
-//		}
-//
-//		return (double) (lenNewParents/lenparentss);
-//	}
+
 
 }

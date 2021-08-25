@@ -2,6 +2,7 @@ package com.example.demo.pckg1;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -42,7 +43,6 @@ public class Kid {
 		this.fullName = fullName;
 		this.dateOfBirth = dateOfBirth;
 		this.gender = gender;
-		activeDate = new Date();
 	}
 	public String getFullName() {
 		return fullName;
@@ -116,6 +116,22 @@ public class Kid {
 		return false;
 	}
 	
+	@Override
+	public int hashCode() {
+		return Objects.hash(dateOfBirth, fullName, gender, id, parentId);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Kid other = (Kid) obj;
+		return Objects.equals(dateOfBirth, other.dateOfBirth) && Objects.equals(fullName, other.fullName)
+				&& gender == other.gender && Objects.equals(id, other.id) && Objects.equals(parentId, other.parentId);
+	}
 	@Override
 	public String toString() {
 		return "Kid [fullName=" + fullName + ", dateOfBirth=" + dateOfBirth + ", parentId=" + parentId + "]";

@@ -1,8 +1,11 @@
 package com.example.demo.pckg1;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ public class CategoryRepository {
 ICategoryRepository categoryRepo;
 @Autowired
 CourseRepository courseRepo;
+long DAY_IN_MS = 1000 * 60 * 60 * 24;
 
 /**
  * 
@@ -104,23 +108,21 @@ public HashMap<String, Integer> getKidsCountByCategory(int period){
 		new ResponseEntity<>("Input: 1- For week 2- For month 3- For year.", HttpStatus.NOT_ACCEPTABLE);
 		return null;
 	}
+	Date d;
 	if(period == 1) {
-		period = 7;
+		d = new Date((new Date()).getTime()- 7*DAY_IN_MS);
 	}else if(period == 2) {
-		period = 35;
+		d = new Date((new Date()).getTime()-35*DAY_IN_MS);
 	}
 	else {
-		period = 365;
+		d = new Date((new Date()).getTime()- 365*DAY_IN_MS);
 	}
 	HashMap<String, Integer> kidsCountByCategory = new HashMap<String, Integer>();
 	for(String catId : getAllCategoriesIds()) {
 		int categoryKids = 0;
 		ArrayList<Course> courses = courseRepo.getCategoryCourses(catId);
 		for(Course c : courses) {
-			Date courseDate = c.getStartDateTime();
-			long difference_In_Time = (new Date()).getTime() - courseDate.getTime();
-			long difference_In_Days = (difference_In_Time/ (1000 * 60 * 60 * 24))% 365;
-			if(difference_In_Days <= period) {
+			if(c.getStartDateTime().after(d)) {
 				categoryKids += c.getKidsIDs().size()+1;
 			}
 		}
@@ -128,4 +130,5 @@ public HashMap<String, Integer> getKidsCountByCategory(int period){
 	}
 	return kidsCountByCategory;
 }
+
 }

@@ -28,7 +28,7 @@ IkidRepository kidRepo;
 CourseRepository courseRepo;
 @Autowired
 CategoryRepository categoryRepo;
-
+long DAY_IN_MS = 1000 * 60 * 60 * 24;
 
 /**
  * 
@@ -215,6 +215,9 @@ public boolean deleteKid(String kidId) {
 		if(kid.getStatus().equals(Status.Active)) {
 			kid.setStatus(Status.InActive);
 			kidRepo.save(kid);
+			for(String course : optional.get().getActiveCourses()) {
+				removeCourseFromKid(kidId, course);
+			}
 			System.out.println("Status changed to Inactive");
 			return true;
 		}else {
@@ -304,13 +307,14 @@ public HashMap<String, Integer> getNewKids(int period){
 		new ResponseEntity<>("Input: 1- For week 2- For month 3- For year.", HttpStatus.NOT_ACCEPTABLE);
 		return null;
 	}
+	Date d;
 	if(period == 1) {
-		period = 7;
+		d = new Date((new Date()).getTime()- 7*DAY_IN_MS);
 	}else if(period == 2) {
-		period = 35;
+		d = new Date((new Date()).getTime()-35*DAY_IN_MS);
 	}
 	else {
-		period = 365;
+		d = new Date((new Date()).getTime()- 365*DAY_IN_MS);
 	}
 	List<Kid> kids = kidRepo.findAll();
 	if(kids.size()<1) {
@@ -321,11 +325,9 @@ public HashMap<String, Integer> getNewKids(int period){
 	int totalKids = 0;
 	Date current = new Date();
 	for( Kid k : kids) {
-		long difference_In_Time = current.getTime() - k.getActiveDate().getTime();
-		long difference_In_Days = (difference_In_Time/ (1000 * 60 * 60 * 24))% 365;
 		if(  k.getStatus().equals(Status.Active)) {
 			totalKids++;
-			if(difference_In_Days <=period) {
+			if(k.getActiveDate().after(d)) {
 				kidsCount++;	
 			}
 		}
@@ -351,7 +353,23 @@ public ArrayList<Kid> getKids(ArrayList<String> idList){
 	}
 	return kids;
 }
-
+/**
+ * get all the categories that the kid is not currently participate in(active courses)   
+ * @param  id of kid 
+ * @return list of all categories that the kid is registered to(not active courses)
+ */
+public List<Category> getKidNotRegisteredCategories( String kidId){
+    List<Category> cats = new ArrayList<Category>();
+    Optional<Kid> kid = kidRepo.findById(kidId);
+    if (kid.isPresent()) {
+        for (Category cat: categoryRepo.getAllCategories()) {
+            if (getKidNotRegisteredCoursesByCategory(kidId, cat.getId()).isEmpty() == false) {
+                cats.add(cat);
+            }
+        }
+    }
+    return cats; 
+}
 
 
 /**
@@ -369,5 +387,10 @@ public List<Course> getKidNotRegisteredCoursesByCategory( String kidId, String c
 }
 
 
+public List<Kid> createKid(Kid kid) {	
+	kid.setActiveDate(new Date());	
+	kidRepo.save(kid);	
+	return kidRepo.findAll();	
+}
 
 }

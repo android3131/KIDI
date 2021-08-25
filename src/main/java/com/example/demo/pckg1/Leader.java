@@ -4,6 +4,8 @@ package com.example.demo.pckg1;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -26,7 +28,7 @@ public class Leader {
 	private Address address;
 	
 	@Field 
-	private LocalDate DateOfBirth;
+	private Date DateOfBirth;
 	
 	@Field 
 	private String profilePic; 
@@ -47,7 +49,7 @@ public class Leader {
 		super();
 	}
 
-	public Leader(String fullName, String email, String phoneNumber, Address address, LocalDate dateOfBirth, String profilePic,
+	public Leader(String fullName, String email, String phoneNumber, Address address, Date dateOfBirth, String profilePic,
 				  ArrayList<String> categoryIDs, Status activeStatus, String activeDate) {
 		super();
 		this.fullName = fullName;
@@ -106,13 +108,7 @@ public class Leader {
 		this.address = address;
 	}
 
-	public LocalDate getDate() {
-		return DateOfBirth;
-	}
 
-	public void setDate(LocalDate dateOfBirth) {
-		DateOfBirth = dateOfBirth;
-	}
 
 	public String getProfilePic() {
 		return profilePic;
@@ -126,11 +122,11 @@ public class Leader {
 		ID = iD;
 	}
 
-	public LocalDate getDateOfBirth() {
+	public Date getDateOfBirth() {
 		return DateOfBirth;
 	}
 
-	public void setDateOfBirth(LocalDate dateOfBirth) {
+	public void setDateOfBirth(Date dateOfBirth) {
 		DateOfBirth = dateOfBirth;
 	}
 
@@ -162,6 +158,23 @@ public class Leader {
 		this.activeDate = activeDate;
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(DateOfBirth, ID, address, email, fullName, phoneNumber);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Leader other = (Leader) obj;
+		return Objects.equals(DateOfBirth, other.DateOfBirth) && Objects.equals(ID, other.ID)
+				&& Objects.equals(address, other.address) && Objects.equals(email, other.email)
+				&& Objects.equals(fullName, other.fullName) && Objects.equals(phoneNumber, other.phoneNumber);
+	}
 	@Override
 	public String toString() {
 		return "Leader [ID=" + ID + ", fullName=" + fullName + ", email=" + email + ", phoneNumber=" + phoneNumber

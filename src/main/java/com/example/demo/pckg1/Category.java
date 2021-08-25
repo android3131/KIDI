@@ -1,11 +1,14 @@
 package com.example.demo.pckg1;
 
+import java.util.Objects;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document
 public class Category {
+
 	@Id
 	private String id;
 	@Field
@@ -37,6 +40,22 @@ public class Category {
 	}
 	public void setCategoryImage(String image) {
 		this.image = image;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, image, name);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Category other = (Category) obj;
+		return Objects.equals(id, other.id) && Objects.equals(image, other.image) && Objects.equals(name, other.name);
 	}
 	@Override
 	public String toString() {

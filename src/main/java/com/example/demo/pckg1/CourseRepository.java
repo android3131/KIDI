@@ -18,6 +18,7 @@ public class CourseRepository {
 	IMeetingRepository meetingRepository;
 	@Autowired
 	ICategoryRepository categoryRepository;
+	long DAY_IN_MS = 1000 * 60 * 60 * 24;
 	/**
 	 * 
 	 * @param name
@@ -256,26 +257,5 @@ public class CourseRepository {
 		return null;
 	}
 
-public HashMap<String , Integer> getActivitiesInHours(int period){
-	if(period != 1 && period !=2 && period !=3) {
-		new ResponseEntity<>("Input: 1- For week 2- For month 3- For year.", HttpStatus.NOT_ACCEPTABLE);
-		return null;
-	}
-	HashMap<String,Integer> toReturn = new HashMap<String,Integer>();
-	if(period == 1) {
-		period = 7;
-		toReturn.put("Done", 35);
-		toReturn.put("Total", 40);
-	}else if(period == 2) {
-		period = 35;
-		toReturn.put("Done", 120);
-		toReturn.put("Total", 136);
-	}
-	else {
-		period = 365;
-		toReturn.put("Done", 1200);
-		toReturn.put("Total", 1585);
-	}
-	return toReturn;
-}
+
 }
