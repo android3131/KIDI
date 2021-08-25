@@ -323,7 +323,6 @@ public HashMap<String, Integer> getNewKids(int period){
 	}
 	int kidsCount = 0;
 	int totalKids = 0;
-	Date current = new Date();
 	for( Kid k : kids) {
 		if(  k.getStatus().equals(Status.Active)) {
 			totalKids++;

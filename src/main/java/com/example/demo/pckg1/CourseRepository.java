@@ -243,7 +243,6 @@ public class CourseRepository {
 	 * @return Course
 	 */
 	public Course getASpecificCourseByName(String courseName) {
-
 		for ( Course c :getAllCourses())
 			if(c.getName().equals(courseName)) 
 				return c;

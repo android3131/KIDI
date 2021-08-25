@@ -54,7 +54,7 @@ public class MeetingRepository {
 	 * @param period
 	 * @return
 	 */
-	public HashMap<String, Double> getTotalCancelledMeetingsTime(int period) {
+	public HashMap<String, Double> getActivityTime(int period) {
 		if(period != 1 && period !=2 && period !=3) {
 			new ResponseEntity<>("Input: 1- For week 2- For month 3- For year.", HttpStatus.NOT_ACCEPTABLE);
 			return null;

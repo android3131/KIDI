@@ -32,6 +32,8 @@ public class KidiController {
 	KidRepository kidRepo;
 	@Autowired
 	CategoryRepository categoryRepo;
+	@Autowired
+	MeetingRepository meetingRepo;
 	
 	@PostMapping("/addNewParent")
 	public Parent addNewParent (@RequestBody Parent parent){
@@ -166,11 +168,10 @@ public class KidiController {
 		return categoryRepo.getKidsCountByCategory(period);
 	}
 	
-	
-	
-
-	
-	
+	@GetMapping("/getActivityTime/{period}")
+	public HashMap<String,Double> getActivityTime(@PathVariable int period){
+		return meetingRepo.getActivityTime(period);
+	}
 	
 	
 }
