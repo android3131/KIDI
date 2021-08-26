@@ -1,80 +1,68 @@
 package com.example.demo.pckg1;
 
-
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 public class Leader {
-	
+
 	@Id
 	private String ID;
-	
-	@Field 
+
+	@Field
 	private String fullName;
-	
-	@Field 
+
+	@Field
 	private String email;
-	
+
 	@Field
 	private String phoneNumber;
-	
-	@Field 
-	private Address address;
-	
-	@Field 
-	private Date DateOfBirth;
-	
-	@Field 
-	private String profilePic; 
-	
-	@Field 
-	private ArrayList<String> categoryIDs;
-	
-	@Field 
-	private Status activeStatus;
-	
-	@Field 
-	private String activeDate;
 
-	public Leader(ArrayList<Leader> leadersByUserName) {
-		super();
-	}
+	@Field
+	private Address address;
+
+	@Field
+	private Date dateOfBirth;
+
+	@Field
+	private String profilePic;
+
+	@Field
+	private ArrayList<String> categoriesIDs = new ArrayList<>();
+
+	@Field
+	private ArrayList<String> coursesIDs = new ArrayList<>();
+
+	@Field
+	private Status activeStatus;
+
+	@Field
+	private Date activeDate;
+
 	public Leader() {
 		super();
 	}
 
-	public Leader(String fullName, String email, String phoneNumber, Address address, Date dateOfBirth, String profilePic,
-				  ArrayList<String> categoryIDs, Status activeStatus, String activeDate) {
+	public Leader(String fullName, String email, String phoneNumber, Address address, Date dateOfBirth,
+			String profilePic) {
 		super();
 		this.fullName = fullName;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
-		this.DateOfBirth = dateOfBirth;
+		this.dateOfBirth = dateOfBirth;
 		this.profilePic = profilePic;
-		this.categoryIDs = categoryIDs;
-		this.activeStatus = activeStatus;
-		this.activeDate = activeDate;
 	}
 
-	public Leader(String fullName, String email, String phoneNumber,  String profilePic,
-				  ArrayList<String> categoryIDs, Status activeStatus, String activeDate) {
-		super();
-		this.fullName = fullName;
-		this.email = email;
-		this.phoneNumber = phoneNumber;
-		this.profilePic = profilePic;
-		this.categoryIDs = categoryIDs;
-		this.activeStatus = activeStatus;
-		this.activeDate = activeDate;
+	public String getID() {
+		return ID;
 	}
 
+	public void setID(String iD) {
+		ID = iD;
+	}
 
 	public String getFullName() {
 		return fullName;
@@ -108,38 +96,36 @@ public class Leader {
 		this.address = address;
 	}
 
-
-
-	public String getProfilePic() {
-		return profilePic;
-	}
-
-	public String getID() {
-		return ID;
-	}
-
-	public void setID(String iD) {
-		ID = iD;
-	}
-
 	public Date getDateOfBirth() {
-		return DateOfBirth;
+		return dateOfBirth;
 	}
 
 	public void setDateOfBirth(Date dateOfBirth) {
-		DateOfBirth = dateOfBirth;
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public String getProfilePic() {
+		return profilePic;
 	}
 
 	public void setProfilePic(String profilePic) {
 		this.profilePic = profilePic;
 	}
 
-	public ArrayList<String> getCategoryIDs() {
-		return categoryIDs;
+	public ArrayList<String> getCategoriesIDs() {
+		return categoriesIDs;
 	}
 
-	public void setCategoryIDs(ArrayList<String> categoryIDs) {
-		this.categoryIDs = categoryIDs;
+	public void setCategoriesIDs(ArrayList<String> categoriesIDs) {
+		this.categoriesIDs = categoriesIDs;
+	}
+
+	public ArrayList<String> getCoursesIDs() {
+		return coursesIDs;
+	}
+
+	public void setCoursesIDs(ArrayList<String> coursesIDs) {
+		this.coursesIDs = coursesIDs;
 	}
 
 	public Status getActiveStatus() {
@@ -150,37 +136,19 @@ public class Leader {
 		this.activeStatus = activeStatus;
 	}
 
-	public String getActiveDate() {
+	public Date getActiveDate() {
 		return activeDate;
 	}
 
-	public void setActiveDate(String activeDate) {
+	public void setActiveDate(Date activeDate) {
 		this.activeDate = activeDate;
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(DateOfBirth, ID, address, email, fullName, phoneNumber);
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Leader other = (Leader) obj;
-		return Objects.equals(DateOfBirth, other.DateOfBirth) && Objects.equals(ID, other.ID)
-				&& Objects.equals(address, other.address) && Objects.equals(email, other.email)
-				&& Objects.equals(fullName, other.fullName) && Objects.equals(phoneNumber, other.phoneNumber);
-	}
-	@Override
 	public String toString() {
 		return "Leader [ID=" + ID + ", fullName=" + fullName + ", email=" + email + ", phoneNumber=" + phoneNumber
-				+ ", address=" + address + ", activeStatus=" + activeStatus + ", activeDate=" + activeDate + "]";
+				+ ", address=" + address + ", dateOfBirth=" + dateOfBirth + ", profilePic=" + profilePic
+				+ ", categoriesIDs=" + categoriesIDs + ", coursesIDs=" + coursesIDs + ", activeStatus=" + activeStatus
+				+ ", activeDate=" + activeDate + "]";
 	}
-
-
-	
 }

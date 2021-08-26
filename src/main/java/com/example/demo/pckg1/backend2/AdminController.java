@@ -25,7 +25,7 @@ public class AdminController {
 
     @GetMapping("/getLeaderByCategory/{categoryID}")
     public ArrayList<Leader> getLeadersByCategoryID(@PathVariable String categoryID){
-        return leaderRepository.getCategoryLeaders(categoryID);
+    	return leaderRepository.getCategoryLeaders(categoryID);
     }
 
     /**

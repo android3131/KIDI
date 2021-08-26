@@ -332,7 +332,7 @@ public HashMap<String, Integer> getNewKids(int period){
 		}
 	}
 HashMap<String, Integer> toReturn = new HashMap<String, Integer>();
-toReturn.put("New Kids", kidsCount);
+toReturn.put("newKids", kidsCount);
 toReturn.put("totalKids",totalKids );
 	return toReturn;
 }

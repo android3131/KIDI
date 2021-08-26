@@ -57,7 +57,7 @@ public class LeaderController {
         if(leader.getFullName().isEmpty() ||
                 !isValidEmailAddress(leader.getEmail()) ||
                 leader.getProfilePic() == null
-                || leader.getCategoryIDs().isEmpty() || leader.getActiveStatus() == null
+                || leader.getCategoriesIDs().isEmpty() || leader.getActiveStatus() == null
                 || difference_In_Years < 12 || !leader.getFullName().matches(fullNameCheck))
             return false;
         return true;

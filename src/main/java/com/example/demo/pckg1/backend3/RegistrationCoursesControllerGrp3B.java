@@ -1,4 +1,5 @@
-package com.example.demo.pckg1;
+package com.example.demo.pckg1.backend3;
+
 
 
 import java.sql.Time;
@@ -15,6 +16,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.pckg1.Category;
+import com.example.demo.pckg1.CategoryRepository;
+import com.example.demo.pckg1.Course;
+import com.example.demo.pckg1.CourseRepository;
+import com.example.demo.pckg1.Kid;
+import com.example.demo.pckg1.Parent_repository;
 
 @RestController
 public class RegistrationCoursesControllerGrp3B {
@@ -72,10 +80,10 @@ public class RegistrationCoursesControllerGrp3B {
 	 * * @param parent id, child id, category id
 	 * @return all the courses that the kid not active at by category.
 	 */
-	@GetMapping("/getCoursesForNewActivity/{parentId}/{kidId}/{catId}")
-	public List<Course> getAvailibleCoursesForChild(@PathVariable String parentId, @PathVariable String kidId, @PathVariable String catId) {
-		return parRepository.getKidNotRegisteredCoursesByCategory(parentId, kidId, catId);
-	}
+//	@GetMapping("/getCoursesForNewActivity/{parentId}/{kidId}/{catId}")
+//	public List<Course> getAvailibleCoursesForChild(@PathVariable String parentId, @PathVariable String kidId, @PathVariable String catId) {
+//		return parRepository.getKidNotRegisteredCoursesByCategory(parentId, kidId, catId);
+//	}
 
 	/**
 	 * Adding a course to the list of active courses of the kid
