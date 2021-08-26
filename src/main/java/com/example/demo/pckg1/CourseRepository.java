@@ -283,37 +283,4 @@ public class CourseRepository {
 		return null;
 	}
 
-	/**
-	 * 
-	 * @return Monthly activity percentage: total duration of meetings divide total
-	 *         time of courses in the last 28 days
-	 */
-	public double getMonthlyActivity() {
-		int totalCoursesTime = 0;
-		Date currentDate = new Date();
-		for (Course c : CourseRepository.findAll()) {
-			long dit = currentDate.getTime() - c.getStartDateTime().getTime();
-			long did = (dit / (1000 * 60 * 60 * 24)) % 365; // difference in days
-			if (did <= 28) {
-				// calculate total courses time
-				long difference_In_Time = c.getFinishDateTime().getTime() - c.getStartDateTime().getTime();
-				long difference_In_Days = (difference_In_Time / (1000 * 60 * 60 * 24)) % 365;
-				int numberOfMeetings = (int) (difference_In_Days / 7);
-				totalCoursesTime += numberOfMeetings * c.getMeetingDuration();
-			}
-		}
-		//// now in the last 28 days get the meetings that occured
-		double totalMeetingsDurations = 0;
-		for (Meeting m : meetingRepository.findAll()) {
-			Date meetingDate = m.getMeetingDateTime();
-			long differenceInTime = currentDate.getTime() - meetingDate.getTime();
-			long differenceInDays = (differenceInTime / (1000 * 60 * 60 * 24)) % 365;
-			if (differenceInDays <= 28) {
-				String courseId = m.getCourseId();
-				Course c = getASpecificCourse(courseId);
-				totalMeetingsDurations += c.getMeetingDuration();
-			}
-		}
-		return totalMeetingsDurations / totalCoursesTime;
-	}
 }

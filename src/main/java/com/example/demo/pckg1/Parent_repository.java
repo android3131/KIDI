@@ -28,6 +28,7 @@ public class Parent_repository {
 	 * @return new Parent or null if the email already exists 
 	 */
 	public Parent addNewParent (Parent parent){
+		parent.setStatus(Status.Active);
 		parentRepo.save(parent); 
 		 new ResponseEntity<>("New parent aded", HttpStatus.OK);
 		 return parent;
@@ -252,6 +253,18 @@ public class Parent_repository {
 		return null; 
 	}
 	
+	/**	
+ * get all the courses that the kid is not currently participate in(active courses), for a specific category    	
+ * @param id of parent, id of kid , id of category	
+ * @return list of all courses in category that the kid is registered to(not active courses)	
+ */	
+public List<Course> getKidNotRegisteredCoursesByCategory(String parentId, String kidId, String catId){	
+	Optional<Parent> parent = parentRepo.findById(parentId);	
+	if (parent.isPresent()) {	
+	return kidRepo.getKidNotRegisteredCoursesByCategory(kidId, catId);
+	}
+	return null;
+}
 	/**
      * get all the categories that the kid is not currently participate in(active courses)    
      * @param id of parent, id of kid , id of category

@@ -327,7 +327,7 @@ public HashMap<String, Integer> getNewKids(int period){
 		if(  k.getStatus().equals(Status.Active)) {
 			totalKids++;
 			if(k.getActiveDate().after(d)) {
-				kidsCount++;	
+				kidsCount++;
 			}
 		}
 	}

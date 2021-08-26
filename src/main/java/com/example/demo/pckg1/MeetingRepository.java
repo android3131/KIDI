@@ -3,6 +3,7 @@ package com.example.demo.pckg1;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -84,4 +85,14 @@ public class MeetingRepository {
 		toReturn.put("activityTime", doneTime);
 		return toReturn;
 	}
+	/**	
+ * Adds a new meeting, and returns all meetings	
+ * 	
+ * @param meeting	
+ * @return list of all meetings	
+ */	
+public List<Meeting> addANewMeeting(Meeting meeting) {	
+	meetingRepo.save(meeting);	
+	return meetingRepo.findAll();	
+}
 }
