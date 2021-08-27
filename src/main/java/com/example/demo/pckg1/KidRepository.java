@@ -45,6 +45,7 @@ public List<Kid> retrieveAllKids(){
  */
 public Kid addNewKid(Kid kid) {
 	kid.setStatus(Status.Active);
+	kid.setActiveDate(new Date());
 	kidRepo.save(kid);
 	return kid;
 }
@@ -56,6 +57,7 @@ public Kid addNewKid(Kid kid) {
  */
 public List<Kid> addKid(Kid kid){
 	kid.setStatus(Status.Active);
+	kid.setActiveDate(new Date());
 	kidRepo.save(kid);
 	return kidRepo.findAll();
 }
@@ -385,9 +387,14 @@ public List<Course> getKidNotRegisteredCoursesByCategory( String kidId, String c
 	return null; 
 }
 
-
+/**
+ * 
+ * @param kid
+ * @return
+ */
 public List<Kid> createKid(Kid kid) {	
 	kid.setActiveDate(new Date());	
+	kid.setStatus(Status.Active);
 	kidRepo.save(kid);	
 	return kidRepo.findAll();	
 }

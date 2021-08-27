@@ -77,8 +77,8 @@ public class KidiController {
 	@PostMapping("/initiateRepository")
 	public ResponseEntity<String> intiate() {
 			//if(kidRepo.getAllKids().isEmpty()) {
-			/*Date date = new Date();
-			Kid kid1 =new Kid("kid1", new Date(), Gender.Boy);
+			Date date = new Date();
+			/*Kid kid1 =new Kid("kid1", new Date(), Gender.Boy);
 			kid1.setActiveDate(new Date(121,7,22));
 			Kid kid2 =new Kid("kid2", new Date(), Gender.Boy);
 			kid2.setActiveDate(new Date(121,7,12));
@@ -87,15 +87,11 @@ public class KidiController {
 			Kid kid5 =new Kid("kid5", new Date(), Gender.Boy);
 			kid5.setActiveDate(new Date(121,5,12));
 			Kid kid6 =new Kid("kid6", new Date(), Gender.Boy);
-			kid6.setActiveDate(new Date(121,4,12));
-			Kid kid7 =new Kid("kid7", new Date(), Gender.Boy);
-			kid7.setActiveDate(new Date(121,6,12));
-			kidRepo.addNewKid(kid1);
-			kidRepo.addNewKid(kid2);
-			kidRepo.addNewKid(kid4);
-			kidRepo.addNewKid(kid5);
-			kidRepo.addNewKid(kid6);
-			kidRepo.addNewKid(kid7);*/
+			kid6.setActiveDate(new Date(121,4,12));*/
+			Kid kid7 =new Kid("avital", new Date(), Gender.Girl);
+			kidRepo.addNewKid(kid7);
+			
+		/*
 			Parent p1 = new Parent("p1","25a22","p1email.com", "SSSSsad");
 			p1.setActiveDate(new Date(121,7,22));
 			Parent p2 = new Parent("p2","252v2","p1adsemail.com", "SSSSsad");
@@ -113,7 +109,7 @@ public class KidiController {
 			repoParent.addNewParent(p3);
 			repoParent.addNewParent(p4);
 			repoParent.addNewParent(p5);
-			repoParent.addNewParent(p6);
+			repoParent.addNewParent(p6);*/
 		return new ResponseEntity<>("initiateRepository", HttpStatus.OK);
 	}
 	

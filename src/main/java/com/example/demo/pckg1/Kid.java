@@ -43,6 +43,7 @@ public class Kid {
 		this.fullName = fullName;
 		this.dateOfBirth = dateOfBirth;
 		this.gender = gender;
+		this.activeDate = new Date();
 	}
 	public String getFullName() {
 		return fullName;
