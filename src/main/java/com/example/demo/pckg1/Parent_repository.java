@@ -313,8 +313,8 @@ public List<Course> getKidNotRegisteredCoursesByCategory(String parentId, String
 			}
 		}
 	HashMap<String, Integer> toReturn = new HashMap<String, Integer>();
-	toReturn.put("New Parents", parentsCount);
-	toReturn.put("totalParents",totalParents );
+	toReturn.put("newParents", parentsCount);
+	toReturn.put("totalParents",totalParents-parentsCount );
 		return toReturn;
 	}
 

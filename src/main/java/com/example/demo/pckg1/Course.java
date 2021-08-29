@@ -61,6 +61,16 @@ public class Course {
 		this.day = day;
 	}
 	
+	public Course( String name, Date startDateTime, String categoryId, 
+			ArrayList<String> kidsIDs) {
+		super();
+		this.name = name;
+		this.startDateTime = startDateTime;
+		this.categoryId = categoryId;
+		this.status = Status.Active;
+		this.kidsIDs = kidsIDs;
+	}
+
 	public String getName() {
 		return name;
 	}

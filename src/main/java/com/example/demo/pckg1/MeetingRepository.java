@@ -81,7 +81,7 @@ public class MeetingRepository {
 			}
 		}
 		HashMap<String, Double> toReturn = new HashMap<String,Double>();
-		toReturn.put("totalTime", totalTime);
+		toReturn.put("totalTime", totalTime-doneTime);
 		toReturn.put("activityTime", doneTime);
 		return toReturn;
 	}

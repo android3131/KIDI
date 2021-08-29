@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class KidiController {
-	
+	long DAY_IN_MS = 1000 * 60 * 60 * 24;
 	@Autowired
 	Parent_repository repoParent; 
 	@Autowired
@@ -76,40 +76,82 @@ public class KidiController {
 	//----------------- KID -----------------
 	@PostMapping("/initiateRepository")
 	public ResponseEntity<String> intiate() {
-			//if(kidRepo.getAllKids().isEmpty()) {
-			Date date = new Date();
-			/*Kid kid1 =new Kid("kid1", new Date(), Gender.Boy);
-			kid1.setActiveDate(new Date(121,7,22));
-			Kid kid2 =new Kid("kid2", new Date(), Gender.Boy);
-			kid2.setActiveDate(new Date(121,7,12));
-			Kid kid4 =new Kid("kid4", new Date(), Gender.Boy);
-			kid4.setActiveDate(new Date(121,7,10));
-			Kid kid5 =new Kid("kid5", new Date(), Gender.Boy);
-			kid5.setActiveDate(new Date(121,5,12));
-			Kid kid6 =new Kid("kid6", new Date(), Gender.Boy);
-			kid6.setActiveDate(new Date(121,4,12));*/
-			Kid kid7 =new Kid("avital", new Date(), Gender.Girl);
-			kidRepo.addNewKid(kid7);
+
+		/**
+		 * Space 
+		 * Art
+		 * Animals
+		 * Science
+		 */
+
+		ArrayList<String> kids = new ArrayList<String>();
+		kids.add("kid1");
+		kids.add("kid2");
+		kids.add("kid3");
+		kids.add("kid4");
+		kids.add("kid5");
+		kids.add("kid6");
+		kids.add("kid7");
+		kids.add("kid8");
+		kids.add("kid9");
+		kids.add("kid10");
+//		ArrayList<String> categories = categoryRepo.getAllCategoriesIds();
+//		String catId = "612a326989674a4e38a688a0";
+//			Course course1 = new Course("course21", new Date(121,7,27),catId,kids);
+//			Course course2 = new Course("course22", new Date(121,7,28),catId,kids);
+//			Course course3 = new Course("course23", new Date(121,6,28),catId,kids);
+//			Course course4 = new Course("course44", new Date(121,6,28),catId,kids);
+//			Course course5 = new Course("course254", new Date(121,5,28),catId,kids);
+//			Course course6 = new Course("course2546", new Date(121,5,28),catId,kids);
+//			courseRepo.addANewCourse(course1);
+//			courseRepo.addANewCourse(course2);
+//			courseRepo.addANewCourse(course3);
+//			courseRepo.addANewCourse(course4);
+//			courseRepo.addANewCourse(course5);
+//			courseRepo.addANewCourse(course6);
 			
-		/*
-			Parent p1 = new Parent("p1","25a22","p1email.com", "SSSSsad");
-			p1.setActiveDate(new Date(121,7,22));
-			Parent p2 = new Parent("p2","252v2","p1adsemail.com", "SSSSsad");
-			p2.setActiveDate(new Date(121,7,12));
-			Parent p3 = new Parent("p3","252w2","p1emasdail.com", "SSSSsad");
-			p3.setActiveDate(new Date(121,7,10));
-			Parent p4 = new Parent("p4","25a22","p1emaiaal.com", "SSSSsad");
-			p4.setActiveDate(new Date(121,5,12));
-			Parent p5 = new Parent("p5","25s22","p1eddmail.com", "SSSSsad");
-			p5.setActiveDate(new Date(121,4,12));
-			Parent p6 = new Parent("p6","2d522","p1emaddil.com", "SSSSsad");
-			p6.setActiveDate(new Date(121,6,12));
-			repoParent.addNewParent(p1);
-			repoParent.addNewParent(p2);
-			repoParent.addNewParent(p3);
-			repoParent.addNewParent(p4);
-			repoParent.addNewParent(p5);
-			repoParent.addNewParent(p6);*/
+			String catId1 = "612a326989674a4e38a688a1";
+			Course course11 = new Course("course21", new Date(121,7,27),catId1,kids);
+			Course course21 = new Course("course22", new Date(121,7,28),catId1,kids);
+			Course course31 = new Course("course23", new Date(121,6,28),catId1,kids);
+			Course course42 = new Course("course44", new Date(121,6,28),catId1,kids);
+			Course course52 = new Course("course254", new Date(121,5,28),catId1,kids);
+			Course course62 = new Course("course2546", new Date(121,5,28),catId1,kids);
+			courseRepo.addANewCourse(course11);
+			courseRepo.addANewCourse(course21);
+			courseRepo.addANewCourse(course31);
+			courseRepo.addANewCourse(course42);
+			courseRepo.addANewCourse(course52);
+			courseRepo.addANewCourse(course62);
+			
+			String catId11 ="612a326989674a4e38a688a2";
+			Course course111 = new Course("course21", new Date(121,7,27),catId11,kids);
+			Course course211 = new Course("course22", new Date(121,7,28),catId11,kids);
+			Course course311 = new Course("course23", new Date(121,6,28),catId11,kids);
+			//Course course421 = new Course("course44", new Date(121,6,28),catId11,kids);
+			//Course course521 = new Course("course254", new Date(121,5,28),catId11,kids);
+			Course course621 = new Course("course2546", new Date(121,5,28),catId11,kids);
+			courseRepo.addANewCourse(course111);
+			courseRepo.addANewCourse(course211);
+			courseRepo.addANewCourse(course311);
+			//courseRepo.addANewCourse(course421);
+			//courseRepo.addANewCourse(course521);
+			courseRepo.addANewCourse(course621);
+			
+			String catId112 = "612a326989674a4e38a688a3";
+			Course course1112 = new Course("course21", new Date(121,7,27),catId112,kids);
+			Course course2112 = new Course("course22", new Date(121,5,28),catId112,kids);
+			Course course3112 = new Course("course23", new Date(121,6,28),catId112,kids);
+			Course course4212 = new Course("course44", new Date(121,6,28),catId112,kids);
+			//Course course5212 = new Course("course254", new Date(121,5,28),catId11,kids);
+			Course course6212 = new Course("course2546", new Date(121,5,28),catId112,kids);
+			courseRepo.addANewCourse(course1112);
+			courseRepo.addANewCourse(course2112);
+			courseRepo.addANewCourse(course3112);
+			courseRepo.addANewCourse(course4212);
+			//courseRepo.addANewCourse(course521);
+			courseRepo.addANewCourse(course6212);
+
 		return new ResponseEntity<>("initiateRepository", HttpStatus.OK);
 	}
 	
@@ -168,6 +210,20 @@ public class KidiController {
 	public HashMap<String,Double> getActivityTime(@PathVariable int period){
 		return meetingRepo.getActivityTime(period);
 	}
+	@GetMapping("/test")
+	public Integer getCategoryKids() {
+		String catId = categoryRepo.getAllCategoriesIds().get(1);
+		ArrayList<Course> courses = courseRepo.getCategoryCourses(catId);
+		Date d = new Date((new Date()).getTime()- 7*DAY_IN_MS);
+		int num = 0;
+		for(Course c : courses) {
+			if(c.getStartDateTime().after(d)) {
+				num+=c.getKidsIDs().size();
+			}
+		}
+		return num;
+	}
+	
 	
 	
 }

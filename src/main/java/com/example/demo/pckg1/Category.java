@@ -23,6 +23,14 @@ public class Category {
 		this.name = name;
 		this.image = image;
 	}
+	
+
+	public Category(String id, String name, String image) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.image = image;
+	}
 	public String getId() {
 		return id;
 	}
@@ -37,6 +45,9 @@ public class Category {
 	}
 	public String getImage() {
 		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
 	}
 	public void setCategoryImage(String image) {
 		this.image = image;

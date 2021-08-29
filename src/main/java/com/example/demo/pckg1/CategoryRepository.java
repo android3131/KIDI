@@ -130,7 +130,7 @@ public ArrayList<String> getAllCategoriesIds(){
  * @param period
  * @return hasHMAP that contains keys as category names, and the number of kids in its courses in value.
  */
-public HashMap<String, Integer> getKidsCountByCategory(int period){
+public  HashMap<String, Integer> getKidsCountByCategory(int period){
 	if(period != 1 && period !=2 && period !=3) {
 		new ResponseEntity<>("Input: 1- For week 2- For month 3- For year.", HttpStatus.NOT_ACCEPTABLE);
 		return null;
@@ -150,12 +150,60 @@ public HashMap<String, Integer> getKidsCountByCategory(int period){
 		ArrayList<Course> courses = courseRepo.getCategoryCourses(catId);
 		for(Course c : courses) {
 			if(c.getStartDateTime().after(d)) {
-				categoryKids += c.getKidsIDs().size()+1;
+				categoryKids += c.getKidsIDs().size();
 			}
 		}
+		
 		kidsCountByCategory.put(getCategoryById(catId).getName(), categoryKids);
 	}
 	return kidsCountByCategory;
 }
 
+public  List getDatesBetween(Date startDate, Date endDate) {
+	  List datesInRange = new ArrayList<>();
+	  Calendar calendar = getCalendarWithoutTime(startDate);
+	  Calendar endCalendar = getCalendarWithoutTime(endDate);
+
+	  while (calendar.before(endCalendar)) {
+	    Date result = calendar.getTime();
+	    datesInRange.add(result);
+	    calendar.add(Calendar.DATE, 1);
+	  }
+
+	  return datesInRange;
+	}
+
+	private  Calendar getCalendarWithoutTime(Date date) {
+	  Calendar calendar = new GregorianCalendar();
+	  calendar.setTime(date);
+	  calendar.set(Calendar.HOUR, 0);
+	  calendar.set(Calendar.HOUR_OF_DAY, 0);
+	  calendar.set(Calendar.MINUTE, 0);
+	  calendar.set(Calendar.SECOND, 0);
+	  calendar.set(Calendar.MILLISECOND, 0);
+	  return calendar;
+	}
+public  HashMap<String, HashMap<String,Integer>> getTimedKidsCountByCategory(int period){
+	HashMap<String, HashMap<String,Integer>> toReturn = new HashMap<String, HashMap<String,Integer>>();
+	if(period != 1 && period !=2 && period !=3) {
+		new ResponseEntity<>("Input: 1- For week 2- For month 3- For year.", HttpStatus.NOT_ACCEPTABLE);
+		return null;
+	}
+	Date d;
+	if(period == 1) {
+		d = new Date((new Date()).getTime()-7*DAY_IN_MS);
+		List list = getDatesBetween(d, new Date());
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		for (int i =0; i<list.size();i++) {
+			map.put(list.get(i).toString(), i);
+		}
+		toReturn.put("Art", map);
+	}else if(period == 2) {
+		d = new Date((new Date()).getTime()-35*DAY_IN_MS);
+	}
+	else {
+		d = new Date((new Date()).getTime()- 365*DAY_IN_MS);
+	}
+	return toReturn;
+}
 }

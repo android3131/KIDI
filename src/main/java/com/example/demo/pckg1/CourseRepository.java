@@ -262,10 +262,12 @@ public class CourseRepository {
 	 */
 	public ArrayList<Course> getCategoryCourses(String categoryID) {
 		ArrayList<Course> categoryCourses = new ArrayList<Course>();
-		for (Course c : CourseRepository.findAll())
+		for (Course c : CourseRepository.findAll()) {
 			if (c.getCategoryId().equals(categoryID)) {
 				categoryCourses.add(c);
+				System.out.println("mutlaq      " + c.getID());
 			}
+		}
 		return categoryCourses;
 	}
 	
