@@ -3,7 +3,8 @@
 !*/
 !/src/main/java/com/example/demo/pckg1/backend2/**
 !/src/main/java/com/example/demo/pckg1/backend1front/**
-
+!/src/main/java/com/example/demo/pckg1/HomeLoggedInController.java
+!/src/main/java/com/example/demo/pckg1/KidProfileController.java
 
 
 
