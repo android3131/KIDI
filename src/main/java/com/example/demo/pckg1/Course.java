@@ -43,7 +43,7 @@ public class Course {
 	private ArrayList<String> kidsIDs= new ArrayList<String>();;
 	
 	@Field
-	private Day day;
+	private String day;
 	
 	@Field
 	private double meetingDuration;
@@ -52,7 +52,7 @@ public class Course {
 		super();
 	}
 	
-	public Course(String name, Date startDateTime,Date finishDateTime, Day day, String categoryId) {
+	public Course(String name, Date startDateTime,Date finishDateTime, String day, String categoryId) {
 		super();
 		this.categoryId = categoryId;
 		this.name = name;
@@ -155,11 +155,12 @@ public class Course {
 		this.status = status;
 	}
 
-	public Day getDay() {
+	public String getDay() {
 		return day;
 	}
 
-	public void setDay(Day day) {
+	public void setDay(String
+				day) {
 		this.day = day;
 	}
 	public String getDescription() {

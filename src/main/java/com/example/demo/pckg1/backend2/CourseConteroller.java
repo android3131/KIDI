@@ -4,7 +4,7 @@ import com.example.demo.pckg1.CategoryRepository;
 import com.example.demo.pckg1.Course;
 import com.example.demo.pckg1.CourseRepository;
 import com.example.demo.pckg1.ICourseRepository;
-import com.example.demo.pckg1.Leader_Repository;
+import com.example.demo.pckg1.LeaderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class CourseConteroller {
     @Autowired
     CourseRepository courseRepository;
     @Autowired
-    Leader_Repository leaderRepository;
+    LeaderRepository leaderRepository;
     @Autowired
     CategoryRepository catRepository;
 

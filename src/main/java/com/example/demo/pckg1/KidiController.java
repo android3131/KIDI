@@ -109,10 +109,13 @@ meetingRepo.addANewMeeting(new Meeting("courseId", new Date()));
 	
 	//------------------------------- CATEGORY ----------------------------------------
 
-	@PostMapping("addNewCategory")
-	public List<Category> addNewCategory(Category category) {
-		return categoryRepo.addCategory(category);
+	@PostMapping("/addNewCategory")
+	public Meeting addNewCategory(Category category) {
+		Meeting meeting = new Meeting("course1",new Date());
+		return meetingRepo.addMeeting(meeting);
 	}
+	
+	
 	
 	
 

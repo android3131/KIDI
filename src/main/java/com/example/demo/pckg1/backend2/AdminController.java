@@ -12,7 +12,7 @@ import java.util.ArrayList;
 @RequestMapping("/api/admin")
 public class AdminController {
     @Autowired
-    Leader_Repository leaderRepository;
+    LeaderRepository LeaderRepository;
     @Autowired
     CategoryRepository categoryRepository;
     @Autowired
@@ -25,7 +25,7 @@ public class AdminController {
 
     @GetMapping("/getLeaderByCategory/{categoryID}")
     public ArrayList<Leader> getLeadersByCategoryID(@PathVariable String categoryID){
-    	return leaderRepository.getCategoryLeaders(categoryID);
+    	return LeaderRepository.getCategoryLeaders(categoryID);
     }
 
     /**
@@ -36,7 +36,7 @@ public class AdminController {
      * */
     @PutMapping("/LeaderCourse/{courseID}/{leaderID}")
     public ResponseEntity<Boolean> AddLeaderToCourse(@PathVariable String courseID , @PathVariable String leaderID){
-//  Leader le=ileaderRepository.updateLeaderTOActive(leaderID);
+//  Leader le=iLeaderRepository.updateLeaderTOActive(leaderID);
         if(leaderID.isEmpty()|| courseID.isEmpty())
             return new ResponseEntity<Boolean>(false, HttpStatus.NOT_ACCEPTABLE);
 
@@ -54,7 +54,7 @@ public class AdminController {
      * */
     @PutMapping("/LeaderCourseRemove/{courseID}/{leaderID}")
     public ResponseEntity<Boolean> RemoveLeaderToCourse(@PathVariable String courseID , @PathVariable String leaderID){
-//  Leader le=ileaderRepository.updateLeaderTOActive(leaderID);
+//  Leader le=iLeaderRepository.updateLeaderTOActive(leaderID);
         if(leaderID.isEmpty()|| courseID.isEmpty())
             return new ResponseEntity<Boolean>(false, HttpStatus.NOT_ACCEPTABLE);
 

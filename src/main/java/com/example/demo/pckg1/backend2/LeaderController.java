@@ -16,7 +16,7 @@ import java.util.Optional;
 public class LeaderController {
 
     @Autowired
-    Leader_Repository ileaderRepository;
+    LeaderRepository ileaderRepository;
     @Autowired
     CategoryRepository categoryRepository;
     @Autowired
