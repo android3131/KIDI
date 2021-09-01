@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class Leader_Repository {
+public class LeaderRepository {
 
 	@Autowired
 	ILeaderRepository leaderRepository;

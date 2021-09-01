@@ -22,7 +22,7 @@ public class MeetingRepository {
 	 * @param new meeting
 	 * @return meeting object
 	 */
-	public Meeting addNewMeeting(Meeting meeting) {
+	public Meeting addMeeting(Meeting meeting) {
 		return meetingRepo.save(meeting);
 	}
 	
