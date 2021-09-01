@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document
-public class Meeting {
+public class Meeting implements Comparable<Meeting>{
 @Id
 private String id;
 @Field
@@ -90,6 +90,10 @@ public boolean equals(Object obj) {
 @Override
 public String toString() {
 	return "Meeting [id=" + id + ", courseId=" + courseId + ", meetingDateTime=" + meetingDateTime + "]";
+}
+@Override	
+public int compareTo(Meeting o) {	
+return getMeetingDateTime().compareTo(o.getMeetingDateTime());	
 }
 
 

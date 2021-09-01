@@ -68,6 +68,8 @@ public class Parent_repository {
 	 * @return List of all parents 
 	 */	
 	
+	
+
 	public List <Parent> getAllParents (){
 		return parentRepo.findAll();
 	}
@@ -88,6 +90,21 @@ public class Parent_repository {
 		else
 		new ResponseEntity<>("Email not found", HttpStatus.NOT_ACCEPTABLE);
 		return null; 
+	}
+	
+	/**
+	 * 
+	 * @param id parendId
+	 * @return Parent Object
+	 */
+	public Parent getParentById(String id) {
+		Optional<Parent> optional = parentRepo.findById(id);
+		if(optional.isPresent()) {
+			System.out.println("KID IS PRESENT");
+			return optional.get();
+		}
+		System.out.println("KID ISNT PRESENT");
+		return null;
 	}
 	
 	/**
@@ -187,16 +204,14 @@ public class Parent_repository {
 	 * @param parentId of parent, id of kid, id of course
 	 * @return the kid if found or null
 	 */	
-	public Kid removeKidFromCourse (String parentId, String kidId, String courseId) {
+	public Kid removeKidFromCourse(String parentId, String kidId, String courseId) {
 		Optional<Parent> parent = parentRepo.findById(parentId);
 		if (parent.isPresent()) {
+	
+			  return kidRepo.removeCourseFromKid(kidId, courseId);
 			
-			/*
-			 Kid kid = kidRepo.re (kidId, courseId); 
-			 return kid; 
-			 */
 		}
-		return null; 
+		return null;
 	}
 	/**
 	 * Delete kid � changes the status to not active   

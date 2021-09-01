@@ -45,10 +45,14 @@ public class MeetingRepository {
 		ArrayList<Meeting> meetings = (ArrayList<Meeting>) meetingRepo.findAll();
 		ArrayList<Meeting> toReturn = new ArrayList<Meeting>();
 		//meetings.stream().map(null);
-		for (Meeting m : meetings) {
-			if(m.getCourseId().equals(courseId)) toReturn.add(m);
+		if(!meetings.isEmpty()) {
+			for (Meeting m : meetings) {
+				System.out.println ("in getAllCourseMeetings:  " + m);
+				if((m.getCourseId()).equals(courseId))
+					toReturn.add(m);
+			}
 		}
-		return meetings;
+		return toReturn;
 	}
 	/**
 	 * 

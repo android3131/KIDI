@@ -1,9 +1,8 @@
-package com.example.demo.pkg1;
+package com.example.demo.pckg1.backend1front;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MyMainController {
 	@Autowired
-private NotificationService notification;
+//private NotificationService notification;
 	@RequestMapping("/my_hello")
     public String sayHello() 
     {
@@ -69,7 +68,7 @@ private NotificationService notification;
 	}
 	@GetMapping("/sendMail/{name}")
 	public void  sendMailToUser(@PathVariable String name) {
-		notification.sendNotification(name);
+//		notification.sendNotification(name);
 	}
 	
 	

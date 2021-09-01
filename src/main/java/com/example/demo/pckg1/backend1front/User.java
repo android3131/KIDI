@@ -1,4 +1,4 @@
-package com.example.demo.pkg1;
+package com.example.demo.pckg1.backend1front;
 
 public class User {
 private String userName;

@@ -1,4 +1,4 @@
-package com.example.demo.pkg1;
+package com.example.demo.pckg1.backend1front;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
