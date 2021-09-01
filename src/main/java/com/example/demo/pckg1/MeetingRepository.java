@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,6 +54,15 @@ public class MeetingRepository {
 			}
 		}
 		return toReturn;
+	}
+	
+	public Meeting getMeetingById(String meetingId) {
+		Optional<Meeting> optional = meetingRepo.findById(meetingId);
+		if(optional.isPresent()) {
+			System.out.println("KID IS PRESENT");
+			return optional.get();
+		}
+		return null;
 	}
 	/**
 	 * 
