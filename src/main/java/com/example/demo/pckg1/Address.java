@@ -1,8 +1,10 @@
 package com.example.demo.pckg1;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+@Document
 public class Address {
 	
 	@Id

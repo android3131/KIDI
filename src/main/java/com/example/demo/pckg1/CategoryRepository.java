@@ -62,7 +62,7 @@ public List<Category> addANewCategory(Category category) {
  * @param name	
  * @return category	
  */	
-private Category findCategoryByName(String name) {	
+public Category findCategoryByName(String name) {	
 	for (Category c : categoryRepo.findAll()) {	
 		if (c.getName().equals(name))	
 			return c;	

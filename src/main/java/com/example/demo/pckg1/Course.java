@@ -5,8 +5,10 @@ import java.util.Date;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+@Document
 public class Course {
 	
 	@Id
@@ -19,7 +21,7 @@ public class Course {
 	private String description;
 	
 	@Field
-	private int price;
+	private double price;
 
     @Field
 	private Date startDateTime;
@@ -48,27 +50,41 @@ public class Course {
 	@Field
 	private double meetingDuration;
 	
+	@Field
+	private String startHour;
+	@Field
+	private String endHour;
+	
+	@Field ArrayList<String> meetings;
 	public Course() {
 		super();
 	}
 	
-	public Course(String name, Date startDateTime,Date finishDateTime, String day, String categoryId) {
+
+
+	public Course(String name, Date startDateTime, Date finishDateTime, String categoryId, String zoomMeetingLink,
+			String day, String startHour, String endHour) {
 		super();
-		this.categoryId = categoryId;
 		this.name = name;
 		this.startDateTime = startDateTime;
 		this.finishDateTime = finishDateTime;
-		this.day = day;
-	}
-	
-	public Course( String name, Date startDateTime, String categoryId, 
-			ArrayList<String> kidsIDs) {
-		super();
-		this.name = name;
-		this.startDateTime = startDateTime;
 		this.categoryId = categoryId;
+		this.zoomMeetingLink = zoomMeetingLink;
+		this.day = day;
+		this.startHour = startHour;
 		this.status = Status.Active;
-		this.kidsIDs = kidsIDs;
+		//this.meetingDuration calculate the duration of the meeting
+		this.endHour = endHour;
+	}
+
+
+
+	public ArrayList<String> getMeetings() {
+		return meetings;
+	}
+
+	public void setMeetings(ArrayList<String> meetings) {
+		this.meetings = meetings;
 	}
 
 	public String getName() {
@@ -79,13 +95,30 @@ public class Course {
 		this.name = name;
 	}
 
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
 	
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
+
+	public String getStartHour() {
+		return startHour;
+	}
+
+	public void setStartHour(String startHour) {
+		this.startHour = startHour;
+	}
+
+	public String getEndHour() {
+		return endHour;
+	}
+
+	public void setEndHour(String endHour) {
+		this.endHour = endHour;
+	}
+
 
 	public Date getStartDateTime() {
 		return startDateTime;

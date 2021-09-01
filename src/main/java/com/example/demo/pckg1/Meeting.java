@@ -17,7 +17,13 @@ private String courseId;
 @Field
 private ArrayList<String> participants;
 @Field
-private Date meetingDateTime;
+private Date meetingDate;
+
+@Field
+private String startHour;
+
+@Field
+private String endHour;
 @Field
 private double actualMeetingDuration;
 @Field
@@ -26,10 +32,10 @@ private boolean cancelled;
 public Meeting() {
 	this.cancelled = false;
 }
-public Meeting( String courseId, Date meetingDateTime) {
+public Meeting( String courseId, Date meetingDate) {
 	super();
 	this.courseId = courseId;
-	this.meetingDateTime = meetingDateTime;
+	this.meetingDate = meetingDate;
 	this.cancelled = false;
 }
 public String getId() {
@@ -51,10 +57,10 @@ public void setParticipants(ArrayList<String> participants) {
 	this.participants = participants;
 }
 public Date getMeetingDateTime() {
-	return meetingDateTime;
+	return meetingDate;
 }
-public void setMeetingDateTime(Date meetingDateTime) {
-	this.meetingDateTime = meetingDateTime;
+public void setMeetingDateTime(Date meetingDate) {
+	this.meetingDate = meetingDate;
 }
 
 
@@ -89,7 +95,7 @@ public boolean equals(Object obj) {
 }
 @Override
 public String toString() {
-	return "Meeting [id=" + id + ", courseId=" + courseId + ", meetingDateTime=" + meetingDateTime + "]";
+	return "Meeting [id=" + id + ", courseId=" + courseId + ", meetingDateTime=" + meetingDate + "]";
 }
 @Override	
 public int compareTo(Meeting o) {	
