@@ -1,7 +1,5 @@
 package com.example.demo.pckg1.backend3;
 
-
-
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
@@ -106,31 +104,7 @@ public class RegistrationCoursesControllerGrp3B {
 	 */
 	@PostMapping("/createNewCourse")
 	public String createCourse(@RequestBody Course course) {
-		String msg = "The course was added successfully";
-		Time tFinish = new Time(course.getFinishDateTime().getTime());
-		Time tStart = new Time(course.getStartDateTime().getTime());
-		if (!(catRepository.getAllCategories().contains(catRepository.getCategoryById(course.getCategoryId())))) {
-			msg= "Failed to add. Category doesn't exist";
-			return msg;
-		}
-		if(tFinish.before(tStart)) {
-			msg= "Failed to add. The finish time is before the start time.";
-			return msg;
-		}
-		if(course.getStartDateTime().after(course.getFinishDateTime())) {
-			msg= "Failed to add. The end date is before the start date.";
-			return msg;
-		}
-		if(course.getStartDateTime().before(new Date()) ) {
-			msg= "Failed to add. The start date is in the past.";
-			return msg;
-		}
-		courseRepository.addANewCourse(course);
-		if (!courseRepository.getAllCourses().contains(course)) {
-			msg= "Failed to add. The course name already exists";
-			return msg;
-		}
-		return msg;
+		return courseValidations("add", course);
 	}
 	
 	/**
@@ -170,5 +144,63 @@ public class RegistrationCoursesControllerGrp3B {
 	public  Boolean updateFinishDate(@PathVariable String courseId) {
 		
 		return courseRepository.updateFinishedDateByDelete(courseId); //myRepository.CHANGE(courseId);
+	}
+	
+	//For screen: Update course
+	
+	/**
+	 * returns the zoom link of a specific course
+	 * * @param course id
+	 * @return zoom link of the course
+	 */
+	@GetMapping("/getCourseZoomLink/{CourseId}") 
+	public String getCourseLink(@PathVariable String courseId) {
+		return courseRepository.getASpecificCourse(courseId).getZoomMeetingLink();
+	}
+	
+	/**
+	 * returns the zoom link of a specific course
+	 * * @param course id
+	 * @return zoom link of the course
+	 */
+	@PutMapping("/updateCourse") 
+	public String updateCourse(@RequestBody Course course) {
+		return courseValidations("update", course);
+	}
+	
+	public String courseValidations(String action, Course course) {
+		String msg = "";
+		if (action.equals("add")) {
+			msg = "The course was " + action + "ed successfully";
+		}
+		else {
+			msg = "The course was " + action + "d successfully";
+		}
+		Time tFinish = new Time(course.getFinishDateTime().getTime());
+		Time tStart = new Time(course.getStartDateTime().getTime());
+		if (!(catRepository.getAllCategories().contains(catRepository.getCategoryById(course.getCategoryId())))) {
+			msg= "Failed to " + action + ". Category doesn't exist";
+			return msg;
+		}
+		if(tFinish.before(tStart)) {
+			msg= "Failed to " + action + ". The finish time is before the start time.";
+			return msg;
+		}
+		if(course.getStartDateTime().after(course.getFinishDateTime())) {
+			msg= "Failed to " + action + ". The end date is before the start date.";
+			return msg;
+		}
+		if(course.getStartDateTime().before(new Date()) ) {
+			msg= "Failed to " + action + ". The start date is in the past.";
+			return msg;
+		}
+		courseRepository.addANewCourse(course);
+		if (action.equals("add")) {
+			if (!courseRepository.getAllCourses().contains(course)) {
+				msg= "Failed to " + action + ". The course name already exists";
+				return msg;
+			}
+		}
+		return msg;
 	}
 }
