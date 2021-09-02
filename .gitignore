@@ -1,10 +1,33 @@
-/.gitignore
-*
-!*/
-!/src/main/java/com/example/demo/pckg1/backend2/**
-!/src/main/java/com/example/demo/pckg1/backend1front/**
-!/src/main/java/com/example/demo/pckg1/HomeLoggedInController.java
-!/src/main/java/com/example/demo/pckg1/KidProfileController.java
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
 
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
 
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
