@@ -139,10 +139,10 @@ public class LeaderRepository {
 	public Leader updateLeaderStatus(String leaderID, Status status) {
 		Optional<Leader> leader = leaderRepository.findById(leaderID);
 		if (leader.isPresent()) {
-			if(status.equals(Status.Pending)) {
-				leader.get().setActiveStatus(Status.Pending);
-			}
-			else if(status.equals(Status.Active)) {
+//			if(status.equals(Status.Pending)) {
+//				leader.get().setActiveStatus(Status.Pending);
+//			}
+			if(status.equals(Status.Active)) {
 					leader.get().setActiveStatus(Status.Active);
 				}
 			else {
