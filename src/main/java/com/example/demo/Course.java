@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class Course {
 	
 	@Id
-	private String ID;
+	private String id;
 	
 	@Field
 	private String name;
@@ -33,6 +33,9 @@ public class Course {
 	private String categoryId; 
 	
 	@Field 
+	private String categoryName; 
+	
+	@Field 
 	private Status status; 
 	
 	@Field
@@ -40,6 +43,9 @@ public class Course {
 	
 	@Field 
 	private String zoomMeetingLink;
+	
+	@Field 
+	private String urlLink;
 	
 	@Field
 	private ArrayList<String> kidsIDs= new ArrayList<String>();;
@@ -55,6 +61,7 @@ public class Course {
 	@Field
 	private String endHour;
 	
+
 	@Field ArrayList<String> meetings;
 	public Course() {
 		super();
@@ -63,9 +70,11 @@ public class Course {
 
 
 	public Course(String name, Date startDateTime, Date finishDateTime, String categoryId, String zoomMeetingLink,
-			String day, String startHour, String endHour) {
+			String day, String startHour,String urlLink, String endHour) {
 		super();
 		this.name = name;
+		
+		this.urlLink = urlLink;
 		this.startDateTime = startDateTime;
 		this.finishDateTime = finishDateTime;
 		this.categoryId = categoryId;
@@ -160,6 +169,19 @@ public class Course {
 		this.leadersIDs = leadersIDs;
 	}
 
+	
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+
+
 	public String getZoomMeetingLink() {
 		return zoomMeetingLink;
 	}
@@ -177,16 +199,27 @@ public class Course {
 	}
 
 	public String getID() {
-		return ID;
+		return id;
 	}
 
 	public void setID(String iD) {
-		this.ID = iD;
+		this.id = iD;
 	}
 
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+
+	public String getUrlLink() {
+		return urlLink;
+	}
+
+
+
+	public void setUrlLink(String urlLink) {
+		this.urlLink = urlLink;
+	}
+
 
 	public String getDay() {
 		return day;
@@ -210,7 +243,7 @@ public class Course {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(ID, categoryId, name);
+		return Objects.hash(id, categoryId, name);
 	}
 
 	@Override
@@ -222,7 +255,7 @@ public class Course {
 		if (getClass() != obj.getClass())
 			return false;
 		Course other = (Course) obj;
-		return Objects.equals(ID, other.ID) && Objects.equals(categoryId, other.categoryId)
+		return Objects.equals(id, other.id) && Objects.equals(categoryId, other.categoryId)
 				&& Objects.equals(name, other.name);
 	}
 	

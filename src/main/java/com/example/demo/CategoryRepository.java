@@ -34,7 +34,6 @@ public Category createCategory(Category category) {
 }
 
 
-
 /**
  * 
  * @param category to add to the db
@@ -207,5 +206,21 @@ public  HashMap<String, HashMap<String,Integer>> getTimedKidsCountByCategory(int
 		d = new Date((new Date()).getTime()- 365*DAY_IN_MS);
 	}
 	return toReturn;
+}
+
+/**
+ * 
+ * @param catId
+ * @return the name of the category
+ */
+
+public String getCategoryNameById(String catId) {
+	List<Category> cats = categoryRepo.findAll();
+	for(Category c :  cats ) {
+		if(c.getId().equals(catId)) {
+			return c.getName();
+		}
+	}
+	return null;
 }
 }

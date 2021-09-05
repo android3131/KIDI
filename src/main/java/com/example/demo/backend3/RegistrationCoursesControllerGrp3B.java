@@ -81,10 +81,10 @@ public class RegistrationCoursesControllerGrp3B {
 	 * * @param parent id, child id, category id
 	 * @return all the courses that the kid not active at by category.
 	 */
-//	@GetMapping("/getCoursesForNewActivity/{parentId}/{kidId}/{catId}")
-//	public List<Course> getAvailibleCoursesForChild(@PathVariable String parentId, @PathVariable String kidId, @PathVariable String catId) {
-//		return parRepository.getKidNotRegisteredCoursesByCategory(parentId, kidId, catId);
-//	}
+	@GetMapping("/getCoursesForNewActivity/{parentId}/{kidId}/{catId}")
+	public List<Course> getAvailibleCoursesForChild(@PathVariable String parentId, @PathVariable String kidId, @PathVariable String catId) {
+		return parRepository.getKidNotRegisteredCoursesByCategory(parentId, kidId, catId);
+	}
 
 	/**
 	 * Adding a course to the list of active courses of the kid

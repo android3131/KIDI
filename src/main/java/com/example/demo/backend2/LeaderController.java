@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -82,12 +81,6 @@ public class LeaderController {
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
     }
-
-    @GetMapping ("/getAllLeaders")
-    public List<Leader> getAllLeaders(){
-        return ileaderRepository.getAllLeaders();
-    }
-
     /**
      * @param leaderID
      * @return HTTP status ok if leader found and got updated
@@ -122,7 +115,7 @@ public class LeaderController {
      * @return msg about changing active status of leader
      * */
     @PutMapping("/updatestatus/{leaderID}")
-    public ResponseEntity<Leader> updateLeadersStatus(@PathVariable String leaderID){
+    public ResponseEntity<Leader> updateLeadersStatus(@RequestBody String newstatus,@PathVariable String leaderID){
         Optional<Leader> leaderOptional = ileaderRepository.getASpecificLeader(leaderID);
         Leader leader = leaderOptional.get();
         String status = leader.getActiveStatus().toString();
@@ -130,22 +123,22 @@ public class LeaderController {
         if(leaderID.isEmpty()) {
             return new ResponseEntity<Leader>((Leader) null, HttpStatus.NOT_ACCEPTABLE);
         }
-
-        if(leader.getActiveStatus().toString().equals("Active")) {
-            ileaderRepository.updateLeaderStatus(leaderID, Status.InActive);
+        Leader my_led = null;
+        if(newstatus.toString().equals("Active")) {
+            my_led = ileaderRepository.updateLeaderStatus(leaderID, Status.Active);
         }
-//        else if(newstatus.toString().equals("Pending")) {
-//            my_led = ileaderRepository.updateLeaderStatus(leaderID, Status.Pending);
-//        }
-        else if(leader.getActiveStatus().toString().equals("Inactive")) {
-            ileaderRepository.updateLeaderStatus(leaderID, Status.Active);
+        else if(newstatus.toString().equals("Pending")) {
+            my_led = ileaderRepository.updateLeaderStatus(leaderID, Status.Pending);
+        }
+        else if(newstatus.toString().equals("InActive")) {
+            my_led = ileaderRepository.updateLeaderStatus(leaderID, Status.InActive);
         }
         else {
 
             return new ResponseEntity<Leader>((Leader) null, HttpStatus.NOT_ACCEPTABLE);
         }
 
-        return new ResponseEntity<Leader>(leader, HttpStatus.OK);
+        return new ResponseEntity<Leader>(my_led, HttpStatus.OK);
     }
     /**
      * @param fullName

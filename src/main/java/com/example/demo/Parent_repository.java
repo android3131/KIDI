@@ -67,29 +67,26 @@ public class Parent_repository {
 	/**
 	 * @return List of all parents 
 	 */	
-	
-	
-
 	public List <Parent> getAllParents (){
 		return parentRepo.findAll();
 	}
+	
+	
+	
 	
 	/**
 	 * used in the login - get parent with the given email and password
 	 * @param email and password
 	 * @return the parent if found or null
 	 */	
-	
-	public Parent getSpecificParent (String email, String password) {
+	public Parent getSpecificParent(String email, String password) {
 		Parent parent = findUserByEmail(email);
 		if (parent != null) {
 			if (parent.getPassword().equals(password))
-				return parent; 
-			new ResponseEntity<>("Wrong password", HttpStatus.NOT_ACCEPTABLE);
+//				System.out.println(parent.getId());
+				return parent;
 		}
-		else
-		new ResponseEntity<>("Email not found", HttpStatus.NOT_ACCEPTABLE);
-		return null; 
+		return null;
 	}
 	
 	/**
@@ -107,13 +104,14 @@ public class Parent_repository {
 		return null;
 	}
 	
+//	public
 	/**
 	 * Change email of existent parent
 	 * @param id of parent and the new Email
 	 * @return the parent if found or null 
 	 */	
 	
-	public Parent changeEmail (String id, String newEmail) {
+	public Parent changeEmail(String id, String newEmail) {
 		Optional<Parent> parent = parentRepo.findById(id);
 		if (parent.isPresent() ) {
 			parent.get().setEmail(newEmail);
@@ -333,5 +331,20 @@ public List<Course> getKidNotRegisteredCoursesByCategory(String parentId, String
 		return toReturn;
 	}
 
+	
+	/**
+	 * a function to return the parent of the speciefied email.
+	 * @param email
+	 * @return Parent
+	 */
+	public Parent getParentByEmail(String email) {
+		List<Parent> parents = parentRepo.findAll();
+		for(Parent p : parents) {
+			if(p.getEmail().equals(email)) {
+				return p;
+			}
+		}
+		return null;
+	}
 
 }

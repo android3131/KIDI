@@ -28,6 +28,10 @@ public void setPassword(String password) {
 public String toString() {
 	return "User [userName=" + userName + ", password=" + password + "]";
 }
+public String getId() {
+	// TODO Auto-generated method stub
+	return null;
+}
 
 
 

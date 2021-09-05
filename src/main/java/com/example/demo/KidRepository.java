@@ -16,7 +16,8 @@ import org.springframework.stereotype.Repository;
 public class KidRepository {
 
 
-	
+@Autowired
+MeetingRepository meetingRepo;
 @Autowired
 IkidRepository kidRepo;
 @Autowired
@@ -162,8 +163,8 @@ public ArrayList<String> addCourseToCompleteCourses(String kidId, String courseI
 	if(optional.isPresent()) {
 		System.out.println("Kid Found, course completed now to be moved from active to completed courses.");
 		Kid kid = optional.get();
-		ArrayList<String> activeCourses = kid.getActiveCourses();
-		ArrayList<String> completedCourses = kid.getCompletedCourses();
+		ArrayList<String> activeCourses = (ArrayList<String>) kid.getActiveCourses();
+		ArrayList<String> completedCourses = (ArrayList<String>) kid.getCompletedCourses();
 		if(activeCourses.contains(courseId)) {
 			System.out.println("Course is in kid's active Courses.");
 			activeCourses.remove(courseId);
@@ -263,7 +264,7 @@ public ArrayList<String> getKidActiveCoursesIds(String kidId){
 	if(optional.isPresent()) {
 		Kid kid = optional.get();
 		System.out.println("Found, Returning active Courses of" + kidId);
-		return kid.getActiveCourses();
+		return (ArrayList<String>) kid.getActiveCourses();
 	}
 	System.out.println("Couldn't Find A KId With ID: "+ kidId);
 	return null;
@@ -280,7 +281,7 @@ public ArrayList<String> getKidCompletedCourses(String kidId){
 	if(optional.isPresent()) {
 		Kid kid = optional.get();
 		System.out.println("Found, Returning Completed Courses of" + kidId);
-		return kid.getCompletedCourses();
+		return (ArrayList<String>) kid.getCompletedCourses();
 	}
 	System.out.println("Couldn't Find A KId With ID: "+ kidId);
 	return null;
@@ -394,4 +395,39 @@ public List<Kid> createKid(Kid kid) {
 	return kidRepo.findAll();	
 }
 
+
+/**
+ * gets kids meetings by id
+ * @param kidId 
+ * @return list of meetings
+ */
+public List<Meeting> getMeetingsByKidId(String kidId){
+	Optional<Kid> optional = kidRepo.findById(kidId);
+	ArrayList<Meeting> toReturn = new ArrayList<Meeting>();
+	Kid kid;
+	if(optional.isPresent()) {
+		kid = optional.get();
+		ArrayList<String> meetingIds = kid.getMeetings();
+		for(String s : meetingIds) {
+			toReturn.add(meetingRepo.getMeetingById(s));
+		}
+		return toReturn;
+	}
+	return null;	
+}
+
+/**
+ * delete meeting from kid
+ * @param kidId 
+ * @param meetingId
+ * @return true if there was a meeting and deleted, 
+ */
+public boolean deleteMeetingFromKid(String kidId, String meetingId) {
+	Optional<Kid> optional = kidRepo.findById(kidId);
+	if(optional.isPresent()) {
+		Kid kid = optional.get();
+		return kid.getMeetings().remove(meetingId);
+	}
+	return false;
+}
 }

@@ -55,6 +55,52 @@ public class LeaderRepository {
 	}
 
 	/**
+	 * Find user
+	 * @param email
+	 * @return parent if found or null
+	 */	
+	
+	private Leader findUserByEmail(String email) {
+		for (Leader l : leaderRepository.findAll()) {
+			if (l.getEmail().equals(email))
+				return l; 
+		}
+		return null; 
+	}
+
+	
+	/**
+	 * Change password of existent leader
+	 * @param id of parent and the new password
+	 * @return the leader if found or null
+	 */	
+	public Leader changePassword (String id, String newPassword) {
+		Optional<Leader> leader = leaderRepository.findById(id);
+		if (leader.isPresent() ) {
+			leader.get().setPassword(newPassword);
+			leader.get().setGeneratedPassword(false);
+			leaderRepository.save(leader.get());
+			}
+		return leader.get();
+		}
+	/**
+	 * gets leader by emain and password
+	 * @param email  email of the leader
+	 * @param password of the leader
+	 * @return Leader
+	 */
+	public Leader getSpecificLeader (String email, String password) {
+		Leader leader = findUserByEmail(email);
+		if (leader != null) {
+			if (leader.getPassword().equals(password))
+				return leader;
+			new ResponseEntity<>("Wrong password", HttpStatus.NOT_ACCEPTABLE);
+		}
+		else
+		new ResponseEntity<>("Email not found", HttpStatus.NOT_ACCEPTABLE);
+		return null;
+	}
+	/**
 	 * Returns a specific leader
 	 * 
 	 * @param Leader ID
@@ -139,10 +185,10 @@ public class LeaderRepository {
 	public Leader updateLeaderStatus(String leaderID, Status status) {
 		Optional<Leader> leader = leaderRepository.findById(leaderID);
 		if (leader.isPresent()) {
-//			if(status.equals(Status.Pending)) {
-//				leader.get().setActiveStatus(Status.Pending);
-//			}
-			if(status.equals(Status.Active)) {
+			if(status.equals(Status.Pending)) {
+				leader.get().setActiveStatus(Status.Pending);
+			}
+			else if(status.equals(Status.Active)) {
 					leader.get().setActiveStatus(Status.Active);
 				}
 			else {

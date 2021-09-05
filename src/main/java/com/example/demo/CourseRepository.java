@@ -51,7 +51,7 @@ public class CourseRepository {
 				if (c.getName().equals(course.getName()))
 					return courseRepo.findAll();
 			
-		
+			course.setCategoryName(categoryRepo.findById(course.getCategoryId()).get().getName());
 			courseRepo.save(course);
 		}
 		return courseRepo.findAll();
@@ -68,18 +68,11 @@ public class CourseRepository {
 				if (c.getName().equals(course.getName()))
 					return c;
 			}
+			course.setCategoryName(categoryRepo.findById(course.getCategoryId()).get().getName());
 			courseRepo.save(course);
 		return course;
 	}
 
-//	private ArrayList<String> generateCourseMeetings(Course course){
-//		Date experationDate = course.getFinishDateTime();
-//		Date startDate = course.getStartDateTime();
-//		for (int i =0 ; startDate.before(experationDate); i++) {
-//			meetingRepo.
-//		}
-//	}
-	
 	
 	/**
 	 * 

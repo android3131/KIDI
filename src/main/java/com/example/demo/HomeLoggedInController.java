@@ -91,7 +91,7 @@ package com.example.demo;
 			for(Kid kid: kidsList)
 			{
 				
-				ArrayList<String> temp= kid.getActiveCourses();
+				ArrayList<String> temp= (ArrayList<String>) kid.getActiveCourses();
 				if (!temp.isEmpty())
 				{
 					for(String string: temp)

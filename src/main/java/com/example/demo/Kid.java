@@ -1,9 +1,8 @@
 package com.example.demo;
-
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -18,9 +17,9 @@ public class Kid {
 	@Field
 	private Gender gender;
 	@Field
-	private ArrayList<String> activeCourses = new ArrayList<String>();;
+	private ArrayList<String> activeCourses;
 	@Field
-	private ArrayList<String> completedCourses = new ArrayList<String>();;
+	private ArrayList<String> completedCourses;
 	@Field
 	private String parentId;
 	@Field
@@ -29,6 +28,8 @@ public class Kid {
 	private Date activeDate;
 	@Field
 	private String image;
+	@Field
+	private ArrayList<String> meetings;
 	public String getImage() {
 		return image;
 	}
@@ -44,12 +45,22 @@ public class Kid {
 		this.dateOfBirth = dateOfBirth;
 		this.gender = gender;
 		this.activeDate = new Date();
+		this.activeCourses = new ArrayList<String>();
+		this.completedCourses = new ArrayList<String>();
+		this.meetings = new ArrayList<String>();
 	}
 	public String getFullName() {
 		return fullName;
 	}
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
+	}
+	
+	public ArrayList<String> getMeetings() {
+		return meetings;
+	}
+	public void setMeetings(ArrayList<String> meetings) {
+		this.meetings = meetings;
 	}
 	public Date getDateOfBirth() {
 		return dateOfBirth;
@@ -63,10 +74,9 @@ public class Kid {
 	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
-
-	public ArrayList<String> addCourse(String courseID){
+	public List<String> addCourse(String courseID){
 		if(activeCourses.contains(courseID)) {
-			System.out.println("Couldn't add, the course already enrolled");
+			System.out.println("Couldn’t add, the course already enrolled");
 			return null;
 		}
 		activeCourses.add(courseID);
@@ -78,13 +88,13 @@ public class Kid {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public ArrayList<String> getActiveCourses() {
+	public List<String> getActiveCourses() {
 		return activeCourses;
 	}
 	public void setActiveCourses(ArrayList<String> activeCourses) {
 		this.activeCourses = activeCourses;
 	}
-	public ArrayList<String> getCompletedCourses() {
+	public List<String> getCompletedCourses() {
 		return completedCourses;
 	}
 	public void setCompletedCourses(ArrayList<String> completedCourses) {
@@ -110,10 +120,16 @@ public class Kid {
 	}
 	
 	public boolean deleteCourse(String courseId) {
-		if(activeCourses.remove(id)) {
-			completedCourses.add(courseId);
-			return true;
+		String newcourseId = courseId.replace(String.valueOf('"'),"");
+		for(String listCourseId: activeCourses) {
+			if(listCourseId.equals(newcourseId)) {
+				if(activeCourses.remove(newcourseId)) {
+					completedCourses.add(newcourseId);
+					return true;
+				}
+			}
 		}
+		
 		return false;
 	}
 	
@@ -143,5 +159,4 @@ public class Kid {
 		Kid kid = new Kid("SSS", new Date(1995, 6, 4),Gender.Boy);
 		System.out.println("mutlaq"+ kid.getActiveDate().toString());
 	}
-
 }

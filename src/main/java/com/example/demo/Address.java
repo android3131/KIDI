@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class Address {
 	
 	@Id
-	private String ID;
+	private String id;
 	
 	@Field
 	private String streetAddress;
@@ -44,12 +44,12 @@ public class Address {
 
 
 	public String getID() {
-		return ID;
+		return id;
 	}
 
 
 	public void setID(String iD) {
-		ID = iD;
+		id = iD;
 	}
 
 
@@ -105,7 +105,7 @@ public class Address {
 
 	@Override
 	public String toString() {
-		return "Address [ID=" + ID + ", streetAddress=" + streetAddress + ", zipCode=" + zipCode + ", city=" + city
+		return "Address [" + ", streetAddress=" + streetAddress + ", zipCode=" + zipCode + ", city=" + city
 				+ ", state=" + state + ", country=" + country + "]";
 	}
 }
