@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -81,6 +82,12 @@ public class LeaderController {
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
     }
+
+    @GetMapping ("/getAllLeaders")
+    public List<Leader> getAllLeaders(){
+        return ileaderRepository.getAllLeaders();
+    }
+
     /**
      * @param leaderID
      * @return HTTP status ok if leader found and got updated
