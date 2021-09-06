@@ -1,9 +1,7 @@
 package com.example.demo;
 
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +30,7 @@ public class Parent_repository {
 	public Parent addNewParent (Parent parent){
 		parent.setStatus(Status.Active);
 		parentRepo.save(parent); 
-		 new ResponseEntity<>("New parent aded", HttpStatus.OK);
+		 new ResponseEntity<>("New parent added", HttpStatus.OK);
 		 return parent;
 	}
 	/**

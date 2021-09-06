@@ -39,7 +39,7 @@ public class Course {
 	private Status status; 
 	
 	@Field
-	private ArrayList<String> leadersIDs= new ArrayList<String>();;
+	private ArrayList<String> leadersIDs;
 	
 	@Field 
 	private String zoomMeetingLink;
@@ -48,7 +48,7 @@ public class Course {
 	private String urlLink;
 	
 	@Field
-	private ArrayList<String> kidsIDs= new ArrayList<String>();;
+	private ArrayList<String> kidsIDs;
 	
 	@Field
 	private String day;
@@ -62,9 +62,13 @@ public class Course {
 	private String endHour;
 	
 
-	@Field ArrayList<String> meetings;
+	@Field
+	private ArrayList<String> meetings;
 	public Course() {
 		super();
+		this.leadersIDs= new ArrayList<String>();
+		 kidsIDs= new ArrayList<String>();
+		 meetings= new ArrayList<String>();
 	}
 	
 
@@ -80,7 +84,10 @@ public class Course {
 		this.categoryId = categoryId;
 		this.zoomMeetingLink = zoomMeetingLink;
 		this.day = day;
-		this.startHour = startHour;
+		this.leadersIDs= new ArrayList<String>();
+		 kidsIDs= new ArrayList<String>();
+		 meetings= new ArrayList<String>();
+		this.startHour = startHour;;
 		this.status = Status.Active;
 		//this.meetingDuration calculate the duration of the meeting
 		this.endHour = endHour;
