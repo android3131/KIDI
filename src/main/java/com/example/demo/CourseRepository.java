@@ -1,7 +1,7 @@
 package com.example.demo;
 
-import java.util.List;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,47 +14,51 @@ import java.util.Date;
 public class CourseRepository {
 	
 	@Autowired
-	ICourseRepository courseRepo;
+	ICourseRepository CourseRepository;
 	
 	@Autowired
-	IMeetingRepository meetingRepo;
+	IMeetingRepository meetingRepository;
 	
 	@Autowired
-	ICategoryRepository categoryRepo;
+	ICategoryRepository categoryRepository;
 
 	@Autowired
+	ILeaderRepository leaderRepository;
 
-	ILeaderRepository leaderRepo;
-
-	long DAY_IN_MS = 1000 * 60 * 60 * 24;
 
 	/**
 	 * Find a course by ID
 	 * 
-	 * @param courseID ID
+	 * @param Course ID
 	 * @return Course
 	 */	
 	public Course findCourseByID(String courseID) {
-		return courseRepo.findById(courseID).get();
+		return CourseRepository.findById(courseID).get();
 	}
 	
 	/**
 	 * Adds a new course, and returns all courses
 	 * 
-	 * @param course
+	 * @param Course
 	 * @return All Courses
 	 */
 	public List<Course> addANewCourse(Course course) {
-		Category coursecategory = categoryRepo.findById(course.getCategoryId()).get();
-		
-			for (Course c : courseRepo.findAll()) {
+		Optional<Category> coursecategory = categoryRepository.findById(course.getCategoryId());
+		if (coursecategory.isPresent()) {
+			for (Course c : CourseRepository.findAll()) {
 				if (c.getName().equals(course.getName()))
-					return courseRepo.findAll();
-			
-			course.setCategoryName(categoryRepo.findById(course.getCategoryId()).get().getName());
-			courseRepo.save(course);
+					return CourseRepository.findAll();
+			}
+			CourseRepository.save(course);
 		}
-		return courseRepo.findAll();
+		return CourseRepository.findAll();
+	}
+	
+	public ArrayList<String> getCourseLeadersByName(String courseName) {
+		Course course = getASpecificCourseByName(courseName);
+		if ( course!= null)
+			return course.getLeadersIDs();
+		return null;
 	}
 	/**
 	 * Adds a new course, and returns it
@@ -63,27 +67,15 @@ public class CourseRepository {
 	 * @return course
 	 */
 	public Course addNewCourse(Course course) {
-		Category coursecategory = categoryRepo.findById(course.getCategoryId()).get();
-			for (Course c : courseRepo.findAll()) {
+		Optional<Category> coursecategory = categoryRepository.findById(course.getCategoryId());
+		if (coursecategory.isPresent()) {
+			for (Course c : CourseRepository.findAll()) {
 				if (c.getName().equals(course.getName()))
 					return c;
 			}
-			course.setCategoryName(categoryRepo.findById(course.getCategoryId()).get().getName());
-			courseRepo.save(course);
+			CourseRepository.save(course);
+		}
 		return course;
-	}
-
-	
-	/**
-	 * 
-	 * @param courseName to get its leaders
-	 * @return arraylist of course's leaders ids
-	 */
-	public ArrayList<String> getCourseLeadersByName(String courseName) {
-		Course course = getASpecificCourseByName(courseName);
-		if ( course!= null)
-			return course.getLeadersIDs();
-		return null;
 	}
 
 	/**
@@ -92,17 +84,17 @@ public class CourseRepository {
 	 * @return all the Course that exist
 	 */
 	public List<Course> getAllCourses() {
-		return courseRepo.findAll();
+		return CourseRepository.findAll();
 	}
 
 	/**
 	 * Returns a specific course
 	 * 
-	 * @param ID ID
+	 * @param Course ID
 	 * @return Course if it was found, null if it was not found
 	 */
 	public Course getASpecificCourse(String ID) {
-		Optional<Course> course = courseRepo.findById(ID);
+		Optional<Course> course = CourseRepository.findById(ID);
 		if (course.isPresent())
 			return course.get();
 		return null;
@@ -111,14 +103,14 @@ public class CourseRepository {
 	/**
 	 * Returns a course's category
 	 * 
-	 * @param courseID ID
+	 * @param Course ID
 	 * @return Returns course category if the course was found, null otherwise
 	 */
 	public Category getCourseCategory(String courseID) {
-		Optional<Course> course = courseRepo.findById(courseID);
+		Optional<Course> course = CourseRepository.findById(courseID);
 		if (course.isPresent()) {
 			String categoryID = course.get().getCategoryId();
-				for (Category c : categoryRepo.findAll()) {
+				for (Category c : categoryRepository.findAll()) {
 					if (c.getId().equals(categoryID))
 						return c;
 				}
@@ -133,7 +125,7 @@ public class CourseRepository {
 	 * @return returns a course's leader if the course exists
 	 */
 	public ArrayList<String> getCourseLeaders(String ID) {
-		Optional<Course> course = courseRepo.findById(ID);
+		Optional<Course> course = CourseRepository.findById(ID);
 		if (course.isPresent())
 			return course.get().getLeadersIDs();
 		return null;
@@ -142,15 +134,15 @@ public class CourseRepository {
 	/**
 	 * Adds a leader to a course
 	 * 
-	 * @param courseID ID, Leader ID
+	 * @param Course ID, Leader ID
 	 * @return returns true if the leader was added successfully, false otherwise.
 	 */
 	public Boolean addLeaderToCourse(String courseID, String leaderID) {
-		Optional<Course> course = courseRepo.findById(courseID);
+		Optional<Course> course = CourseRepository.findById(courseID);
 		if (course.isPresent()) {
 			if (!(course.get().getLeadersIDs().contains(leaderID))) {
 				if (course.get().getKidsIDs().add(leaderID)) {
-					courseRepo.save(course.get());
+					CourseRepository.save(course.get());
 					return true;
 				}
 			}
@@ -164,16 +156,16 @@ public class CourseRepository {
 	 * @return returns true if the leader was added successfully , false otherwise.
 	 */
 	public Boolean removeLeaderCourse(String courseID, String leaderID) {
-		Optional<Course> course = courseRepo.findById(courseID);
-		Optional<Leader> leader = leaderRepo.findById(leaderID);
+		Optional<Course> course = CourseRepository.findById(courseID);
+		Optional<Leader> leader = leaderRepository.findById(leaderID);
 
 		if(course.isPresent() && leader.isPresent())
 			if((course.get().getLeadersIDs().contains(leaderID))&&
 					(leader.get().getCoursesIDs().contains(courseID)))
 				if(course.get().getLeadersIDs().remove(leaderID)&&
 						leader.get().getCoursesIDs().remove(courseID)) {
-					//leaderRepo.addANewLeader(leader.get());
-					courseRepo.save(course.get());
+					leaderRepository.save(leader.get());
+					CourseRepository.save(course.get());
 					return true;
 				}
 		return false;
@@ -181,11 +173,11 @@ public class CourseRepository {
 	/**
 	 * Returns a specific course's kids
 	 * 
-	 * @param ID
+	 * @param Course ID
 	 * @return returns course's kids if the course exists
 	 */
 	public ArrayList<String> getCourseKids(String ID) {
-		Optional<Course> course = courseRepo.findById(ID);
+		Optional<Course> course = CourseRepository.findById(ID);
 		if (course.isPresent())
 			return course.get().getKidsIDs();
 		return null;
@@ -194,15 +186,15 @@ public class CourseRepository {
 	/**
 	 * Adds a kid to a course
 	 * 
-	 * @param courseID ID, Kid ID
+	 * @param Course ID, Kid ID
 	 * @return returns true if the kid was added successfully, false otherwise.
 	 */
 	public boolean addKidToCourse(String courseID, String kidID) {
-		Optional<Course> course = courseRepo.findById(courseID);
+		Optional<Course> course = CourseRepository.findById(courseID);
 		if (course.isPresent()) {
 			if (!(course.get().getKidsIDs().contains(kidID))) {
 				if (course.get().getKidsIDs().add(kidID)) {
-					courseRepo.save(course.get());
+					CourseRepository.save(course.get());
 					return true;
 				}
 			}
@@ -213,15 +205,15 @@ public class CourseRepository {
 	/**
 	 * Removes kid from course
 	 * 
-	 * @param courseID ID, Kid ID
+	 * @param Course ID, Kid ID
 	 * @return returns true if the kid was removed successfully , false otherwise.
 	 */
 	public boolean removeKidFromCourse(String courseID, String kidID) {
-		Optional<Course> course = courseRepo.findById(courseID);
+		Optional<Course> course = CourseRepository.findById(courseID);
 		if (course.isPresent()) {
 			if (course.get().getKidsIDs().contains(kidID)) {
 				if (course.get().getKidsIDs().remove(kidID)) {
-					courseRepo.save(course.get());
+					CourseRepository.save(course.get());
 					return true;
 				}
 			}
@@ -232,14 +224,14 @@ public class CourseRepository {
 	/**
 	 * Updates a course's status
 	 * 
-	 * @param courseID ID and a status
+	 * @param Course ID and a status
 	 * @return returns true if the course's status was updated, false otherwise.
 	 */
 	public boolean updateCourseStatus(String courseID, Status status) {
-		Optional<Course> course = courseRepo.findById(courseID);
+		Optional<Course> course = CourseRepository.findById(courseID);
 		if (course.isPresent()) {
 			course.get().setStatus(status);
-			courseRepo.save(course.get());
+			CourseRepository.save(course.get());
 			return true;
 		}
 		return false;
@@ -248,16 +240,16 @@ public class CourseRepository {
 	/**
 	 * Updating a course status after deleting, then saving the delete time
 	 * 
-	 * @param courseID ID
-	 * @return returns true when the cSourse's finish date and status are updated
+	 * @param Course ID
+	 * @return returns true when the course's finish date and status are updated
 	 */
 	public boolean updateFinishedDateByDelete(String courseID) {
-		Optional<Course> course = courseRepo.findById(courseID);
+		Optional<Course> course = CourseRepository.findById(courseID);
 		if (course.isPresent()) {
 			Date currentDate = new Date();
 			course.get().setFinishDateTime(currentDate);
 			course.get().setStatus(Status.InActive);
-			courseRepo.save(course.get());
+			CourseRepository.save(course.get());
 			return true;
 		}
 		return false;
@@ -266,12 +258,12 @@ public class CourseRepository {
 	/**
 	 * Returning a category's Course
 	 * 
-	 * @param categoryID ID
+	 * @param Category ID
 	 * @return List of Course that belong to the given category
 	 */
 	public ArrayList<Course> getCategoryCourses(String categoryID) {
 		ArrayList<Course> categoryCourses = new ArrayList<Course>();
-		for (Course c : courseRepo.findAll()) {
+		for (Course c : CourseRepository.findAll()) {
 			if (c.getCategoryId().equals(categoryID)) {
 				categoryCourses.add(c);
 				System.out.println("mutlaq      " + c.getID());
@@ -283,7 +275,7 @@ public class CourseRepository {
 	/**
 	 * Get a course by a course name
 	 * 
-	 * @param courseName name
+	 * @param Course name
 	 * @return Course
 	 */
 	public Course getASpecificCourseByName(String courseName) {
@@ -293,5 +285,7 @@ public class CourseRepository {
 				return c;
 		return null;
 	}
+	
 
 }
+

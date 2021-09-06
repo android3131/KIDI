@@ -5,17 +5,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
-
-
 @Repository
 public class KidRepository {
-
-
 @Autowired
 MeetingRepository meetingRepo;
 @Autowired
@@ -25,17 +20,15 @@ CourseRepository courseRepo;
 @Autowired
 CategoryRepository categoryRepo;
 long DAY_IN_MS = 1000 * 60 * 60 * 24;
-
 /**
- * 
+ *
  * @return list of all kids
  */
 public List<Kid> retrieveAllKids(){
 	return kidRepo.findAll();
 }
-
 /**
- * 
+ *
  * @param kid a new Kid to Add
  * @return kid got added, else returns null
  */
@@ -45,9 +38,8 @@ public Kid addNewKid(Kid kid) {
 	kidRepo.save(kid);
 	return kid;
 }
-
 /**
- * 
+ *
  * @param kid to add to the kids list.
  * @return a list of all kids
  */
@@ -57,8 +49,6 @@ public List<Kid> addKid(Kid kid){
 	kidRepo.save(kid);
 	return kidRepo.findAll();
 }
-
-
 /**
  * the repository turns empty
  */
@@ -66,7 +56,7 @@ public void clearAllDocuments() {
 	kidRepo.deleteAll();
 }
 /**
- * 
+ *
  * @param id to find the kid with
  * @return the kid if present, null otherwise.
  */
@@ -80,9 +70,8 @@ public Kid getKidWithId(String id) {
 	System.out.println("KID ISNT PRESENT");
 	return null;
 }
-
 /**
- * 
+ *
  * @param kidId to get it's parent's ID
  * @return Parent's Id if found, else returns null.
  */
@@ -95,12 +84,11 @@ public String getParentId(String kidId) {
 	System.out.println("Couldn't find kid, can't get parent's ID");
 	return null;
 }
-
 /**
- * 
+ *
  * @param kidId for kid to set new image
  * @param pathToImage of the image to add.
- * @return kid with the image 
+ * @return kid with the image
  */
 public Kid addProfilePicture(String kidId, String pathToImage) {
 	Optional<Kid> optional = kidRepo.findById(kidId);
@@ -115,7 +103,7 @@ public Kid addProfilePicture(String kidId, String pathToImage) {
 	return null;
 }
 /**
- * 
+ *
  * @param kidId to add Course to his active courses
  * @param courseId to add to kids active courses list
  * @return kid object with course added to active courses.
@@ -126,16 +114,20 @@ public Kid addCourseToKid(String kidId, String courseId) {
 		System.out.println("Kid Found, now setting course to his studies.");
 		Kid kid = optional.get();
 		kid.addCourse(courseId);
+		for(Meeting meet: meetingRepo.getAllMeetings()) {
+			if(meet.getCourseId().equals(courseId)) {
+				kid.addMeeting(meet.getId());
+				//addMeetingToKid(kidId,meet.getId());
+			}
+		}
 		kidRepo.save(kid);
 		courseRepo.addKidToCourse(courseId, kidId);
 		return kid;
 	}
 	return null;
 }
-
-
 /**
- * 
+ *
  * @param kidId kid to remove course from	
  * @param courseId of course that finished/cancelled
  * @return
@@ -151,9 +143,8 @@ public Kid removeCourseFromKid( String kidId, String courseId) {
 	}
 	return null;
 }
-
 /**
- * 
+ *
  * @param kidId to move Course from active to completed courses
  * @param courseId to move from active to completed for kid.
  * @return list of kid's Completed Courses.
@@ -181,9 +172,8 @@ public ArrayList<String> addCourseToCompleteCourses(String kidId, String courseI
 	System.out.println("Kid Couldn't Be Found.");
 	return null;
 }
-
 /***
- * 
+ *
  * @param kidId to get kid's coures
  * @return arrayList of all kid's courses
  */
@@ -200,7 +190,6 @@ public ArrayList<String> getTotalCourses(String kidId){
 	System.out.println("Kid Not found. no courses to return");
 	return null;
 }
-
 /**
  * method that changes the status of a kid from active to inactive.
  * @param kidId of a kid that has finished his studies with kidi.
@@ -226,10 +215,8 @@ public boolean deleteKid(String kidId) {
 	System.out.println("Kid id not found.");
 	return false;
 }
-
-
 /***
- * 
+ *
  * @param kidId to get active courses of
  * @return list of course's IDs
  */
@@ -253,9 +240,8 @@ public ArrayList<Course> getKidActiveCourses( String kidId){
 	System.out.println("Couldn't Find A KId With ID: "+ kidId);
 	return null;
 }
-
 /***
- * 
+ *
  * @param kidId to get active courses of
  * @return list of course's IDs
  */
@@ -269,10 +255,8 @@ public ArrayList<String> getKidActiveCoursesIds(String kidId){
 	System.out.println("Couldn't Find A KId With ID: "+ kidId);
 	return null;
 }
-
-
 /***
- * 
+ *
  * @param kidId to get completed courses of
  * @return list of course's IDs
  */
@@ -286,7 +270,6 @@ public ArrayList<String> getKidCompletedCourses(String kidId){
 	System.out.println("Couldn't Find A KId With ID: "+ kidId);
 	return null;
 }
-
 /**
  *  a method that returns a list of all kids.
  * @return list of kids
@@ -334,7 +317,6 @@ toReturn.put("newKids", kidsCount);
 toReturn.put("totalKids",totalKids-kidsCount );
 	return toReturn;
 }
-
 /**
  *  a method that returns a list of kids and takes their specific ids as input.
  * @param idList a list of kid's ids to get.
@@ -351,8 +333,8 @@ public ArrayList<Kid> getKids(ArrayList<String> idList){
 	return kids;
 }
 /**
- * get all the categories that the kid is not currently participate in(active courses)   
- * @param  id of kid 
+ * get all the categories that the kid is not currently participate in(active courses)
+ * @param  id of kid
  * @return list of all categories that the kid is registered to(not active courses)
  */
 public List<Category> getKidNotRegisteredCategories( String kidId){
@@ -365,12 +347,10 @@ public List<Category> getKidNotRegisteredCategories( String kidId){
             }
         }
     }
-    return cats; 
+    return cats;
 }
-
-
 /**
- * get all the courses that the kid is not currently participate in(active courses), for a specific category    
+ * get all the courses that the kid is not currently participate in(active courses), for a specific category
  * @param id of parent, id of kid , id of category
  * @return list of all courses in category that the kid is registered to(not active courses)
  */
@@ -380,11 +360,10 @@ public List<Course> getKidNotRegisteredCoursesByCategory( String kidId, String c
 		List<Course> availibleCourses = courseRepo.getCategoryCourses(catId);
 		availibleCourses.removeAll(getKidActiveCourses( kidId));
 		return availibleCourses; }
-	return null; 
+	return null;
 }
-
 /**
- * 
+ *
  * @param kid
  * @return
  */
@@ -394,40 +373,40 @@ public List<Kid> createKid(Kid kid) {
 	kidRepo.save(kid);	
 	return kidRepo.findAll();	
 }
-
-
 /**
  * gets kids meetings by id
- * @param kidId 
+ * @param kidId
  * @return list of meetings
  */
-public List<Meeting> getMeetingsByKidId(String kidId){
+public List<String> getMeetingsByKidId(String kidId){
 	Optional<Kid> optional = kidRepo.findById(kidId);
-	ArrayList<Meeting> toReturn = new ArrayList<Meeting>();
+	ArrayList<String> toReturn = new ArrayList<String>();
 	Kid kid;
 	if(optional.isPresent()) {
 		kid = optional.get();
-		ArrayList<String> meetingIds = kid.getMeetings();
-		for(String s : meetingIds) {
-			toReturn.add(meetingRepo.getMeetingById(s));
+		ArrayList<String> meetingsId = kid.getMeetings();
+		for(String meetId: meetingsId) {
+			toReturn.add(meetId);
 		}
 		return toReturn;
 	}
 	return null;	
 }
-
 /**
  * delete meeting from kid
- * @param kidId 
+ * @param kidId
  * @param meetingId
- * @return true if there was a meeting and deleted, 
+ * @return true if there was a meeting and deleted,
  */
 public boolean deleteMeetingFromKid(String kidId, String meetingId) {
 	Optional<Kid> optional = kidRepo.findById(kidId);
 	if(optional.isPresent()) {
 		Kid kid = optional.get();
-		return kid.getMeetings().remove(meetingId);
+		kid.getMeetings().remove(meetingId);
+		kidRepo.save(kid);
+		return true;
 	}
 	return false;
 }
+
 }
