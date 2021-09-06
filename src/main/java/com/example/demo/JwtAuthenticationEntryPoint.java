@@ -1,4 +1,4 @@
-package com.javainuse.config;
+package com.example.demo;
 
 import java.io.IOException;
 import java.io.Serializable;
