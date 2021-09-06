@@ -1,4 +1,5 @@
 package com.example.demo;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -131,6 +132,15 @@ public class Kid {
 		}
 		
 		return false;
+	}
+	
+	public List<String> addMeeting(String meetingID){
+		if(meetings.contains(meetingID)) {
+			System.out.println("Couldn’t add, the meeting already enrolled");
+			return null;
+		}
+		meetings.add(meetingID);
+		return meetings;
 	}
 	
 	@Override
