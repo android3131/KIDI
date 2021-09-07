@@ -95,10 +95,7 @@ public class HomeLoggedInController {
 //		}
 		
 
-		@GetMapping("getallparents")
-		public List<Parent> getAllparents(){
-			return parentRepository.getAllParents();
-		}
+
 		
 		@GetMapping("getallparentkids/{id}")
 		public List<Kid> getallparentkid(@PathVariable String id){
