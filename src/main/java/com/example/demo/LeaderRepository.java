@@ -228,4 +228,13 @@ public class LeaderRepository {
 			return coursesByCategory;
 		}
 	
+		
+		public boolean findUserByEmail2(String email) {
+			for (Leader l : leaderRepository.findAll()) {
+				if (l.getEmail().equals(email))
+					return true; 
+			}
+			return false; 
+		}
+
 }

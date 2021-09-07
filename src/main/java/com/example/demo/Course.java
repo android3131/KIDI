@@ -8,7 +8,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import jdk.jfr.Category;
 
 @Document
 public class Course {
@@ -55,8 +54,7 @@ public class Course {
 	@Field
 	private String day;
 	
-	@Field
-	private double meetingDuration;
+
 	
 	@Field
 	private String startHour;
@@ -79,7 +77,6 @@ public class Course {
 			String day, String startHour,String urlLink, String endHour) {
 		super();
 		this.name = name;
-		
 		this.urlLink = urlLink;
 		this.startDateTime = startDateTime;
 		this.finishDateTime = finishDateTime;
@@ -91,7 +88,6 @@ public class Course {
 		this.meetings= new ArrayList<String>();
 		this.startHour = startHour;;
 		this.status = Status.Active;
-		//this.meetingDuration calculate the duration of the meeting
 		this.endHour = endHour;
 	}
 	
@@ -104,13 +100,18 @@ public class Course {
 		this.day = day;
 		this.leadersIDs= new ArrayList<String>();
 		this.kidsIDs= new ArrayList<String>();
-		this.meetings= new ArrayList<String>();
 		this.status = Status.Active;
+		this.meetings= new ArrayList<String>();
 	}
 
 
 
-
+	public boolean addMeeting(String meetingId) {
+		if(!meetings.contains(meetingId)) {
+			return this.meetings.add(meetingId);
+		}
+		return false;
+	}
 
 	public ArrayList<String> getMeetings() {
 		return meetings;
@@ -169,13 +170,7 @@ public class Course {
 		this.finishDateTime = finishDateTime;
 	}
 	
-	public double getMeetingDuration() {
-		return meetingDuration;
-	}
 
-	public void setMeetingDuration(double meetingDuration) {
-		this.meetingDuration = meetingDuration;
-	}
 
 	public String getCategoryId() {
 		return categoryId;

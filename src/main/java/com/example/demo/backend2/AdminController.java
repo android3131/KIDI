@@ -107,5 +107,6 @@ public class AdminController {
     public ArrayList<Category> getAllCategories(){
         return categoryRepository.getAllCategories();
     }
+    
 
 }

@@ -108,7 +108,7 @@ import com.example.demo.MeetingRepository;
 				}
 
 			}
-			//Collections.sort(meetings);
+			Collections.sort(meetings);
 			return meetings;
 		}
 	}

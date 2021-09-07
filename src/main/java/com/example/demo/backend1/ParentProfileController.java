@@ -54,8 +54,8 @@ public class ParentProfileController {
 		Parent parent = parentRepo.getParentById(id);
 		
 		if(validate.check_name(updatedParent.getFullName()) 
-				& validate.check_phone(updatedParent.getPhoneNumber()) 
-				& validate.check_email(updatedParent.getEmail())) {
+				&& validate.check_phone(updatedParent.getPhoneNumber()) 
+				&& validate.check_email(updatedParent.getEmail())) {
 			
 					parent.setFullName(updatedParent.getFullName());
 					parent.setPhoneNumber(updatedParent.getPhoneNumber());

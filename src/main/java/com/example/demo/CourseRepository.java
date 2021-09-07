@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 @Repository
@@ -70,8 +71,16 @@ public class CourseRepository {
 		Optional<Category> coursecategory = categoryRepository.findById(course.getCategoryId());
 		if (coursecategory.isPresent()) {
 			for (Course c : CourseRepository.findAll()) {
-				if (c.getName().equals(course.getName()))
+				if (c.getID().equals(course.getID()))
 					return c;
+			}
+			Calendar calendar = Calendar.getInstance();
+	        calendar.setTime(course.getStartDateTime());
+			for(int i = 0; i < 5; i++) {
+				calendar.add(Calendar.WEEK_OF_YEAR,i);
+				Meeting meeting =  new Meeting(course.getID(), calendar.getTime());
+				meetingRepository.save(meeting);
+				course.addMeeting(meeting.getId());
 			}
 			CourseRepository.save(course);
 		}
@@ -141,7 +150,7 @@ public class CourseRepository {
 		Optional<Course> course = CourseRepository.findById(courseID);
 		if (course.isPresent()) {
 			if (!(course.get().getLeadersIDs().contains(leaderID))) {
-				if (course.get().getKidsIDs().add(leaderID)) {
+				if (course.get().getLeadersIDs().add(leaderID)) {
 					CourseRepository.save(course.get());
 					return true;
 				}
@@ -272,6 +281,7 @@ public class CourseRepository {
 		return categoryCourses;
 	}
 	
+
 	/**
 	 * Get a course by a course name
 	 * 
@@ -285,6 +295,7 @@ public class CourseRepository {
 				return c;
 		return null;
 	}
+	
 	
 
 }

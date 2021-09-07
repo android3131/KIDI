@@ -332,6 +332,18 @@ public List<Course> getKidNotRegisteredCoursesByCategory(String parentId, String
 	toReturn.put("totalParents",totalParents-parentsCount );
 		return toReturn;
 	}
+	
+	
+	public boolean getSpecificParentbyusername (String email) {
+		Parent parent = findUserByEmail(email);
+		if (parent != null) {
+				return true; 
+		}
+		else
+		new ResponseEntity<>("Email not found", HttpStatus.NOT_ACCEPTABLE);
+		return false; 
+	}
+
 
 
 }

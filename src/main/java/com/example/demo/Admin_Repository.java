@@ -130,4 +130,17 @@ public class Admin_Repository {
 		return null;
 	}
 
+	/**
+	 * S
+	 * @param email
+	 * @return
+	 */
+	public boolean getSpecificAdminbyusername (String email) {
+		Admin admin = findUserByEmail(email);
+		if (admin != null) {
+				return true; 
+		}
+		return false; 
+	}
+
 }
