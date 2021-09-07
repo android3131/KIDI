@@ -1,4 +1,5 @@
-package com.example.demo.pckg1.backend1;
+package com.example.demo.backend1;
+
 
 
 	import java.util.ArrayList;
@@ -10,11 +11,11 @@ package com.example.demo.pckg1.backend1;
 	import org.springframework.web.bind.annotation.PathVariable;
 	import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.pckg1.Course;
-import com.example.demo.pckg1.Kid;
-import com.example.demo.pckg1.KidRepository;
-import com.example.demo.pckg1.Meeting;
-import com.example.demo.pckg1.MeetingRepository;
+import com.example.demo.Course;
+import com.example.demo.Kid;
+import com.example.demo.KidRepository;
+import com.example.demo.Meeting;
+import com.example.demo.MeetingRepository;
 
 	@RestController
 	public class KidProfileController {

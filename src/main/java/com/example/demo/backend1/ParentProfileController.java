@@ -1,4 +1,5 @@
-package com.example.demo.pckg1.backend1;
+package com.example.demo.backend1;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -11,10 +12,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.pckg1.IParentRepository;
-import com.example.demo.pckg1.KidRepository;
-import com.example.demo.pckg1.Parent;
-import com.example.demo.pckg1.Parent_repository;
+import com.example.demo.IParentRepository;
+import com.example.demo.KidRepository;
+import com.example.demo.Parent;
+import com.example.demo.Parent_repository;
+
 
 @RestController
 public class ParentProfileController {
