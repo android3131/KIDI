@@ -392,6 +392,7 @@ public List<String> getMeetingsByKidId(String kidId){
 	}
 	return null;	
 }
+
 /**
  * delete meeting from kid
  * @param kidId
