@@ -8,11 +8,14 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.Category;
 import com.example.demo.CategoryRepository;
+import com.example.demo.Course;
 import com.example.demo.CourseRepository;
 import com.example.demo.Leader;
 import com.example.demo.LeaderRepository;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -42,9 +45,14 @@ public class AdminController {
      * */
     @PutMapping("/LeaderCourse/{courseID}/{leaderID}")
     public ResponseEntity<Boolean> AddLeaderToCourse(@PathVariable String courseID , @PathVariable String leaderID){
-//  Leader le=iLeaderRepository.updateLeaderTOActive(leaderID);
-        if(leaderID.isEmpty()|| courseID.isEmpty())
-            return new ResponseEntity<Boolean>(false, HttpStatus.NOT_ACCEPTABLE);
+    	List<Course> allCourses = courseRepository.getAllCourses();
+    	Course course = courseRepository.getASpecificCourse(courseID);
+    	List<Leader> allLeaders = LeaderRepository.getAllLeaders();
+    	Optional<Leader> leader1 = LeaderRepository.getASpecificLeader(leaderID);
+    	Leader leader2 = leader1.get();
+        if(leaderID.isEmpty() || courseID.isEmpty() || !allCourses.contains(course) || !allLeaders.contains(leader2)) {
+        	return new ResponseEntity<Boolean>(false, HttpStatus.NOT_ACCEPTABLE);
+        }
 
         Boolean b = courseRepository.addLeaderToCourse(courseID,leaderID);
         if(!b)
@@ -59,9 +67,13 @@ public class AdminController {
      * @return response if leader was removed from given course
      * */
     @PutMapping("/LeaderCourseRemove/{courseID}/{leaderID}")
-    public ResponseEntity<Boolean> RemoveLeaderToCourse(@PathVariable String courseID , @PathVariable String leaderID){
-//  Leader le=iLeaderRepository.updateLeaderTOActive(leaderID);
-        if(leaderID.isEmpty()|| courseID.isEmpty())
+    public ResponseEntity<Boolean> RemoveLeaderFromCourse(@PathVariable String courseID , @PathVariable String leaderID){
+    	List<Course> allCourses = courseRepository.getAllCourses();
+    	Course course = courseRepository.getASpecificCourse(courseID);
+    	List<Leader> allLeaders = LeaderRepository.getAllLeaders();
+    	Optional<Leader> leader1 = LeaderRepository.getASpecificLeader(leaderID);
+    	Leader leader2 = leader1.get();
+        if(leaderID.isEmpty() || courseID.isEmpty() || !allCourses.contains(course) || !allLeaders.contains(leader2))
             return new ResponseEntity<Boolean>(false, HttpStatus.NOT_ACCEPTABLE);
 
         Boolean b = courseRepository.removeLeaderCourse(courseID,leaderID);
@@ -77,7 +89,7 @@ public class AdminController {
      * @return list of leaders of given course name
      * */
     @GetMapping("/getLeadersBysCourseName/{courseName}")
-    public Object getLeadersBysCourseName(@PathVariable String courseName) {
+    public Object getLeadersByCourseName(@PathVariable String courseName) {
         if(courseName==null)
             return new ResponseEntity<Leader>((Leader) null, HttpStatus.NOT_ACCEPTABLE);
 

@@ -1,6 +1,7 @@
 package com.example.demo.backend2;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import com.example.demo.Course;
 import com.example.demo.CourseRepository;
 import com.example.demo.ICourseRepository;
 import com.example.demo.LeaderRepository;
+import com.example.demo.Validation;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -27,6 +29,8 @@ public class CourseConteroller {
     LeaderRepository leaderRepository;
     @Autowired
     CategoryRepository catRepository;
+    @Field
+	Validation validate;
 
   //For screen: New course
   	/**
@@ -35,32 +39,24 @@ public class CourseConteroller {
   	 * @return true id added, false if not
   	 */
   	@PostMapping("/createNewCourse")
-  	public String createCourse(@RequestBody Course course) {
+  	public ResponseEntity<String> createCourse(@RequestBody Course course) {
   		String msg = "The course was added successfully";
   		Time tFinish = new Time(course.getFinishDateTime().getTime());
   		Time tStart = new Time(course.getStartDateTime().getTime());
-  		if (!(catRepository.getAllCategories().contains(catRepository.getCategoryById(course.getCategoryId())))) {
-  			msg= "Failed to add. Category doesn't exist";
-  			return msg;
+  		if (!(catRepository.getAllCategories().contains(catRepository.getCategoryById(course.getCategoryId()))) 
+  				|| tFinish.before(tStart)
+  				|| course.getStartDateTime().after(course.getFinishDateTime())
+  				|| course.getStartDateTime().before(new Date())
+  				|| courseRepository.getAllCourses().contains(course)
+  				|| !validate.check_course_duration(course.getStartDateTime(), course.getFinishDateTime())
+  				|| !validate.check_course_name(course.getName())
+  				|| !validate.check_zoom_link(course.getZoomMeetingLink())) {
+  			
+  				return new ResponseEntity<>("failed", HttpStatus.NOT_ACCEPTABLE);
   		}
-  		if(tFinish.before(tStart)) {
-  			msg= "Failed to add. The finish time is before the start time.";
-  			return msg;
-  		}
-  		if(course.getStartDateTime().after(course.getFinishDateTime())) {
-  			msg= "Failed to add. The end date is before the start date.";
-  			return msg;
-  		}
-  		if(course.getStartDateTime().before(new Date()) ) {
-  			msg= "Failed to add. The start date is in the past.";
-  			return msg;
-  		}
+  		
   		courseRepository.addANewCourse(course);
-  		if (!courseRepository.getAllCourses().contains(course)) {
-  			msg= "Failed to add. The course name already exists";
-  			return msg;
-  		}
-  		return msg;
+  		return new ResponseEntity<>("successfuly added course", HttpStatus.OK);
   	}
 
     /**
@@ -78,15 +74,6 @@ public class CourseConteroller {
      * */
     @GetMapping("/getCoursesByCategory/{categoryID}")
     public ArrayList<Course> getCoursesByCategory(@PathVariable String categoryID){
-//        Category ca = new Category("1","2");
-//        Category cawew=iCategoryRepository.save(ca);
-//        System.out.println("AAAA" + ca.getId());
-//        Course c = new Course("name12123", 1, null, null, cawew,null);
-//        System.out.println("2***"+cawew.getId());
-
-        //  courseRepository.save(c);
-
-        // Category category = categoryRepository.getCategoryById(categoryID);
         return leaderRepository.getCoursesByCategoryID(categoryID);
     }
 

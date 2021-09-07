@@ -160,4 +160,15 @@ public class Validation {
     	return true;
     }
     
+    // FUNCTION RETURNS TRUE IF GENDER IS VALID
+    
+    public boolean check_gender(Gender gender) {
+    	if(gender!=null) {
+    		if(gender == Gender.Boy | gender == Gender.Girl | gender==Gender.NotRelevant) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
 }

@@ -25,9 +25,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.Category;
 import com.example.demo.CategoryRepository;
 import com.example.demo.Course;
 import com.example.demo.CourseRepository;
+import com.example.demo.Gender;
 import com.example.demo.Kid;
 import com.example.demo.KidRepository;
 import com.example.demo.Meeting;
@@ -54,66 +56,77 @@ public class HomeLoggedInController {
 		
 		// DATABASE
 		
-//		@PostMapping("/initializeparent")
-//		public List<Parent> initializeDB(){
-//			long DAY_IN_MS = 1000 * 60 * 60 * 24;
-//			String[] categories = {"space","art","music","science","poetry"};
-//			Parent parent = parentRepository.addNewParent(new Parent("reem","","",""));
-//			parentRepository.addNewKid(parent.getId(), new Kid("mutlaq",new Date(),Gender.Girl));
-//			parentRepository.addNewKid(parent.getId(), new Kid("hijazi",new Date(),Gender.Girl));
-//			List<Kid> parentKids = parentRepository.GetAllKidsOfParent(parent.getId());
-//			for(String categ: categories) {
-//				categoryRepo.addANewCategory(new Category(categ,"")); // create new category
-//			}
-//			List<Category> allCateg = categoryRepo.getAllCategories();
-//			courseRepository.addANewCourse(new Course("123",new Date(),new Date(),Day.Monday,(allCateg.get(new Random().nextInt(allCateg.size())).getId())));
-//			courseRepository.addANewCourse(new Course("124",new Date(),new Date(),Day.Monday,(allCateg.get(new Random().nextInt(allCateg.size())).getId())));
-//			courseRepository.addANewCourse(new Course("125",new Date(),new Date(),Day.Monday,(allCateg.get(new Random().nextInt(allCateg.size())).getId())));
-//			courseRepository.addANewCourse(new Course("125",new Date(),new Date(),Day.Monday,(allCateg.get(new Random().nextInt(allCateg.size())).getId())));
-//			courseRepository.addANewCourse(new Course("126",new Date(),new Date(),Day.Monday,(allCateg.get(new Random().nextInt(allCateg.size())).getId())));
-//			Date random_date = new Date();
-//			List<Meeting> meetingList = new ArrayList<Meeting>();
-//			for(Course course: courseRepository.getAllCourses()) {
-//				random_date = new Date((new Date()).getTime() + ((int)Math.floor(Math.random()*(365)+1))*DAY_IN_MS);
-//				random_date = new Date(random_date.getTime() - ((int)Math.floor(Math.random()*(35)+1))*DAY_IN_MS);
-//				meetingList = meetingRepository.addANewMeeting(new Meeting(course.getID(),random_date));
-//			}
-//			for(Course course: courseRepository.getAllCourses()) {
-//				random_date = new Date((new Date()).getTime() - ((int)Math.floor(Math.random()*(365)+1))*DAY_IN_MS);
-//				random_date = new Date(random_date.getTime() - ((int)Math.floor(Math.random()*(35)+1))*DAY_IN_MS);
-//				meetingList = meetingRepository.addANewMeeting(new Meeting(course.getID(),random_date));
-//			}
-//			
-//			List<Course> allCourses = courseRepository.getAllCourses();
-//
-//			for(Kid kid: parentKids) {
-//				kidRepo.addCourseToKid(kid.getId(),(allCourses.get(new Random().nextInt(allCourses.size()))).getID());
-//				kidRepo.addCourseToKid(kid.getId(),(allCourses.get(new Random().nextInt(allCourses.size()))).getID());
-//			}
-//			
-//			return parentRepository.getAllParents();
-//		}
-		
+		@PostMapping("/initializeparent")
+		public List<Parent> initializeDB(){
+			long DAY_IN_MS = 1000 * 60 * 60 * 24;
+			String[] categories = {"space","art","music","science","poetry"};
+			Parent parent = parentRepository.addNewParent(new Parent("reem","","",""));
+			parentRepository.addNewKid(parent.getId(), new Kid("mutlaq",new Date(),Gender.Girl));
+			parentRepository.addNewKid(parent.getId(), new Kid("hijazi",new Date(),Gender.Girl));
+			List<Kid> parentKids = parentRepository.GetAllKidsOfParent(parent.getId());
+			for(String categ: categories) {
+				categoryRepo.addANewCategory(new Category(categ,"")); // create new category
+			}
+			List<Category> allCateg = categoryRepo.getAllCategories();
+			courseRepository.addANewCourse(new Course("124",new Date(),new Date(),"Monday",(allCateg.get(new Random().nextInt(allCateg.size()))).getId()));
+			courseRepository.addANewCourse(new Course("125",new Date(),new Date(),"Monday",(allCateg.get(new Random().nextInt(allCateg.size()))).getId()));
+			courseRepository.addANewCourse(new Course("125",new Date(),new Date(),"Monday",(allCateg.get(new Random().nextInt(allCateg.size()))).getId()));
+			courseRepository.addANewCourse(new Course("126",new Date(),new Date(),"Monday",(allCateg.get(new Random().nextInt(allCateg.size()))).getId()));
+			Date random_date = new Date();
+			List<Meeting> meetingList = new ArrayList<Meeting>();
+			for(Course course: courseRepository.getAllCourses()) {
+				random_date = new Date((new Date()).getTime() + ((int)Math.floor(Math.random()*(365)+1))*DAY_IN_MS);
+				random_date = new Date(random_date.getTime() - ((int)Math.floor(Math.random()*(35)+1))*DAY_IN_MS);
+				meetingList = meetingRepository.addANewMeeting(new Meeting(course.getID(),random_date));
+			}
+			for(Course course: courseRepository.getAllCourses()) {
+				random_date = new Date((new Date()).getTime() - ((int)Math.floor(Math.random()*(365)+1))*DAY_IN_MS);
+				random_date = new Date(random_date.getTime() - ((int)Math.floor(Math.random()*(35)+1))*DAY_IN_MS);
+				meetingList = meetingRepository.addANewMeeting(new Meeting(course.getID(),random_date));
+			}
+			
+			List<Course> allCourses = courseRepository.getAllCourses();
 
-
+			for(Kid kid: parentKids) {
+				kidRepo.addCourseToKid(kid.getId(),(allCourses.get(new Random().nextInt(allCourses.size()))).getID());
+				kidRepo.addCourseToKid(kid.getId(),(allCourses.get(new Random().nextInt(allCourses.size()))).getID());
+			}
+			
+			return parentRepository.getAllParents();
+		}
 		
+		/**
+		 * @param id of parent
+		 * @return list of all parent's kids
+		 */
 		@GetMapping("getallparentkids/{id}")
 		public List<Kid> getallparentkid(@PathVariable String id){
 			return parentRepository.GetAllKidsOfParent(id);
 		}
 		
+		/**
+		 * @param id of kid
+		 * @return list of all kid's meetings
+		 */
 		@GetMapping("getallkidmeetings/{id}")
 		public List<String> getallkidmeetings(@PathVariable String id){
 			return kidRepo.getMeetingsByKidId(id);
 		}
 		
+		/**
+		 * @return list of all existing courses
+		 */
 		@GetMapping("getallcourses")
 		public List<Course> getallcourses(){
 			return courseRepository.getAllCourses();
 		}
 
 			
-		//GET ALL kids ACTIVE courses
+		/**
+		 * 
+		 * @param id of parent
+		 * @return list of all parent's kids courses
+		 */
 		@GetMapping("getkidscourses/{id}")
 		public List<Course> getAllKidsActiveCourses(@PathVariable String id){
 			List<Kid> kidsList= parentRepository.GetAllKidsOfParent(id);
@@ -140,7 +153,10 @@ public class HomeLoggedInController {
 		}
 		
 		
-		//GET ALL PARENT'S KIDS FINISHED COURSES
+		/**
+		 * @param id pf parent
+		 * @return list of all parent's kids finished courses
+		 */
 		@GetMapping("getkidsfinishedcourses/{id}")
 		public List<Course> getAllKidsFinishedCourses(@PathVariable String id){
 			List<Kid> kidsList= parentRepository.GetAllKidsOfParent(id);
@@ -156,10 +172,13 @@ public class HomeLoggedInController {
 			return courses;
 		}
 		
-		
-		//GET ALL PARENT'S KIDS FINISHED COURSES SORTED
-		// function returns two lists, first include all kids, second include all meetings. 
+	
 		// kids[index] is compatible to meetings[index]  such that we can get to every kid's meeting using an index
+		/**
+		 * 
+		 * @param id of parent
+		 * @return two lists, first include all kids, second include all finished meetings sorted.
+		 */
 		
 		@GetMapping("funwehadgetfinishedkidscoursessorted/{id}")
 		public HashMap<List<Kid>,List<Meeting>> getAllKidsFinishedCoursesSorted(@PathVariable String id){
@@ -252,9 +271,13 @@ public class HomeLoggedInController {
 		}
 		
 		
-		//GET ALL PARENT'S KIDS UPCOMING COURSES SORTED
-		// function returns two lists, first include all kids, second include all meetings. 
+		
 		// kids[index] is compatible to meetings[index]  such that we can get to every kid's meeting using an index
+		/**
+		 * 
+		 * @param id of parent
+		 * @return two lists, first include all kids, second include all upcoming meetings sorted.
+		 */
 		
 		@GetMapping("funweplangetkidscoursessorted/{id}")
 		public HashMap<List<Kid>,List<Meeting>> getAllKidsNextCoursesSorted(@PathVariable String id){
@@ -348,8 +371,11 @@ public class HomeLoggedInController {
 		}
 		
 		
-		// DELETE ALL COURSE MEETINGS FROM KID
-		
+		/**
+		 * @param id of kid
+		 * @param courseId
+		 * @return list of kids after deleting course from kid
+		 */
 		@PutMapping("deletekidcourse/{id}")
 		public List<Kid> deleteCourseFromkID(@PathVariable String id,@RequestBody  String courseId){
 			List<String> kidslistcourseid = kidRepo.getKidActiveCoursesIds(id);
@@ -361,8 +387,11 @@ public class HomeLoggedInController {
 			return parentRepository.GetAllKidsOfParent(parentId);
 		}
 		
-		// DELETE COURSE MEETING FROM KID'S LIST OF MEETINGS
-		
+		/**
+		 * @param id of kid
+		 * @param meetingId
+		 * @return list of meetings id after deleting meeting from kid
+		 */
 		@PutMapping("deletekidmeeting/{id}")
 		public List<String> deleteMeetingFromkID(@PathVariable String id,@RequestBody  String meetingId){
 			List<String> kidmeetinglist = kidRepo.getMeetingsByKidId(id);

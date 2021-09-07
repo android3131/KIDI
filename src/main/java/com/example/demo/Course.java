@@ -92,6 +92,19 @@ public class Course {
 		//this.meetingDuration calculate the duration of the meeting
 		this.endHour = endHour;
 	}
+	
+	
+	public Course(String name, Date startDate, Date finishDate, String day, String categoryId) {
+		this.name = name;
+		this.startDateTime = startDate;
+		this.finishDateTime = finishDate;
+		this.categoryId = categoryId;
+		this.day = day;
+		this.leadersIDs= new ArrayList<String>();
+		this.kidsIDs= new ArrayList<String>();
+		this.meetings= new ArrayList<String>();
+		this.status = Status.Active;
+	}
 
 
 

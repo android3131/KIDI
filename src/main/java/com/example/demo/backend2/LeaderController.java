@@ -8,8 +8,10 @@ import com.example.demo.ICourseRepository;
 import com.example.demo.Leader;
 import com.example.demo.LeaderRepository;
 import com.example.demo.Status;
+import com.example.demo.Validation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -33,13 +36,8 @@ public class LeaderController {
     ICategoryRepository iCategoryRepository;
     @Autowired
     CourseRepository tcourseRepository;
-
-
-    @GetMapping("/hello")
-    public String getHello(){
-        return "hello";
-    }
-
+    @Field
+	Validation validate;
 
     /**
      *
@@ -48,39 +46,17 @@ public class LeaderController {
      */
     @PostMapping ("/postleader")
     public ResponseEntity<String> addLeader(@RequestBody Leader leader){
-        // check for valid input.
-        if(!isValidLeader(leader))
-            return new ResponseEntity<>("invalid input",HttpStatus.BAD_REQUEST);
-        ileaderRepository.addANewLeader(leader);
-        return new ResponseEntity<>("data was added successfully",HttpStatus.ACCEPTED);
+    	if(validate.check_age(leader.getDateOfBirth(), "leader") 
+    			& validate.check_name(leader.getFullName()) 
+    			& validate.check_email(leader.getEmail())
+    			& validate.check_phone(leader.getPhoneNumber())) {
+    			ileaderRepository.addANewLeadre(leader);
+    	        return new ResponseEntity<>("data was added successfully",HttpStatus.OK);
+    	}
+        
+        return new ResponseEntity<>("invalid input",HttpStatus.NOT_ACCEPTABLE);
     }
-
-    private boolean isValidLeader(Leader leader){
-        String fullNameCheck = "^([A-Z][a-z]*((\\s)))+[A-Z][a-z]*$";
-        Date date = new Date();
-        long timeDiff = date.getTime()-leader.getDateOfBirth().getTime();
-        long difference_In_Years
-                = (timeDiff
-                / (1000l * 60 * 60 * 24 * 365));
-        if(leader.getFullName().isEmpty() ||
-                !isValidEmailAddress(leader.getEmail()) ||
-                leader.getProfilePic() == null
-                || leader.getCategoriesIDs().isEmpty() || leader.getActiveStatus() == null
-                || difference_In_Years < 12 || !leader.getFullName().matches(fullNameCheck))
-            return false;
-        return true;
-    }
-
-   /**
-    * @param email
-    * @return if the email is valid
-    * */
-    private boolean isValidEmailAddress(String email) {
-        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
-        java.util.regex.Matcher m = p.matcher(email);
-        return m.matches();
-    }
+    
     /**
      * @param leaderID
      * @return HTTP status ok if leader found and got updated
@@ -89,24 +65,21 @@ public class LeaderController {
 
     @PutMapping ("/updateLeader/{leaderID}")
     public Object updateLeaderByID(@PathVariable String leaderID,@RequestBody Leader leader) {
+    	
+    	List<Leader> allLeaders = ileaderRepository.getAllLeaders();
+    	if(!allLeaders.contains(leader) 
+    			|| !allLeaders.contains(ileaderRepository.getASpecificLeader(leaderID))
+    			|| !validate.check_age(leader.getDateOfBirth(), "leader")
+    			|| !validate.check_name(leader.getFullName())
+    			|| !validate.check_email(leader.getEmail())
+    			|| !validate.check_phone(leader.getPhoneNumber())) {
+    		 
+    			return new ResponseEntity<>("invalid input",HttpStatus.NOT_ACCEPTABLE);
+    	}
 
-        String fullNameCheck = "^([A-Z][a-z]*((\\s)))+[A-Z][a-z]*$";
-        LocalDate lt = LocalDate.now();
-        Date date = new Date();
-        long timeDiff = date.getTime()-leader.getDateOfBirth().getTime();
-        long difference_In_Years
-                = (timeDiff
-                / (1000l * 60 * 60 * 24 * 365));
-        // add address afterwards
-        // fix date
-        if(!isValidLeader(leader))
-            return new ResponseEntity<>("invalid input",HttpStatus.BAD_REQUEST);
-        if(ileaderRepository.getASpecificLeader(leaderID)!=null){
-            return ileaderRepository.updateExistingLeader(leader,leaderID);
-        }
-        else{
-            return new ResponseEntity<String>("leader not found",HttpStatus.NOT_FOUND);
-        }}
+    	ileaderRepository.updateExistingLeader(leader,leaderID);
+    	return new ResponseEntity<>("successfuly updated existing leader",HttpStatus.OK);
+    }
 
 
     /**
@@ -140,6 +113,7 @@ public class LeaderController {
 
         return new ResponseEntity<Leader>(my_led, HttpStatus.OK);
     }
+    
     /**
      * @param fullName
      * @return array list oof leader, else error message if not found
@@ -154,11 +128,7 @@ public class LeaderController {
                 return new ResponseEntity<Leader>((Leader) null, HttpStatus.NOT_FOUND);
 		    else
 		        return my_lst;
-}
-
-
-
-
+    }
 
     /**
      * @param id of leader
@@ -168,10 +138,5 @@ public class LeaderController {
     public Optional<Leader> findLeaderByID(@PathVariable String id){
         return ileaderRepository.getASpecificLeader(id);
     }
-
-
-    // Check for create Course.
-
-
 
 }

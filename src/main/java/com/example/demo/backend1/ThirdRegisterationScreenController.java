@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.Kid;
 import com.example.demo.KidRepository;
+import com.example.demo.Parent;
+import com.example.demo.Validation;
 
 
 
@@ -36,16 +39,39 @@ public class ThirdRegisterationScreenController {
 	@Autowired
 	private KidRepository kidRepository;
 	
+	@Field
+	Validation validate;
+	
+	/**
+	 * getting all kids
+	 * @return all kids
+	 */
 	@GetMapping("getallkids")
 	public List<Kid> getAllKids(){
 		return kidRepository.getAllKids();
 	}
 	
-
+	/**
+  	 * crating a new kid
+  	 * * @param kid
+  	 * @return successful if added, failed if not
+  	 */
 	@PostMapping("/createkid")
-	public List<Kid> createKidByName(@RequestBody Kid kid){
-		return kidRepository.createKid(kid);
+	ResponseEntity<String> createKidByName(@RequestBody Kid kid){
+		List<Kid> allKids = getAllKids();
+		if(!allKids.contains(kid)) {
+			if(validate.check_age(kid.getDateOfBirth(), "kid")  
+					& validate.check_name(kid.getFullName())
+					& validate.check_gender(kid.getGender())) {
+					kidRepository.createKid(kid);
+					return new ResponseEntity<>("successful", HttpStatus.OK);
+			}
+		}
+		
+		return new ResponseEntity<>("failed", HttpStatus.NOT_ACCEPTABLE);
+		
 	}
+	
 	
 	@RequestMapping(path = "/spring-rest/fileserver/multiplefileupload/", method = RequestMethod.POST)
 	  public ResponseEntity<String> processFile(@RequestParam("files") List<MultipartFile> files) throws IOException {
@@ -58,9 +84,7 @@ public class ThirdRegisterationScreenController {
       }
 
       return (new ResponseEntity<>("Successful", null, HttpStatus.OK));
-  }
-	 
-	 
+	}
 	 
 	@RequestMapping(path = "/spring-rest/fileserver/singlefileupload/", method = RequestMethod.POST)
 	 public ResponseObj processFile(@RequestParam("file") MultipartFile file) throws IOException {
