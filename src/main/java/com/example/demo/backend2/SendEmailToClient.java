@@ -17,12 +17,12 @@ public class SendEmailToClient {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth","true");
         properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.host","smtp.gmail.com");
+        properties.put("mail.smtp.host","smtp.google.com");
         properties.put("mail.smtp.port","587");
 
 
         String myAccount = "ahmedjabareen7@gmail.com";
-        String pwd = "@xdxddgfh64kj$";
+        String pwd = "************";
 
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
