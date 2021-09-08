@@ -33,6 +33,13 @@ public List<Kid> retrieveAllKids(){
  * @return kid got added, else returns null
  */
 public Kid addNewKid(Kid kid) {
+	List<Kid> kids = kidRepo.findAll();
+	for(Kid k : kids) {
+		if(k.getParentId().equals(kid.getParentId()) && k.getFullName().equals(kid.getFullName()) && k.getStatus().equals(Status.Active)){
+			new ResponseEntity<>("Kid Already Registered", HttpStatus.NOT_ACCEPTABLE);
+			return null;
+		}
+	}
 	kid.setStatus(Status.Active);
 	kid.setActiveDate(new Date());
 	kidRepo.save(kid);
@@ -44,6 +51,13 @@ public Kid addNewKid(Kid kid) {
  * @return a list of all kids
  */
 public List<Kid> addKid(Kid kid){
+	List<Kid> kids = kidRepo.findAll();
+	for(Kid k : kids) {
+		if(k.getParentId().equals(kid.getParentId()) && k.getFullName().equals(kid.getFullName())){
+			new ResponseEntity<>("Kid Already Registered", HttpStatus.NOT_ACCEPTABLE);
+			return null;
+		}
+	}
 	kid.setStatus(Status.Active);
 	kid.setActiveDate(new Date());
 	kidRepo.save(kid);

@@ -27,6 +27,13 @@ public class LeaderRepository {
 	 * @return list of all leaders
 	 */
 	public List<Leader> addANewLeader(Leader leader) {
+		List<Leader> leaders = leaderRepository.findAll();
+		for(Leader l : leaders) {
+			if(l.getEmail().equals(leader.getEmail())  && l.getActiveStatus().equals(Status.Active)) {
+				new ResponseEntity<>("Leader Already Registered", HttpStatus.NOT_ACCEPTABLE);
+				return null;
+			}
+		}
 		leader.setActiveStatus(Status.Active);
 		leader.setActiveDate(new Date());
 		leaderRepository.save(leader);
@@ -40,6 +47,13 @@ public class LeaderRepository {
 	 * @return leader
 	 */
 	public Leader addANewLeadre(Leader leader) {
+		List<Leader> leaders = leaderRepository.findAll();
+		for(Leader l : leaders) {
+			if(l.getEmail().equals(leader.getEmail()) && l.getActiveStatus().equals(Status.Active)) {
+				new ResponseEntity<>("Leader Already Registered", HttpStatus.NOT_ACCEPTABLE);
+				return null;
+			}
+		}
 		leader.setActiveStatus(Status.Active);
 		leader.setActiveDate(new Date());
 		return leaderRepository.save(leader);

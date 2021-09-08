@@ -28,6 +28,13 @@ public class Parent_repository {
 	 */
 	
 	public Parent addNewParent (Parent parent){
+		List<Parent> parents = parentRepo.findAll();
+		for(Parent p : parents) {
+			if(p.getEmail().equals(parent.getEmail()) && p.getStatus().equals(Status.Active)){
+				new ResponseEntity<>("Parent Already Registered", HttpStatus.NOT_ACCEPTABLE);
+				return null;
+			}
+		}
 		parent.setStatus(Status.Active);
 		parentRepo.save(parent); 
 		 new ResponseEntity<>("New parent added", HttpStatus.OK);
@@ -156,6 +163,23 @@ public class Parent_repository {
 		return null; 
 	}
 	
+	
+	/**
+	 * Change info of existent parent
+	 * @param id of parent, new mail, new full name and new phone
+	 * @return the parent if found or null 
+	 */	
+	public Parent changeInfo (String id, String newEmail, String newName, String newPhone) {
+		Optional<Parent> parent = parentRepo.findById(id);
+		if (parent.isPresent() ) {
+			parent.get().setEmail(newEmail);
+			parent.get().setFullName(newName);
+			parent.get().setPhoneNumber(newPhone);
+			parentRepo.save(parent.get());
+			}
+		return parent.get(); 
+		}
+
 	/**
 	 * get kid 
 	 * @param parentId of parent, kidId of kid

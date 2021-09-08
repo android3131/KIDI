@@ -72,4 +72,11 @@ public class ParentProfileController {
 		
 		return new ResponseEntity<>((Parent) null, HttpStatus.NOT_ACCEPTABLE);
 	}
+	
+	@PutMapping("/updateParentInfo")
+	public void updatePassword(@RequestBody Parent parent) {
+		parentRepo.changeInfo(parent.getId(),parent.getEmail(), parent.getFullName(), parent.getPhoneNumber());
+		new ResponseEntity<>("success",HttpStatus.OK);
+	}
+
 }
