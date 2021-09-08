@@ -13,9 +13,15 @@ import com.example.demo.CourseRepository;
 import com.example.demo.Leader;
 import com.example.demo.LeaderRepository;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
+
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.activation.*;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -107,6 +113,20 @@ public class AdminController {
     public ArrayList<Category> getAllCategories(){
         return categoryRepository.getAllCategories();
     }
-    
+
+
+    @GetMapping("/sendEmail")
+    public static ResponseEntity<String> sendEmail(){
+        try{
+            SendEmailToClient.sendEmail("ahmed.jabareen1@gmail.com");
+            System.out.println("Hello!");
+            return new ResponseEntity<String>("mail sent successfully",HttpStatus.OK);
+        }catch(Exception e){
+            System.out.println("Error! :(");
+            return new ResponseEntity<String>("and error has occured",HttpStatus.BAD_GATEWAY);
+        }
+    }
+
+
 
 }
