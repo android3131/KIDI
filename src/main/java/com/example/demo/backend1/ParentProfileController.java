@@ -44,6 +44,12 @@ public class ParentProfileController {
 		return parentRepo.getAllParents();
 	}
 	
+	@GetMapping("getParentById/{parentId}")
+	public Parent getParentById(@PathVariable String parentId) {
+		return parentRepo.getParentById(parentId);
+	}
+	
+	
 	/**
      * @param id of parent
      * @param updatedParent existing parent with updated fields

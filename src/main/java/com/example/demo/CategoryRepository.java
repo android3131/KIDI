@@ -208,6 +208,8 @@ public  HashMap<String, HashMap<String,Integer>> getTimedKidsCountByCategory(int
 	return toReturn;
 }
 
+
+//public HashMap<>
 /**
  * 
  * @param catId
@@ -224,16 +226,5 @@ public String getCategoryNameById(String catId) {
 	return null;
 }
 
-//
-//public void initializeMeeting(String courseID) {
-//	Optional<Course> course = courseRepo.findById(courseID);
-//	Date date = course.get().getStartDateTime();
-//	Calendar calendar = Calendar.getInstance();
-//    calendar.setTime(date);
-//	for(int i = 0; i < 5; i++) {
-//		calendar.add(Calendar.WEEK_OF_YEAR,i);
-//		Meeting meeting =  new Meeting(course.get().getID(), calendar.getTime());
-//		addNewMeeting(meeting);
-//	}
-//}
+
 }
