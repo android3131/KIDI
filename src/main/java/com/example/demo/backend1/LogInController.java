@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.backend1;
 
 
 import java.util.HashMap;
@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.Admin;
+import com.example.demo.Admin_Repository;
+import com.example.demo.Leader;
+import com.example.demo.LeaderRepository;
+import com.example.demo.Parent;
+import com.example.demo.Parent_repository;
 import com.example.demo.backend1front.User;
 
 @RestController
