@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.Admin;
+import com.example.demo.Admin_Repository;
 import com.example.demo.Category;
 import com.example.demo.CategoryRepository;
 import com.example.demo.Course;
@@ -32,6 +34,8 @@ public class AdminController {
     CategoryRepository categoryRepository;
     @Autowired
     CourseRepository courseRepository;
+    @Autowired
+    Admin_Repository adminRepo;
 
     /**
      * @param categoryID
@@ -127,6 +131,9 @@ public class AdminController {
         }
     }
 
-
+    @GetMapping("/getAllActiveAdmins")
+    public List<Admin> getAllActiveadmins(){
+    	return adminRepo.getAllActiveadmins();
+    }
 
 }

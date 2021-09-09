@@ -1,10 +1,13 @@
 package com.example.demo;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.TreeMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -362,6 +365,27 @@ public List<Category> getKidNotRegisteredCategories( String kidId){
         }
     }
     return cats;
+}
+public TreeMap<Integer,Integer> getKidsCategoryMonth(String categType){
+	HashMap<Integer, Integer> kidsCountByCategoryMonth = new HashMap<Integer,Integer>();
+	for(int i=0;i<12;i++) {
+		kidsCountByCategoryMonth.put(i, 0);
+	}
+	List<Kid> allKids = kidRepo.findAll();
+	for(int i=0;i<60;i++){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(allKids.get(i).getActiveDate());
+		int num_kids = kidsCountByCategoryMonth.get(calendar.get(Calendar.MONTH));
+		String coursecateg = courseRepo.getASpecificCourse(allKids.get(i).getActiveCourses().get(0)).getCategoryId();
+		if(coursecateg.indexOf(categType)==0){
+			num_kids++;
+		}
+		kidsCountByCategoryMonth.put((calendar.get(Calendar.MONTH)), num_kids);			
+	}
+	
+    TreeMap<Integer, Integer> sorted = new TreeMap<>();
+    sorted.putAll(kidsCountByCategoryMonth);
+	return sorted;
 }
 /**
  * get all the courses that the kid is not currently participate in(active courses), for a specific category
