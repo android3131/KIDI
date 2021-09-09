@@ -15,18 +15,12 @@ import com.example.demo.CourseRepository;
 import com.example.demo.Leader;
 import com.example.demo.LeaderRepository;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Properties;
 
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.activation.*;
 
 @RestController
-@RequestMapping("/api/admin")
 public class AdminController {
     @Autowired
     LeaderRepository LeaderRepository;
@@ -133,6 +127,7 @@ public class AdminController {
 
     @GetMapping("/getAllActiveAdmins")
     public List<Admin> getAllActiveadmins(){
+    	
     	return adminRepo.getAllActiveadmins();
     }
 
